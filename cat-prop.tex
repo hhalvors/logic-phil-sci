@@ -1,0 +1,2488 @@
+% \documentclass[11pt,toc,fleqn]{article}
+
+% \usepackage{array,multirow,amsthm,amsmath,amssymb,url}
+% % \usepackage{bussproofs}
+% % \usepackage{showlabels}
+% \usepackage{natbib}
+% \usepackage{mathrsfs}
+% \usepackage{tikz-cd}
+% \newtheorem{prop}{Proposition}[section]
+% \newtheorem{lemma}[prop]{Lemma}
+% \newtheorem{thm}[prop]{Theorem}
+% \newtheorem{cor}[prop]{Corollary}
+% \newtheorem{conj}[prop]{Conjecture}
+% \newtheorem{fact}[prop]{Fact}
+% % \newtheorem*{stone}{Stone Duality Theorem}
+% \theoremstyle{definition}
+% \newtheorem*{defn}{Definition}
+% \newtheorem*{exercise}{Exercise}
+% \newtheorem*{exercises}{Exercises}
+% \newtheorem*{example}{Example}
+% \newtheorem*{remark}{Remark}
+% \theoremstyle{remark}
+% \newtheorem*{disc}{Discussion}
+% \newtheorem*{note}{Note}
+
+% \author{Hans Halvorson}
+% \date{\today}
+% \newcommand{\RA}{\vdash}
+% \newcommand{\7}{\mathbb}
+% \newcommand{\2}{\mathscr}
+% \newcommand{\lra}{\leftrightarrow}
+% \newcommand{\cat}[1]{\mathbf{#1}}
+% \renewcommand{\emph}{\textbf}
+% \newcommand{\monic}{\rightarrowtail}
+% \newcommand{\epi}{\twoheadrightarrow}
+% \usepackage[framemethod=TikZ]{mdframed}
+% \newcounter{axi}\setcounter{axi}{0}
+% 
+
+
+% \begin{document}
+
+
+
+\chapter{The Category of Propositional Theories} \label{cat-prop}
+
+
+%% further reading: Just and Weese, Discovering Modern Set Theory, vol 2
+
+%% http://plato.stanford.edu/entries/boolalg-math/
+
+%% high priority: in Stone, epi are surjective
+
+
+%% TO DO: show existence of generator and co-generator in $\cat{Th}$.
+%% The generator is the empty theory in signature { p}.
+
+One of the primary goals of this book is to provide a formal model of
+``the universe of all scientific theories.''  Now, in the 20th
+century, mathematics stepped up another level of abstraction, and it
+began to talk of structured collections of mathematical objects ---
+e.g.\ the category of groups, topological spaces, manifolds, Hilbert
+spaces, or sets.  This maneuver can be a little bit challenging for
+foundationally oriented thinkers, viz.\ philosophers, because we are
+now asked to consider collections that are bigger than any set.
+However, mathematicians know very well how to proceed in this manner
+without falling into contradictions (e.g.\ by availing themselves of
+Grothendieck universes).
+
+We want to follow the lead of the mathematicians, but instead of
+talking about the category of groups, or manifolds, or Hilbert spaces,
+etc., we want to talk about the category of all {\it theories}.  In
+the present chapter we work out one special case: the category of all
+propositional theories.  Of course, this category is too simple to
+serve as a good model for the category of all scientific theories.
+However, already for predicate logic, the category of theories becomes
+extremely complex, almost to the point of mathematical intractability.
+In subsequent chapters, we will make some headway with that case; for
+the remainder of this chapter, we restrict ourselves to the
+propositional case.
+
+After defining the relevant category $\mathbf{Th}$ of propositional
+theories, we will show that $\mathbf{Th}$ is equivalent to the
+category $\cat{Bool}$ of Boolean algebras.  We then prove a version of
+the famous Stone duality theorem, which shows that $\cat{Bool}$ is
+dual to a certain category $\cat{Stone}$ of topological spaces.  This
+duality shows that each propositional theory corresponds to a unique
+topological space, viz.\ the space of its models; and each translation
+between theories corresponds to a continuous mapping between their
+spaces of models.
+
+
+\section{Basics}
+
+\newcommand{\sg}{\mathsf{Sent}(\Sigma )}
+
+\begin{defn} We let $\mathbf{Th}$ denote the category whose objects
+  are propositional theories, and whose arrows are translations
+  between theories.  We say that two translations
+  $f,g:T\rightrightarrows T'$ are equal, written $f=g$, just in case
+  $T'\vdash f(\phi )\leftrightarrow g(\phi )$ for every $\phi\in\sg$.
+  [Note well: equality between translations is weaker than
+  set-theoretic equality.]  \end{defn}
+
+\begin{defn} We say that a translation $f:T\to T'$ is
+  \emph{conservative} just in case: for any
+  $\phi\in\mathsf{Sent}(\Sigma )$, if $T'\vdash f(\phi )$ then
+  $T\vdash \phi$. \end{defn}
+
+\begin{prop} A translation $f:T\to T'$ is conservative if and only if
+  $f$ is a monomorphism in the category
+  $\cat{Th}$. \label{test} \end{prop}
+
+\begin{proof} Suppose first that $f$ is conservative, and let
+  $g,h:T''\to T$ be translations such that $f\circ g=f\circ h$.  That
+  is, $T'\vdash fg(\phi )\leftrightarrow fh(\phi )$ for every sentence
+  $\phi$ of $\Sigma ''$.  Since $f$ is conservative, $T\vdash g(\phi
+  )\leftrightarrow h(\phi )$ for every sentence $\phi$ of $\Sigma ''$.
+  Thus, $g=h$, and $f$ is a monomorphism in $\cat{Th}$.
+
+  Conversely, suppose that $f$ is a monomorphism in the category
+  $\cat{Th}$.  Let $\phi$ be a $\Sigma$ sentence such that $T'\vdash
+  f(\phi )$.  Thus, $T'\vdash f(\phi )\leftrightarrow f(\psi )$, where
+  $\psi$ is any $\Sigma$ sentence such that $T\vdash \psi$.  Now let
+  $T''$ be the empty theory in signature $\Sigma ''=\{ p\}$.  Define
+  $g:\Sigma ''\to \mathsf{Sent}(\Sigma )$ by $g(p)=\phi$, and define
+  $h:\Sigma ''\to \mathsf{Sent}(\Sigma )$ by $h(p)=\psi$.  It's easy
+  to see then that $f\circ g=f\circ h$.  Since $f$ is monic, $g=h$,
+  which means that $T\vdash g(p)\leftrightarrow h(p)$.  Therefore,
+  $T\vdash \phi$, and $f$ is conservative. \end{proof}
+
+\begin{defn} We say that $f:T\to T'$ is \emph{essentially surjective}
+  just in case for any sentence $\phi$ of $\Sigma '$, there is a
+  sentence $\psi$ of $\Sigma$ such that $T'\vdash \phi\lra f(\psi
+  )$. (Sometimes we use the abbreviation ``eso'' for essentially
+  surjective.)  \end{defn}
+
+\begin{prop} If $f:T\to T'$ is essentially surjective, then $f$ is an
+  epimorphism in $\cat{Th}$.  \end{prop}
+
+\begin{proof} Suppose that $f:T\to T'$ is eso.  Let
+  $g,h:T'\rightrightarrows T''$ such that $g\circ f=h\circ f$.  Let
+  $\phi$ be an arbitrary $\Sigma '$ sentence.  Since $f$ is eso, there
+  is a sentence $\psi$ of $\Sigma$ such that $T'\vdash
+  \phi\leftrightarrow f(\psi )$.  But then $T''\vdash g(\phi )\lra
+  h(\phi )$.  Since $\phi$ was arbitrary, $g=h$.  Therefore, $f$ is an
+  epimorphism.
+\end{proof}
+
+What about the converse of this proposition?  Are all epimorphisms in
+$\cat{Th}$ essentially surjective?  The answer is Yes, but the result
+is not easy to prove.  We'll prove it later on, by means of the
+correspondence that we establish between theories, Boolean algebras,
+and Stone spaces.
+
+
+%% TO DO -- have we defined equivalence?
+
+\begin{prop} Let $f:T\to T'$ be a translation.  If $f$ is conservative
+  and essentially surjective, then $f$ is a homotopy
+  equivalence. \end{prop}
+
+\begin{proof} Let $p\in \Sigma '$.  Since $f$ is eso, there is some
+  $\phi _p\in\mathsf{Sent}(\Sigma )$ such that $T'\vdash
+  p\leftrightarrow f(\phi _p)$.  Define a reconstrual $g:\Sigma '\to
+  \mathsf{Sent}(\Sigma )$ by setting $g(p)=\phi _p$.  As usual, $g$
+  extends naturally to a function from $\mathsf{Sent}(\Sigma ')$ to
+  $\mathsf{Sent}(\Sigma )$, and it immediately follows that $T'\vdash
+  \psi \leftrightarrow fg(\psi )$, for every sentence $\psi$ of
+  $\Sigma '$.
+
+  We claim now that $g$ is a translation from $T'$ to $T$.  Suppose
+  that $T'\vdash \psi$.  Since $T'\vdash \psi\lra fg(\psi )$, it
+  follows that $T'\vdash fg(\psi )$.  Since $f$ is conservative,
+  $T\vdash g(\psi )$.  Thus, for all sentences $\psi$ of $\Sigma '$,
+  if $T'\vdash \psi$ then $T\vdash g(\psi )$, which means that
+  $g:T'\to T$ is a translation.  By the previous paragraph,
+  $1_{T'}\simeq fg$.
+
+  It remains to show that $1_T\simeq gf$.  Let $\phi$ be an arbitrary
+  sentence of $\Sigma$.  Since $f$ is conservative, it will suffice to
+  show that $T'\vdash f(\phi )\lra fgf(\phi )$.  But by the previous
+  paragraph, $T'\vdash \psi \lra fg(\psi )$ for all sentences $\psi$
+  of $\Sigma'$.  Therefore, $1_{T}\simeq gf$, and $f$ is a homotopy
+  equivalence.
+\end{proof}
+
+
+Before proceeding, let's remind ourselves of some of the motivations
+for these technical investigations.
+
+The category $\cat{Sets}$ is, without a doubt, extremely useful.
+However, a person who is familiar with $\cat{Sets}$ might have
+developed some intuitions that could be misleading when applied to
+other categories.  For example, in $\cat{Sets}$, if there are
+injections $f:X\to Y$ and $g:Y\to X$, then there is a bijection
+between $X$ and $Y$.  Thus, it's tempting to think, for example, that
+if there are embeddings $f:T\to T'$ and $g:T'\to T$ of theories, then
+$T$ and $T'$ are equivalent.  [Here an embedding between theories is a
+monomorphism in $\cat{Th}$, i.e.\ a conservative translation.]
+Similarly, in $\cat{Sets}$, if there is an injection $f:X\to Y$ and a
+surjection $g:X\to Y$, then there is a bijection between $X$ and $Y$.
+However, in $\cat{Th}$ the analogous result fails to hold.
+
+\begin{aside} For those familiar with the category $\cat{Vect}$ of
+  vector spaces: $\cat{Vect}$ is similar to $\cat{Sets}$ in that
+  mutually embeddable vector spaces are isomorphic.  That is, if
+  $f:V\to W$ and $g:W\to V$ are monomorphisms (i.e.\ injective linear
+  maps), then $V$ and $W$ have the same dimension, hence are
+  isomorphic.
+
+  The categories $\cat{Sets}$ and $\cat{Vect}$ share in common the
+  feature that the objects can be classified by cardinal numbers.  In
+  the case of sets, if $|X|=|Y|$, then $X\cong Y$.  In the case of
+  vector spaces, if $\dim (V)=\dim (W)$, then $V\cong W$.
+\end{aside}
+
+\begin{prop} Let $f:T\to T'$ be a translation.  If $f^*:M(T')\to M(T)$
+  is surjective, then $f$ is conservative. \end{prop}
+
+\begin{proof} Suppose that $f^*$ is surjective, and suppose that
+  $\phi$ is a sentence of $\Sigma$ such that $T\not\vdash \phi$.  Then
+  there is a $v\in M(T)$ such that $v(\phi )=0$.\footnote{Here we have
+    invoked the completeness theorem, but we haven't proven it yet.
+    Note that our proof of the completeness theorem (page
+    \pageref{page:complete}) does not cite this result, or any that
+    depend on it.}  Since $f^*$ is surjective, there is a $w\in M(T')$
+  such that $f^*(w)=v$.  But then
+  \[ w(f(\phi )) = f^*w(\phi ) = v(\phi )=0 ,\] from which it follows
+  that $T'\not\vdash f(\phi )$.  Therefore, $f$ is conservative.
+\end{proof}
+
+
+\begin{example} Let $\Sigma = \{ p_0,p_1,\dots \}$, and let $T$ be the
+  empty theory in $\Sigma$.  Let $\Sigma '=\{ q_0,q_1,\dots \}$, and
+  let $T'$ be the theory with axioms $q_0\to q_i$, for $i=0,1,\dots$.
+  We already know that $T$ and $T'$ are not equivalent.  We will now
+  show that there are embeddings $f:T\to T'$ and $g:T'\to T$.
+
+  Define $f:\Sigma\to \mathsf{Sent}(\Sigma ')$ by $f(p_i)=q_{i+1}$.
+  Since $T$ is the empty theory, $f$ is a translation.  Then for any
+  valuation $v$ of $\Sigma '$, we have \[
+  f^*v(p_i)=v(f(p_i))=v(q_{i+1}) .\] Furthermore, for any sequence of
+  zeros and ones, there is a valuation $v$ of $\Sigma '$ that assigns
+  that sequence to $q_1,q_2,\dots $.  Thus, $f^*$ is surjective, and
+  $f$ is conservative.
+
+  Now define $g:\Sigma '\to\mathsf{Sent}(\Sigma )$ by setting
+  $g(q_i)=p_0\vee p_i$.  Since $T\vdash p_0\vee p_0\to p_0\vee p_i$,
+  it follows that $g$ is a translation.  Furthermore, for any
+  valuation $v$ of $\Sigma$, we have
+  \[ g^*v(q_i) = v(g(q_i)) = v(p_0\vee p_i) .\] Recall that $M(T')$
+  splits into two parts: (1) a singleton set containing the valuation
+  $z$ where $z(q_i)=1$ for all $i$, and (2) the infinitely many other
+  valuations which assign $0$ to $q_0$.  Clearly, $z=g^*v$, where $v$
+  is any valuation such that $v(p_0)=1$.  Furthermore, for any
+  valuation $w$ of $\Sigma '$ such that $w(p_0)=0$, we have $w=g^*v$,
+  where $v(p_i)=w(q_i)$.  Therefore, $g^*$ is surjective, and $g$ is
+  conservative.
+\end{example}
+
+\begin{exercise} In the example above: show that $f$ and $g$ are not
+  essentially surjective.  \end{exercise}
+
+\begin{example} Let $T$ and $T'$ be as in the previous example.  Now
+  we'll show that there are essentially surjective (eso) translations
+  $k:T\to T'$ and $h:T'\to T$.  The first is easy: the translation
+  $k(p_i)=q_i$ is obviously eso.  For the second, define
+  $h(q_0)=\bot$, where $\bot$ is some contradiction, and define
+  $h(q_i)=p_{i-1}$ for $i>0$.  \end{example}
+
+\begin{disc} Let's pause for just a moment and think about some of the
+  questions we might want to ask about theories.  We arrange these in
+  roughly decreasing order of technical tractability.
+\begin{enumerate}
+\item Does $\cat{Th}$ have the \emph{Cantor-Bernstein property}?  That
+  is, if there are monomorphisms $f:T\to T'$ and $g:T'\to T$, then is
+  there an isomorphism $h:T\to T'$?
+\item Is $\cat{Th}$ balanced, in the sense that if $f:T\to T'$ is both
+  a monomorphism and an epimorphism, then $f$ is an isomorphism?
+\item If there is both a monomorphism $f:T\to T'$ and an epimorphism
+  $g:T'\to T$, then are $T$ and $T'$ homotopy equivalent?
+\item Can an arbitrary theory $T$ be embedded into a theory $T_0$ that
+  has no axioms?  \cite{quine-goodman} present a proof of this claim
+  --- and they argue that it undercuts the analytic-synthetic
+  distinction.  They are right about the technical claim (see
+  \ref{qgood} below), but have perhaps misconstrued its philosophical
+  implications.
+\item If theories have the same number of models, then are they
+  equivalent?  If not, then can we determine whether $T$ and $T'$ are
+  equivalent by inspecting $M(T)$ and $M(T')$?
+\item How many theories (up to isomorphism) are there with $n$ models?
+\item (Supervenience implies Reduction) Suppose that the truth value
+  of a sentence $\psi$ \emph{supervenes} on the truth value of some
+  other sentences $\phi _1,\dots ,\phi _n$, i.e., for any valuations
+  $v,w$ of the propositional constants occurring in
+  $\phi _1,\dots ,\phi _n,\psi$, if $v(\phi _i)=w(\phi _i)$, for
+  $i=1,\dots ,n$, then $v(\psi )=w(\psi )$.  Does it follow then that
+  $\vdash\psi \leftrightarrow \theta$, where $\theta$ contains only
+  the propositional constants that occur in $\phi _1,\dots ,\phi _n$?
+  (The answer is Yes, as shown by \emph{Beth's theorem}, Section
+  \ref{go-beth}.)
+\item Suppose that $f:T\to T'$ is conservative.  Suppose also that
+  every model of $T$ extends uniquely to a model of $T'$.  Does it
+  follow that $T\cong T'$?
+\item Suppose that $T$ and $T'$ are consistent in the sense that there
+  is no sentence $\theta$ in $\Sigma \cap \Sigma '$ such that $T\vdash
+  \theta$ and $T'\vdash \neg \theta$.  Is there a unified theory $T''$
+  which extends both $T$ and $T'$?  (The answer is Yes, as shown by
+  \emph{Robinson's theorem}.)
+\item What does it mean for one theory to be \emph{reducible} to
+  another?  Can we explicate this notion in terms of a certain sort of
+  translation between the relevant theories?  Some philosophers have
+  claimed that the reduction relation ought to be treated
+  semantically, rather than syntactically.  In other words, they would
+  have us consider functions from $M(T')$ to $M(T)$, rather than
+  translations from $T$ to $T'$.  In light of the Stone duality
+  theorem proved below, it appears that syntactic and semantic
+  approaches are equivalent to each other.
+\item Consider various formally definable notions of theoretical
+  equivalence.  What are the advantages and disadvantages of the
+  various notions?  Is homotopy equivalence too liberal?  Is it too
+  conservative?
+\end{enumerate}
+\end{disc}
+
+
+
+%% To do: Proof of Th <-> Bool and Bool <-> Stone
+
+\section{Boolean algebras} \label{sec:bool}
+
+\begin{defn} A \emph{Boolean algebra} is a set $B$ together with a
+  unary operation $\neg$, two binary operations $\wedge$ and $\vee$,
+  and designated elements $0\in B$ and $1\in B$, which satisfy the
+  following equations:
+\begin{enumerate} 
+\item Top and Bottom \\ $a\wedge 1=a\vee 0=a$
+\item Idempotence \\ $a\wedge a=a\vee a=a$
+\item De Morgan's rules \\ $\neg (a\wedge b)=\neg a\vee\neg b, \quad \neg
+  (a\vee b)=\neg a\wedge\neg b$
+\item Commutativity \\
+$a\wedge b=b\wedge a, \quad a\vee b=b\vee a$
+\item Associativity \\
+$(a\wedge b)\wedge c=a\wedge (b\wedge c), \quad (a\vee b)\vee c=a\vee (b\vee
+c)$
+\item Distribution \\ $a\wedge (b\vee c)=(a\wedge b)\vee (a\wedge
+  c),\quad a\vee (b\wedge c)=(a\vee b)\wedge (a\vee c)$
+\item Excluded Middle \\ 
+$a\wedge \neg a=0,\quad a\vee \neg a=1$
+\end{enumerate}
+Here we are implicitly universally quantifying over $a,b,c$.
+\end{defn}
+
+\begin{example} Let $2$ denote the unique Boolean algebra with two
+  elements $\emptyset$ and $1$.  We can think of $2$ as the powerset
+  of a one-element set $1$, where $\wedge$ is intersection, $\vee$ is
+  union, and $\neg$ is complement.  
+
+  Note that $2$ looks just like the truth-value set $\Omega$.  Indeed,
+  $\Omega$ is equipped with operations $\wedge ,\vee$ and $\neg$ that
+  make it into a Boolean algebra.  \end{example}
+
+\begin{example} Let $F$ denote the unique Boolean algebra with four
+  elements.  We can think of $F$ as the powerset of a two-element set,
+  where $\wedge$ is intersection, $\vee$ is union, and $\neg$ is
+  complement.  
+
+  Let $\Sigma = \{ p\}$.  Define an equivalence relation $\simeq$ on
+  sentences of $\Sigma$ by $\phi\simeq\psi$ just in case $\vdash
+  \phi\lra\psi$.  The resulting set of equivalence classes naturally
+  carries the structure of a Boolean algebra with four
+  elements.  \end{example}
+
+
+
+We now derive some basic consequences from the axioms.  The first two
+results are called the \emph{absorption laws}.
+\begin{enumerate}
+\item $a\wedge (a\vee b) = a$ \\
+  \[ a\wedge (a\vee b)=(a\vee 0)\wedge (a\vee b)=a\vee (0\wedge
+  b)=a\vee 0=a .\]
+\item $a\vee (a\wedge b)=a$ \\
+\[ a\vee (a\wedge b)=(a\wedge 1)\vee (a\wedge b) = a\wedge (1\vee b)
+=a\wedge 1=a . \]
+\item $a\vee 1=1$ \\
+\[ a\vee 1=a\vee (a\vee \neg a)=a\vee \neg a = 1 . \]
+\item $a\wedge 0=0$ \\
+\[ a\wedge 0=a\wedge (a\wedge \neg a)=a\wedge\neg a= 0. \] \end{enumerate}
+
+\begin{defn} If $B$ is a Boolean algebra and $a,b\in B$, we write
+  $a\leq b$ when $a\wedge b=a$. \end{defn}
+
+Since $a\wedge 1=a$, it follows that $a\leq 1$, for all $a\in B$.
+Since $a\wedge 0=0$, it follows that $0\leq a$, for all $a\in B$.  Now
+we will show that $\leq$ is a partial order, i.e.\ reflexive,
+transitive, and asymmetric.
+
+\begin{prop} The relation $\leq$ on a Boolean algebra $B$ is a partial
+  order.
+\end{prop} 
+
+\begin{proof} (Reflexive) Since $a\wedge a=a$, it follows that $a\leq
+  a$.
+
+(Transitive) Suppose that $a\wedge b=a$ and
+$b\wedge c=b$.  Then
+\[ \begin{array}{l l} a\wedge c = (a\wedge b)\wedge c = a\wedge
+  (b\wedge c)=a\wedge b = a, \end{array} \] which means that $a\leq
+c$.
+
+(Asymmetric) Suppose that $a\wedge b=a$ and $b\wedge a=b$.  By
+commutativity of $\wedge$, it follows that $a=b$.
+\end{proof}
+
+We now show how $\leq$ interacts with $\wedge,\vee$, and $\neg$.  In
+particular, we show that if $\leq$ is thought of as implication, then
+$\wedge$ behaves like conjunction, $\vee$ behaves like disjunction,
+$\neg$ behaves like negation, $1$ behaves like a tautology, and $0$
+behaves like a contradiction.
+
+\begin{prop} $c\leq a\wedge b$ iff $c\leq a$ and $c\leq
+  b$.  \end{prop}
+
+\begin{proof} Since $a\wedge (a\wedge b)=a\wedge b$, it follows that
+  $a\wedge b\leq a$.  By similar reasoning, $a\wedge b\leq b$.  Thus
+  if $c\leq a\wedge b$, then transitivity of $\leq$ entails that both
+  $c\leq a$ and $c\leq b$.
+
+  Now suppose that $c\leq a$ and $c\leq b$.  That is, $c\wedge a=c$
+  and $c\wedge b=c$.  Then $c\wedge (a\wedge b)=(c\wedge a)\wedge
+  (c\wedge b)=c\wedge c=c$.  Therefore $c\leq a\wedge b$.  \end{proof}
+
+Notice that $\leq$ and $\wedge$ interact precisely as implication and
+conjunction interact in propositional logic.  The elimination rule
+says that $a\wedge b$ implies $a$ and $b$.  Hence, if $c$ implies
+$a\wedge b$, then $c$ implies $a$ and $b$.  The introduction rule says
+that $a$ and $b$ imply $a\wedge b$.  Hence if $c$ implies $a$ and $b$,
+then $c$ implies $a\wedge b$.
+
+\begin{prop} $a\leq c$ and $b\leq c$ iff $a\vee b\leq c$ \end{prop}
+
+\begin{proof} Suppose first that $a\leq c$ and $b\leq c$.  Then
+  \[ \begin{array}{l l} (a\vee b)\wedge c = (a\wedge c)\vee (b\wedge
+    c)=a\vee b .\end{array} \] Therefore $a\vee b\leq c$. 
+
+  Suppose now that $a\vee b\leq c$.  By the absorption law, $a\wedge
+  (a\vee b)=a$, which implies that $a\leq a\vee b$.  By transitivity
+  $a\leq c$.  Similarly, $b\leq a\vee b$, and by transitivity, $b\leq
+  c$.  \end{proof}
+
+Now we show that the connectives $\wedge$ and $\vee$ are monotonic.
+
+\begin{prop} If $a\leq b$ then $a\wedge c\leq b\wedge c$, for any
+  $c\in B$.  \end{prop}
+
+\begin{proof} 
+\[ \begin{array}{l  l  l}
+(a\wedge c)\wedge (b\wedge c) = (a\wedge b)\wedge c=a\wedge c
+.\end{array} \] \end{proof}
+
+\begin{prop} If $a\leq b$ then $a\vee c\leq b\vee c$, for any $c\in
+  B$. \end{prop}
+
+\begin{proof} 
+\[ \begin{array}{l  l  l}
+(a\vee c)\wedge (b\vee c) = (a\wedge b)\vee c = a\vee c .\end{array} \]
+\end{proof}
+
+
+\begin{prop} If $a\wedge b=a$ and $a\vee b=a$ then $a=b$. \end{prop}
+
+\begin{proof} $a\wedge b=a$ means that $a\leq b$.  We now claim that
+  $a\vee b=a$ iff $b\wedge a=b$ iff $b\leq a$.  Indeed, if $a\vee b=a$
+  then
+$$ b\wedge a = b\wedge (a\vee b)=(0\vee b)\wedge (a\vee b)=(0\wedge
+a)\vee b = b .$$
+Conversely, if $b\wedge a=b$, then 
+$$ a\vee b = a\vee (a\wedge b) = (a\wedge 1)\vee (a\wedge b)= a\wedge
+(1\vee b) = a .$$ Thus, if $a\wedge b=a$ and $a\vee b=a$, then $a\leq
+b$ and $b\leq a$.  By asymmetry of $\leq$, it follows that
+$a=b$. \end{proof}
+
+We now show that $\neg a$ is the unique complement of $a$ in $B$.
+
+\begin{prop} If $a\wedge b=0$ and $a\vee b=1$ then $b=\neg
+  a$. \label{unique-complement} \end{prop}
+
+\begin{proof} Since $b\vee a=1$, we have
+\[ 
+b = b\vee 0 = b\vee (a\wedge \neg a) = (b\vee a)\wedge (b\vee \neg a)
+= b\vee \neg a .\] Since $b\wedge a=0$, we also have 
+\[ b=b\wedge 1=b\wedge (a\vee \neg a) = (b\wedge a)\vee (b\wedge \neg
+a)=b\wedge \neg a .\]
+By the preceding proposition, $b=\neg a$. 
+\end{proof}
+
+\begin{prop} $\neg 1=0$. \end{prop}
+
+\begin{proof} We have $1\wedge 0=0$ and $1\vee 0=1$.  By the preceding
+  proposition, $0=\neg 1$. \end{proof}
+
+
+\begin{prop} If $a\leq b$ then $\neg b\leq \neg a$. \end{prop}
+
+\begin{proof} Suppose that $a\leq b$, which means that $a\wedge b=a$,
+  and equivalently, $a\vee b=b$.  Thus, $\neg a\wedge \neg b =\neg
+  (a\vee b)=\neg b$, which means that $\neg b\leq\neg a$. \end{proof}
+
+\begin{prop} $\neg \neg a=a$.  \end{prop}
+
+\begin{proof} We have $\neg a\vee \neg\neg a=1$ and $\neg a\wedge \neg
+  \neg a=1$.  By Proposition \ref{unique-complement}, it follows that
+  $\neg\neg a=a$. \end{proof}
+
+
+\begin{defn} Let $A$ and $B$ be Boolean algebras.  A
+  \emph{homomorphism} is a map $\phi :A\to B$ such that $\phi (0)=0$,
+  $\phi (1)=1$, and for all $a,b\in A$, $\phi (\neg a)=\neg \phi (a)$,
+  $\phi (a\wedge b)=\phi (a)\wedge \phi (b)$ and $\phi (a\vee b)=\phi
+  (a)\vee \phi (b)$. \end{defn}
+
+It is easy to see that if $\phi :A\to B$ and $\psi :B\to C$ are
+homomorphisms, then $\psi\circ \phi :A\to C$ is also a homomorphism.
+Moreover, $1_A:A\to A$ is a homomorphism, and composition of
+homomorphisms is associative.  
+
+\begin{defn} We let $\cat{Bool}$ denote the category whose objects are
+  Boolean algebras, and whose arrows are homomorphisms of Boolean
+  algebras. \end{defn}
+
+Since $\cat{Bool}$ is a
+category, we have notions of \emph{monomorphisms},
+\emph{epimorphisms}, \emph{isomorphisms}, etc..  Once again, it is
+easy to see that an injective homomorphism is a monomorphism, and a
+surjective homomorphism is an epimorphism.
+
+\begin{prop} Monomorphisms in $\cat{Bool}$ are injective.  \end{prop}
+
+\begin{proof} Let $f:A\to B$ be a monomorphism, and let $a,b\in A$.
+  Let $F$ denote the Boolean algebra with four elements, and let $p$
+  denote one of the two elements in $F$ that is neither $0$ nor $1$.
+  Define $\hat{a}:F\to A$ by $\hat{a}(p)=a$, and define $\hat{b}:F\to
+  A$ by $\hat{b}(p)=b$.  It is easy to see that $\hat{a}$ and
+  $\hat{b}$ are uniquely defined by these conditions, and that they
+  are Boolean homomorphisms.  Suppose now that $f(a)=f(b)$.  Then
+  $f\hat{a}=f\hat{b}$, and since $f$ is a monomorphism,
+  $\hat{a}=\hat{b}$, and therefore $a=b$.  Therefore $f$ is injective.
+\end{proof}
+
+It is also true that epimorphisms in $\cat{Bool}$ are surjective.
+However, proving that fact is no easy task.  We will return to it
+later in the chapter.
+
+\begin{prop} If $f:A\to B$ is a homomorphism of Boolean algebras, then
+  $a\leq b$ only if $f(a)\leq f(b)$. \end{prop}
+
+\begin{proof} $a\leq b$ means that $a\wedge b=a$.  Thus, 
+\[ 
+f(a)\wedge f(b) = f(a\wedge b) = f(a) ,\] which means that $f(a)\leq
+f(b)$. \end{proof}
+
+\begin{defn} A homomorphism $\phi :B\to 2$ is called a \emph{state} of
+  $B$. \end{defn}
+
+
+\section{Equivalent categories}
+
+We now have two categories on the table: the category $\cat{Th}$ of
+theories, and the category $\cat{Bool}$ of Boolean algebras.  Our next
+goal is to show that these categories are \emph{structurally
+  identical}.  But what do we mean by this?  What we mean is that they
+are \emph{equivalent categories}.  In order to explain what that
+means, we need a few more definitions.
+
+%% TO DO: define subalgebra
+
+\begin{defn} Suppose that $\cat{C}$ and $\cat{D}$ are categories.  We
+  let $\cat{C}_0$ denote the objects of $\cat{C}$, and we let
+  $\cat{C}_1$ denote the arrows of $\cat{C}$.  A (covariant)
+  \emph{functor} $F:\cat{C}\to\cat{D}$ consists of a pair of maps:
+  $F_0:\cat{C}_0\to\cat{D}_0$, and $F_1:\cat{C}_1\to\cat{D}_1$ with
+  the following properties:
+  \begin{enumerate} 
+  \item $F_0$ and $F_1$ are compatible in the sense that if $f:X\to Y$
+    in $\cat{C}$,then $F_1(f):F_0(X)\to F_0(Y)$ in $\cat{D}$.
+  \item $F_1$ preserves identities and composition in the following
+    sense: $F_1(1_X)=1_{F_0(X)}$, and $F_1(g\circ f)=F_1(g)\circ
+    F_1(f)$.
+\end{enumerate}
+When no confusion can result, we simply use $F$ in place of $F_0$ and
+$F_1$.
+\end{defn}
+
+\begin{note} There is also a notion of a \emph{contravariant functor},
+  where $F_1$ reverses the direction of arrows: if $f:X\to Y$ in
+  $\cat{C}$, then $F_1(f):F_0(Y)\to F_0(X)$ in $\cat{D}$.
+  Contravariant functors will be especially useful for examining the
+  relation between a theory and its set of models.  We've already seen
+  that a translation $f:T\to T'$ induces a function
+  $f^*:M(T')\to M(T)$.  In Section \ref{sec:stone} we will see that
+  $f\mapsto f^*$ is part of a contravariant functor. \end{note}
+
+\begin{example} For any category $\cat{C}$, there is a functor
+  $1_{\cat{C}}$ that acts as the identity on both objects and arrows.
+  That is, for any object $X$ of $\cat{C}$, $1_{\cat{C}}(X)=X$.  And
+  for any arrow $f$ of $\cat{C}$, $1_{\cat{C}}(f)=f$. \end{example}
+
+\begin{defn} Let $F:\cat{C}\to \cat{D}$ and $G:\cat{C}\to \cat{D}$ be
+  functors.  A \emph{natural transformation} $\eta :F\Rightarrow G$
+  consists of a family $\{ \eta _X:F(X)\to G(X) \mid X\in \cat{C}_0
+  \}$ of arrows in $\cat{D}$, such that for any arrow $f:X\to Y$ in
+  $\cat{C}$, the following diagram commutes:
+  \[ \begin{tikzcd} F(X) \arrow[r,"F(f)"] \arrow[d,"\eta _X"] & F(Y)
+    \arrow[d,"\eta _Y"]
+    \\
+    G(X) \arrow[r,"G(f)"] & G(Y) \end{tikzcd} \] \end{defn}
+
+\begin{defn} A natural transformation $\eta :F\Rightarrow G$ is said
+  to be a \emph{natural isomorphism} just in case each arrow $\eta
+  _X:F(X)\to G(X)$ is an isomorphism.  In this case, we write $F\cong
+  G$. \end{defn}
+
+\begin{defn} Let $F:\cat{C}\to \cat{D}$ and $G:\cat{D}\to \cat{C}$ be
+  functors.  We say that $F$ and $G$ are a \emph{categorical
+    equivalence} just in case $GF\cong 1_{\cat{C}}$ and
+  $FG\cong 1_{\cat{D}}$. \label{df:cateq} \end{defn}
+
+
+
+
+
+\section{Propositional theories are Boolean algebras}
+
+In this section, we show that there is a one-to-one correspondence
+between theories (in propositional logic) and Boolean algebras.  We
+first need some preliminaries.
+
+\begin{defn} Let $\Sigma$ be a propositional signature (i.e.\ a set),
+  let $B$ be a Boolean algebra, and let $f:\Sigma\to B$ be an
+  arbitrary function.  [Here we use $\cap ,\cup$ and $-$ for the
+  Boolean operations, in order to avoid confusion with the logical
+  connectives $\wedge ,\vee$ and $\neg$.]  Then $f$ naturally extends
+  to a map $f:\mathsf{Sent}(\Sigma )\to B$ as
+  follows: \begin{enumerate}
+  \item $f(\phi\wedge\psi )=f(\phi )\cap f(\psi )$;
+  \item $f(\phi\vee \psi )=f(\phi )\cup f(\psi )$;
+  \item $f(\neg \phi) = -f(\phi )$.
+\end{enumerate}
+Now let $T$ be a theory in $\Sigma$.  We say that $f$ is an
+\emph{interpretation} of $T$ in $B$ just in case: for all sentences
+$\phi$, if $T\vdash \phi$ then $f(\phi )=1$.  \end{defn}
+
+\begin{defn} Let $f:T\to B$ be an interpretation.  We say that:
+\begin{enumerate}
+\item $f$ is \emph{conservative} just in case: for all sentences
+  $\phi$, if $f(\phi )=1$ then $T\vdash\phi$.
+\item $f$ \emph{surjective} just in case: for each $a\in B$, there is
+  a $\phi\in\mathsf{Sent}(\Sigma )$ such that $f(\phi
+  )=a$. \end{enumerate} \end{defn}
+
+\begin{lemma} Let $f:T\to B$ be an interpretation.  Then the following
+  are equivalent:
+  \begin{enumerate}
+\item $f$ is conservative.
+\item For any $\phi ,\psi\in\sg$, if $f(\phi )=f(\psi )$ then
+  $T\vdash \phi\lra\psi$. \end{enumerate} \end{lemma}
+
+\begin{proof} Note first that $f(\phi )=f(\psi )$ if and only if
+  $f(\phi\lra \psi)=1$.  Suppose then that $f$ is conservative.  If
+  $f(\phi )=f(\psi )$ then $f(\phi\lra\psi )=1$, and hence
+  $T\vdash\phi\lra\psi$.  Suppose now that (2) holds.  If $f(\phi
+  )=1$, then $f(\phi )=f(\phi\vee\neg\phi )$, and hence $T\vdash
+  (\phi\vee\neg\phi )\lra \phi$.  Therefore $T\vdash\phi$, and $f$ is
+  conservative.
+\end{proof}
+
+\begin{lemma} If $f:T\to B$ is an interpretation, and $g:B\to A$ is a
+  homomorphism, then $g\circ f$ is an interpretation.  \end{lemma}
+
+\begin{proof} This is almost obvious. \end{proof}
+
+\begin{lemma} If $f:T\to B$ is an interpretation, and $g:T'\to T$ is a
+  translation, then $f\circ g:T'\to B$ is an
+  interpretation.  \end{lemma}
+
+\begin{proof} This is almost obvious.  \end{proof}
+
+\begin{lemma} Suppose that $T$ is a theory, and $e:T\to B$ is a
+  surjective interpretation.  If $f,g:B\rightrightarrows A$ are
+  homomorphisms such that $fe=ge$, then $f=g$.  \end{lemma}
+
+\begin{proof} Suppose that $fe=ge$, and let $a\in B$.  Since $e$ is
+  surjective, there is a $\phi\in\mathsf{Sent}(\Sigma )$ such that
+  $e(\phi )=a$.  Thus, $f(a)=fe(\phi )=ge(\phi )=g(a)$.  Since $a$ was
+  arbitrary, $f=g$. \end{proof}
+
+Let $T'$ and $T$ be theories, and let $f,g:T'\rightrightarrows T$ be
+translations.  Recall that we defined identity between translations as
+follows: $f=g$ if and only if $T\vdash f(\phi )\lra g(\phi )$ for all
+$\phi \in \mathsf{Sent}(\Sigma ')$.
+
+\begin{lemma} Suppose that $m:T\to B$ is a conservative
+  interpretation.  If $f,g:T'\rightrightarrows T$ are translations
+  such that $mf=mg$, then $f=g$.  \end{lemma}
+
+\begin{proof} Let $\phi\in \mathsf{Sent}(\Sigma ')$, where $\Sigma '$
+  is the signature of $T'$.  Then $mf(\phi )=mg(\phi )$.  Since $m$ is
+  conservative, $T\vdash f(\phi )\lra g(\phi )$.  Since this holds for
+  all sentences, it follows that $f=g$.
+\end{proof}
+
+
+
+\begin{prop} For each theory $T$, there is a Boolean algebra $L(T)$,
+  and a conservative, surjective interpretation $i_T:T\to L(T)$ such
+  that for any Boolean algebra $B$, and interpretation $f:T\to B$,
+  there is a unique homomorphism $\overline{f}:L(T)\to B$ such that
+  $\overline{f}i_T=f$.  \label{lindenbaum} \end{prop}
+
+\[ \begin{tikzcd} T \arrow[r,"i_T"] \arrow[dr,"f"'] & L(T)
+  \arrow[dashed,d,"\overline{f}"] \\
+& B \end{tikzcd} \]
+
+  We define an equivalence relation $\equiv$ on the
+sentences of $\Sigma$:
+\[ \phi \equiv \psi \quad \text{iff} \quad T\vDash \phi\lra\psi ,\]
+and we let \[ E_{\phi} \: := \: \{ \psi \mid \phi\equiv \psi \} .\]
+Finally, let
+\[ L(T) \: := \: \{ E_\phi \mid \phi \in \mathsf{Sent}(\Sigma ) \} .\]
+We now equip $L(T)$ with the structure of a Boolean algebra.  To this
+end, we need the following facts, which correspond to easy proofs in
+propositional logic.
+
+\begin{fact} If $E_{\phi}=E_{\phi '}$ and $E_{\psi}=E_{\psi '}$, then:
+\begin{enumerate}
+\item $E_{\phi\wedge\psi}=E_{\phi '\wedge \psi '}$;
+\item $E_{\phi\vee\psi}=E_{\phi '\vee \psi '}$;
+\item $E_{\neg \phi}=E_{\neg \phi '}$. \end{enumerate} \end{fact}
+
+\noindent We then define a unary operation $-$ on $L(T)$ by:
+\[ -E_{\phi } := E_{\neg \phi } , \] and we define two binary
+operations on $L(T)$ by: \[ E_\phi\cap E_\psi := E_{\phi\wedge \psi }
+,\qquad E_\phi\cup E_\psi := E_{\phi\vee \psi } .\] Finally, let
+$\phi$ be an arbitrary $\Sigma$ sentence, and let
+$0=E_{\phi\wedge\neg\phi}$ and $1=E_{\phi\vee\neg\phi}$.  The proof
+that $\langle L(T),\cap ,\cup ,-,0,1\rangle$ is a Boolean algebra
+requires a series of straightforward verifications.  For example,
+let's show that $1\cap E_\psi =E_\psi$, for all sentences $\psi$.
+Recall that $1=E_{\phi\vee\neg \phi}$ for some arbitrarily chosen
+sentence $\phi$.  Thus,
+\[ 1\cap E_\psi \: = \: E_{\phi\vee\neg\phi}\cap E_\psi \: = \:
+E_{(\phi\vee\neg\phi)\wedge \psi} .\] Moreover, $T\vdash \psi\lra
+((\phi\vee\neg\phi )\wedge \psi )$, from which it follows that
+$E_{(\phi\vee\neg \phi )\wedge \psi }=E_\psi$. Therefore, $1\cap
+E_\psi=E_\psi$.
+
+Consider now the function $i_T:\Sigma\to L(T)$ given by $i_T(\phi
+)=E_\phi$, and its natural extension to $\sg$.  A quick inductive
+argument, using the definition of the Boolean operations on $L(T)$,
+shows that $i_T (\phi )=E_\phi$ for all $\phi\in \mathsf{Sent}(\Sigma
+)$.  The following shows that $i_T$ is a conservative interpretation
+of $T$ in $L(T)$.
+
+\begin{prop} $T\vdash\phi$ if and only if $i_T (\phi )=1$.  \end{prop}
+
+
+\begin{proof} $T\vdash \phi$ iff $T\vdash (\psi\vee\neg\psi )\lra
+  \phi$ iff $i_T (\phi )=E_\phi=E_{\psi\vee\neg \psi}=1$. \end{proof}
+
+Since $i_T(\phi )=E_\phi$, the interpretation $i_T$ is also
+surjective.
+
+\begin{prop} Let $B$ be a Boolean algebra, and let $f:T\to B$ be an
+  interpretation.  Then there is a unique homomorphism
+  $\overline{f}:L(T)\to B$ such that $\overline{f}i_T=f$.  \end{prop}
+
+\begin{proof} If $E_\phi=E_\psi$, then $T\vdash \phi\lra\psi$, and so
+  $f(\phi )=f(\psi )$.  Thus, we may define $\hat{f}(E_\phi )=f(\phi
+  )$.  It is straightforward to verify that $\hat{f}$ is a Boolean
+  homomorphism, and it is clearly unique.
+\end{proof}
+
+
+\begin{defn} The Boolean algebra $L(T)$ is called the \emph{Lindenbaum
+    algebra} of $T$. \end{defn}
+
+
+
+
+\begin{prop} Let $B$ be a Boolean algebra.  There is a theory $T_B$
+  and a conservative, surjective interpretation $e_B:T_B\to B$ such
+  that for any theory $T$, and interpretation $f:T\to B$, there is a
+  unique interpretation $\overline{f}:T\to T_B$ such that
+  $e_B\overline{f}=f$.  \label{internal} \end{prop}
+
+\[ \begin{tikzcd}
+T_B \arrow{r}{e_B} & B  \\
+T \arrow{ur}[below]{f} \arrow[dashed]{u}{\overline{f}} \end{tikzcd} \]
+
+\begin{proof} Let $\Sigma _B=B$ be a signature.  (Recall that a
+  propositional signature is just a set, where each element represents
+  an elementary proposition.)  We define $e_B:\Sigma _B\to B$ as the
+  identity, and use the symbol $e_B$ also for its extension to
+  $\mathsf{Sent}(\Sigma _B)$.  We define a theory $T_B$ on $\Sigma _B$
+  by: $T_B\vdash\phi$ if and only if $e_B(\phi )=1$.  Thus,
+  $e_B:T_B\to B$ is automatically a conservative interpretation of
+  $T_B$ in $B$.
+
+  Now let $T$ be some theory in signature $\Sigma$, and let $f:T\to B$
+  be an interpretation.  Since $\Sigma _B=B$, $f$ automatically gives
+  rise to a reconstrual $f:\Sigma\to\Sigma _B$, which we will rename
+  $\overline{f}$ for clarity.  And since $e_B$ is just the identity on
+  $B=\Sigma _B$, we have $f=e_B\overline{f}$.
+
+  Finally, to see that $\overline{f}:T\to T_B$ is a translation,
+  suppose that $T\vdash \phi$.  Since $f$ is an interpretation of
+  $T_B$, $f(\phi )=1$, which means that $e_B(\overline{f}(\phi ))=1$.
+  Since $e_B$ is conservative, $T_B\vdash \overline{f}(\phi )$.
+  Therefore, $\overline{f}$ is a translation.
+\end{proof}
+
+
+
+We have shown that each propositional theory $T$ corresponds to a
+Boolean algebra $L(T)$, and each Boolean algebra $B$ corresponds to a
+propositional theory $T_B$.  We will now show that these
+correspondences are functorial.  First we show that a morphism $f:B\to
+A$ in $\cat{Bool}$ naturally gives rise to a morphism $T(f):T_B\to
+T_A$ in $\cat{Th}$.  Indeed, consider the following diagram:
+\[ \begin{tikzcd}
+  T_B \arrow{d}{e_B} \arrow[dashed]{r}{T(f)} & T_A \arrow{d}{e_A} \\
+  B \arrow{r}{f} & A \end{tikzcd} \] Since $fe_B$ is an interpretation
+of $T_B$ in $A$, Prop.\ \ref{internal} entails that there is a unique
+translation $T(f):T_B\to T_A$ such that $e_AT(f)=fe_B$.  The
+uniqueness clause also entails that $T$ commutes with composition of
+morphisms, and maps identity morphisms to identity morphisms.  Thus,
+$T:\cat{Bool}\to\cat{Th}$ is a functor.
+
+Let's consider this translation $T(f):T_B\to T_A$ more concretely.
+First of all, recall that translations from $T_B$ to $T_A$ are
+actually equivalence classes of maps from $\Sigma _B$ to
+$\mathsf{Sent}(\Sigma _A)$.  Thus, there's no sense to the question,
+``which function is $T(f)$?''  However, there's a natural choice of a
+representative function.  Indeed, consider $f$ itself as a function
+from $\Sigma _B=B$ to $\Sigma _A=A$.  Then, for $x\in\Sigma _B=B$, we
+have
+\[ (e_A\circ T(f))(x) = e_A(f(x)) = f(x) = f(e_B(x)) ,\] since $e_A$
+is the identity on $\Sigma _A$, and $e_B$ is the identity on $\Sigma
+_B$.  In other words, $T(f)$ is the equivalence class of $f$ itself.
+[But recall that translations, while initially defined on the
+signature $\Sigma _B$, extend naturally to all elements of
+$\mathsf{Sent}(\Sigma _B)$.  From this point of view, $T(f)$ has a
+larger domain than $f$.]
+
+A similar construction can be used to define the functor
+$L:\cat{Th}\to \cat{Bool}$.  In particular, let $f:T\to T'$ be a
+morphism in $\cat{Th}$, and consider the following diagram:
+\[ \begin{tikzcd}
+  T \arrow{d}{i_T} \arrow{r}{f} & T' \arrow{d}{i_{T'}} \\
+  L(T) \arrow[dashed]{r}{L(f)} & L(T') \end{tikzcd} \] Since $i_{T'}f$
+is an interpretation of $T$ in $L(T')$, Prop.\ \ref{lindenbaum}
+entails that there is a unique homomorphism $L(f):L(T)\to L(T')$ such
+that $L(f)i_T = i_{T'}f$.  
+
+More explicitly,
+\[ L(f)(E_\phi ) \: = \: L(f)(i_T(\phi)) \: = \: i_{T'}f(\phi ) \: =
+\: E_{f(\phi )} .\] Recall, however, that identity of arrows in
+$\cat{Th}$ is \textit{not} identity of the corresponding functions, in
+the set-theoretic sense.  Rather, $f\simeq g$ just in case $T'\vdash
+f(\phi )\lra g(\phi )$, for all $\phi\in\mathsf{Sent}(\Sigma )$.
+Thus, we must verify that if $f\simeq g$ in $\cat{Th}$, then
+$L(f)=L(g)$.  Indeed, since $i_{T'}$ is an interpretation of $T'$, we
+have $i_{T'}(f(\phi ))=i_{T'}(g(\phi ))$; and since the diagram above
+commutes, $L(f)\circ i_T=L(g)\circ i_T$.  Since $i_T$ is surjective,
+$L(f)=L(g)$.  Thus, $f\simeq g$ only if $L(f)=L(g)$.  Finally, the
+uniqueness clause in Prop.\ \ref{lindenbaum} entails that $L$ commutes
+with composition, and maps identities to identities.  Therefore,
+$L:\cat{Th}\to\cat{Bool}$ is a functor.
+
+We will soon show that the functor $L:\cat{Th}\to\cat{Bool}$ is an
+equivalence of categories, from which it follows that $L$ preserves
+all categorically-definable properties.  For example, a translation
+$f:T\to T'$ is monic if and only if $L(f):L(T)\to L(T')$ is monic,
+etc..  However, it may be illuminating to prove some such facts
+directly.
+
+\begin{prop} Let $f:T\to T'$ be a translation. Then $f$ is
+  conservative if and only if $L(f)$ is injective. \end{prop}
+
+\begin{proof} Suppose first that $f$ is conservative.  Let $E_\phi
+  ,E_\psi\in L(T)$ such that $L(f)(E_\phi )=L(f)(E_\psi )$.  Using the
+  definition of $L(f)$, we have $E_{f(\phi )}=E_{f(\psi )}$, which
+  means that $T'\vdash f(\phi )\lra f(\psi )$.  Since $f$ is
+  conservative, $T\vdash \phi\lra \psi$, from which $E_\phi=E_\psi$.
+  Therefore, $L(f)$ is injective.
+
+  Suppose now that $L(f)$ is injective.  Let $\phi$ be a $\Sigma$
+  sentence such that $T'\vdash f(\phi )$.  Since $f(\top )=\top$, we
+  have $T'\vdash f(\top )\lra f(\phi )$, which means that
+  $L(f)(E_{\top})=L(f)(E_\phi )$.  Since $L(f)$ is injective,
+  $E_\top=E_\phi$, from which $T\vdash \phi$.  Therefore, $f$ is
+  conservative. \end{proof}
+
+
+\begin{prop} For any Boolean algebra $B$, there is a natural
+  isomorphism $\eta _B:B\to L(T_B)$.  \end{prop}
+
+\begin{proof} Let $e_B:T_B\to B$ be the interpretation from Prop.\
+  \ref{internal}, and let $i_{T_B}:T_B\to L(T_B)$ be the
+  interpretation from Prop.\ \ref{lindenbaum}.  Consider the following
+  diagram:
+  \[ \begin{tikzcd} T_B \arrow[r,"i_{T_B}"] \arrow[dr,"e_B"'] &
+    L(T_B) \arrow[dashed,d,"\eta _B"] \\
+    & B \end{tikzcd} \] By Prop.\ \ref{lindenbaum}, there is a unique
+  homomorphism $\eta _B:L(T_B)\to B$ such that $e_B=\eta _Bi_{T_B}$.
+  Since $e_B$ is the identity on $\Sigma _B$,
+  \[ \eta _B(E_x)=\eta _Bi_{T_B}(x)=e_B(x)=x , \] for any $x\in
+  B$. Thus, if $\eta _B$ has an inverse, it must be given by the map
+  $x\mapsto E_x$.  We claim that this map is a Boolean homomorphism.
+  To see this, recall that $\Sigma _B=B$.  Moreover, for $x,y\in B$,
+  the Boolean meet $x\cap y$ is again an element of $B$, hence an
+  element of the signature $\Sigma _B$.  By the defintion of $T_B$, we
+  have $T_B\vdash (x\cap y)\leftrightarrow (x\wedge y)$, where the
+  $\wedge$ symbol on the right is conjunction in $\mathsf{Sent}(\Sigma
+  _B)$.  Thus,
+  \[ E_{x\cap y}=E_{x\wedge y}=E_x\cap E_y .\] A similar argument
+  shows that $E_{-x}=-E_x$.  Therefore, $x\mapsto E_x$ is a Boolean
+  homomorphism, and $\eta _B$ is an isomorphism.
+
+  It remains to show that $\eta _B$ is natural in $B$.  Consider the
+  following diagram:
+\[ \begin{tikzcd} T_B \arrow{rr}{T_f} \arrow{dr}{e_B}
+  \arrow{ddr}[below]{i_{T_B}} & & T_A
+  \arrow{dr}{e_A} \arrow{ddr}[below]{i_{T_A}} \\
+  & B  \arrow{rr}{f} & & A  \\
+  & L(T_B) \arrow[u,"\eta _B"'] \arrow{rr}{LT(f)} & & L(T_A) \arrow[u,"\eta _A"'] \end{tikzcd} \] The top square
+commutes by the definition of the functor $T$.  The triangles on the
+left and right commute by the definition of $\eta$.  And the outmost
+square commutes by the definition of the functor $L$.  Thus we have
+\[ \begin{array}{l l l} 
+f\circ \eta _B\circ i_{T_B} & = & f\circ e_B \\
+& = & e_A\circ T_f \\
+& = & \eta _A\circ i_{T_A}\circ T_f \\
+& = & \eta _A\circ LT(f)\circ i_{T_B} .
+\end{array} \] Since $i_{T_B}$ is
+surjective, it follows that $f\circ \eta _B=\eta _A\circ LT(f)$, and
+therefore $\eta$ is a natural transformation.
+\end{proof}
+
+\begin{disc} Consider the algebra $L(T_B)$, which we have just proved
+  is isomorphic to $B$.  This result is hardly surprising.  For any
+  $x,y\in \Sigma _B$, we have $T_B\vdash x\lra y$ if and only if
+  $x=e_B(x)=e_B(y)=y$.  Thus, the equivalence class $E_x$ contains $x$
+  and no other element from $\Sigma _B$.  [That's why $\eta _B(E_x)=x$
+  makes sense.]  We also know that for every
+  $\phi\in\mathsf{Sent}(\Sigma _B)$, there is an $x\in \Sigma _B=B$
+  such that $T_B\vdash x\lra \phi$.  In particular, $T_B\vdash
+  e_B(\phi)\lra \phi$.  Thus, $E_\phi=E_x$, and there is a natural
+  bijection between elements of $L(T_B)$ and elements of $B$.
+\end{disc}
+
+
+\begin{prop} For any theory $T$, there is a natural isomorphism
+  $\varepsilon _T:T\to T_{L(T)}$. \end{prop}
+
+\begin{proof} Consider the following diagram:
+\[ \begin{tikzcd}
+T_{L(T)} \arrow{r}{e_{L(T)}} & L(T) \\
+T \arrow[dashed]{u}{\varepsilon _T} \arrow{ur}[below]{i_T}  
+\end{tikzcd} \] By Prop.\ \ref{internal}, there is a unique
+interpretation $\varepsilon _T:T\to T_{L(T)}$ such that
+$e_{L(T)}\varepsilon _T=i_T$.  We claim that $\varepsilon _T$ is an
+isomorphism.  To see that $\ve _T$ is conservative, suppose that
+$T_{L(T)}\vdash \ve _T(\phi )$.  Since $e_{L(T)}$ is an
+interpretation, $e_{L(T)}\ve _T (\phi )=1$ and hence $i_T(\phi )=1$.
+Since $i_T$ is conservative, $T\vdash \phi$.  Therefore $\ve _T$ is
+conservative.  
+
+To see that $\ve _T$ is essentially surjective, suppose that $\psi\in
+\mathsf{Sent}(\Sigma _{L(T)})$.  Since $i_T$ is surjective, there is a
+$\phi\in \mathsf{Sent}(\Sigma )$ such that $i_T(\phi )=e_{L(T)}(\psi
+)$.  Thus, $e_{L(T)}(\ve _T(\phi ))=e_{L(T)}(\psi )$.  Since
+$e_{L(T)}$ is conservative, $T_{L(T)}\vdash \ve _T(\phi)\lra \psi$.
+Therefore, $\ve _T$ is essentially surjective.
+
+It remains to show that $\ve _T$ is natural in $T$.  Consider the
+following diagram:
+\[ \begin{tikzcd}
+T \arrow{d}[left]{\ve _T} \arrow{rr}{f} \arrow{ddr}{i_T} & &  T'
+\arrow{d}{\ve _{T'}} \arrow{ddr}{i_{T'}} \\
+T_{L(T)} \arrow{rr}{TL(f)} \arrow{dr}[left]{e_{L(T)}} & & T_{L(T')}
+  \arrow{dr}[left]{e_{L(T')}} \\
+& L(T) \arrow{rr}{L(f)} & & L(T') \end{tikzcd} \] 
+The triangles on the left and the right commute by the definition of
+$\ve$.  The top square commutes by the definition of $L$, and the
+bottom square commutes by the definition of $T$.  Thus, we have
+\[ \begin{array}{l l l} e_{L(T')}\circ \ve _{T'}\circ f & = & i_{T'}\circ f \\
+& = & L(f)\circ i_T \\
+& = & L(f)\circ e_{L(T)}\circ \ve _T \\
+& = & e_{L(T')}\circ TL(f)\circ \ve _T .\end{array} \]
+Since $e_{L(T')}$ is conservative, $\ve _{T'}\circ f=TL(f)\circ \ve
+_T$.  Therefore $\ve _T$ is natural in $T$.  
+\end{proof}
+
+\begin{disc} Recall that $\ve _T$ doesn't denote a unique function; it
+  denotes an equivalence class of functions.  One representative of
+  this equivalence class is the function $\ve _T:\Sigma\to \Sigma
+  _{L(T)}$ given by $\ve _T(p)=E_p$.  In this case, a straightforward
+  inductive argument shows that $T_{L(T)}\vdash E_\phi \lra \ve
+  _T(\phi )$, for all $\phi\in\mathsf{Sent}(\Sigma )$.
+
+  We know that $\ve _T$ has an inverse, which itself is an equivalence
+  class of functions from $\Sigma _{L(T)}$ to $\mathsf{Sent}(\Sigma
+  )$.  We can define a representative $f$ of this equivalence class by
+  choosing, for each $E\in \Sigma _{L(T)}=L(T)$, some $\phi\in E$, and
+  setting $f(E)=\phi$.  Another straightforward argument shows that if
+  we made a different set of choices, the resulting function $f'$
+  would be equivalent to $f$, i.e.\ it would correspond to the same
+  translation from $T_{L(T)}$ to $T$.
+
+  Based on these definitions, $f\ve _T(p)=f(E_p)$ is some $\phi \in
+  E_p$, i.e.\ some $\phi$ such that $T\vdash p\lra \phi$.  Thus, $f\ve
+  _T\cong 1_T$.  Similarly, $f(E_\phi )=\psi$, for some $\psi \in
+  E_\phi$, and hence $\ve _T$ ...    
+\end{disc}
+
+\bigskip Since there are natural isomorphisms $\ve
+:1_{\cat{Th}}\Rightarrow TL$ and $\eta :1_{\cat{Bool}}\Rightarrow LT$,
+we have the following result:
+
+\begin{box-thm}[Lindenbaum Theorem] The categories $\cat{Th}$ and
+  $\cat{Bool}$ are equivalent.  \end{box-thm}
+
+
+\section{Boolean algebras again}
+
+The Lindenbaum Theorem would deliver everything we wanted --- if we
+had a perfectly clear understanding of the category $\cat{Bool}$.
+However, there remain questions about $\cat{Bool}$.  For example, are
+all epimorphisms in $\cat{Bool}$ surjections?  In order to shed even
+more light on $\cat{Bool}$, and hence on $\cat{Th}$, we will show that
+$\cat{Bool}$ is dual to a certain category of topological spaces.
+This famous result is called the \emph{Stone Duality Theorem}.  But in
+order to prove it, we need to collect a few more facts about Boolean
+algebras.
+
+\begin{defn} Let $B$ be a Boolean algebra.  A subset $F\subseteq B$ is
+  said to be a \emph{filter} just in case:
+\begin{enumerate}
+\item If $a,b\in F$ then $a\wedge b\in F$;
+\item If $a\in F$ and $a\leq b$ then $b\in F$.
+\end{enumerate}
+If, in addition, $F\neq B$, then we say that $F$ is a \emph{proper
+  filter}.  We say that $F$ is an \emph{ultrafilter} just in case $F$
+is maximal among proper filters, i.e.\ if $F\subseteq F'$ where $F'$
+is a proper filter, then $F=F'$.
+\end{defn}
+
+\begin{disc} Consider the Boolean algebra $B$ as a theory.  Then a
+  filter $F\subseteq B$ can be thought of as supplying an update of
+  information.  The first condition says that if we learn $a$ and $b$,
+  then we've learned $a\wedge b$.  The second condition says that if
+  we learn $a$, and $a\leq b$, then we've learned $b$.  In particular,
+  an ultrafilter supplies maximal information.  \end{disc}
+
+\begin{exercise} Let $F$ be a filter.  Show that $F$ is proper if and
+  only if $0\not\in F$. \end{exercise}
+
+
+
+%% properties of ultrafilters / maximal ideals, see Schechter p 337
+
+% Claim: if $y\wedge a=0$ then $y\leq \neg a$.  that is, $y\wedge \neg
+% a= y$.  Indeed,
+% $$ y=y\wedge 1 = y\wedge (a\vee \neg a) = (y\wedge a)\vee (y\wedge
+% \neg a) = y\wedge \neg a .$$
+
+
+\begin{defn} Let $F\subseteq B$ be a filter, and $a\in B$.  We say
+  that $a$ is \textbf{compatible} with $F$ just in case $a\wedge x\neq
+  0$ for all $x\in F$. \end{defn}
+
+\begin{lemma} Let $F\subseteq B$ be a proper filter, and let $a\in B$.
+  Then either $a$ or $\neg a$ is compatible with
+  $F$. \label{compatible} \end{lemma}
+
+\begin{proof} Suppose for reductio ad absurdum that neither $a$ nor
+  $\neg a$ is compatible with $F$.  That is, there is an $x\in F$ such
+  that $x\wedge a=0$, and there is a $y\in F$ such that $y\wedge \neg
+  a=0$.  Then
+$$ x\wedge y = (x\wedge y)\wedge (a\vee \neg a) =  (x\wedge y\wedge
+a)\vee (x\wedge y\wedge \neg a) = 0 .$$ Since $x,y\in F$, it follows
+that $0=x\wedge y\in F$, contradicting the assumption that $F$ is
+proper.  Therefore either $a$ or $\neg a$ is compatible with $F$.
+\end{proof}
+
+\begin{prop} Let $F$ be a proper filter on $B$.  Then the following
+  are equivalent:
+\begin{enumerate}
+\item $F$ is an ultrafilter.
+\item For all $a\in B$, either $a\in F$ or $\neg a\in F$.
+\item For all $a,b\in B$, if $a\vee b\in F$ then either $a\in F$ or
+  $b\in F$. \end{enumerate} \end{prop}
+
+\begin{proof} ($1\Rightarrow 2$) Suppose that $F$ is an ultrafilter.
+  By Lemma \ref{compatible}, either $a$ or $\neg a$ is compatible with
+  $F$.  Suppose first that $a$ is compatible with $F$.  Then the set  
+$$ F'=\{ y : x\wedge a\leq y ,\;\text{some}\; x\in F \} ,$$
+is a proper filter that contains $F$ and $a$.  Since $F$ is an
+ultrafilter, $F'=F$, and hence $a\in F$.  By symmetry, if $\neg a$ is
+compatible with $F$, then $\neg a\in F$.
+
+\bigskip ($2\Rightarrow 3$) Suppose that $a\vee b\in F$.  By 2, either
+$a\in F$ or $\neg a\in F$.  If $\neg a\in F$, then $\neg a\wedge
+(a\vee b)\in F$.  But $\neg a\wedge (a\vee b) \leq b$, and so $b\in
+F$.
+
+\bigskip ($3\Rightarrow 1$) Suppose that $F'$ is a filter that
+contains $F$, and let $a\in F'-F$.  Since $a\vee \neg a=1\in F$, it
+follows from (3) that $\neg a\in F$.  But then $0=a\wedge \neg a\in
+F'$, that is $F'=B$.  Therefore $F$ is an ultrafilter.
+\end{proof}
+
+
+
+
+
+\begin{prop} There is a bijective correspondence between ultrafilters
+  in $B$ and homomorphisms from $B$ into $2$.  In particular, for any
+  homomorphism $f:B\to 2$, the subset $f^{-1}(1)$ is an ultrafilter in
+  $B$.  \end{prop}
+
+\begin{proof} Let $U$ be an ultrafilter on $B$.  Define $f:B\to 2$ by
+  setting $f(a)=1$ iff $a\in U$.  Then
+  \[ \begin{array}{l l l}
+    f(a\wedge b)=1 & \text{iff} & a\wedge b\in U \\
+    & \text{iff} & a\in U \,\text{and}\,b\in U \\
+    & \text{iff} & f(a)=1\; \text{and}\; f(b)=1 .\end{array}
+  \] Furthermore,
+  \[ \begin{array}{l l l}
+    f(\neg a)=1 & \text{iff} & \neg a\in U \\
+    & \text{iff} & a\not\in U  \\
+    & \text{iff} & f(a)=0 .\end{array} \] Therefore $f$ is a
+  homomorphism.
+
+  Now suppose that $f:B\to 2$ is a homomorphism, and let
+  $U=f^{-1}(1)$.  Since $f(a)=1$ and $f(b)=1$ only if $f(a\wedge
+  b)=1$, it follows that $U$ is closed under conjunction.  Since
+  $a\leq b$ only if $f(a)\leq f(b)$, it follows that $U$ is closed
+  under implication.  Finally, since $f(a)=0$ iff $f(\neg a)=1$, it
+  follows that $a\not\in U$ iff $\neg a\in U$. \end{proof}
+
+\begin{defn} For $a,b\in B$, define
+\[ a\to b \: := \: \neg a\vee b ,\]
+and define 
+\[ a\lra b \: := \: (a\to b)\wedge (b\to a) .\] \end{defn}
+
+It's straightforward to check that $\to$ behaves like the conditional
+from propositional logic.  The next lemma gives a Boolean algebra
+version of modus ponens.
+
+\begin{lemma} Let $F$ be a filter.  If $a\to b\in F$ and $a\in F$ then
+  $b\in F$.  \end{lemma}
+
+\begin{proof} Suppose that $\neg a\vee b=a\to b\in F$ and $a\in F$.
+  We then compute:
+$$ b=b\vee 0=b\vee (a\wedge \neg a) = (a\vee b)\wedge (\neg a \vee b)
+.$$ Since $a\in F$ and $a\leq a\vee b$, we have $a\vee b\in F$.  Since
+$F$ is a filter, $b\in F$. \end{proof}
+
+
+\begin{exercise} \mbox{}
+  
+\begin{enumerate}
+\item Let $B$ be a Boolean algebra, and let $a,b,c\in B$.  Show that
+  the following hold:
+\begin{enumerate}
+\item $(a\to b)=1$ iff $a\leq b$
+\item $(a\wedge b)\leq c$ iff $a\leq (b\to c)$
+\item $a\wedge (a\to b)\leq b$
+\item $(a\lra b) = (b\lra a)$
+\item $(a\lra a)=1$
+\item $(a\lra 1)=a$
+\end{enumerate}
+% \item Let $f :B\to A$ be a homomorphism, and let $H_f
+%   =f^{-1}(1)$. \begin{enumerate}
+%   \item Show that $H_f$ is a filter in $B$.  \item Show that $a\lra
+%     b\in H_f$ if and only if $f(a)=f(b)$.  \item Show that if $A=2$,
+%     then $H_f$ is an ultrafilter in $B$. \end{enumerate}
+\item Let $\2P N$ be the powerset of the natural numbers, and let
+  $\2U$ be an ultrafilter on $\2P N$.  Show that if $\2U$ contains a
+  finite set $F$, then $\2U$ contains a singleton set.
+\end{enumerate}
+\end{exercise}
+
+\begin{defn} Let $B$ be a Boolean algebra, and let $R$ be an
+  equivalence relation on the underlying set of $B$.  We say that $R$
+  is a \emph{congruence} just in case $R$ is compatible with the
+  operations on $B$ in the following sense: if $aRa'$ and $bRb'$ then
+  $(a\wedge b)R(a'\wedge b')$, and $(a\vee b)R(a'\vee b')$, and $(\neg
+  a)R(\neg a')$. \end{defn}
+
+In a category $\cat{C}$ with limits (products, equalizers, pullbacks,
+etc.), it's possible to formula the notion of an equivalence relation
+in $\cat{C}$.  Thus, in $\cat{Bool}$, an equivalence relation $R$ on
+$B$ is a subalgebra $R$ of $B\times B$ that satisfies the appropriate
+analogues of reflexivity, symmetry, and transitivity.  Since $R$ is a
+subalgebra of $B\times B$, it follows in particular that if $\langle
+a,b\rangle \in R$, and $\langle a',b'\rangle\in R$, then $\langle
+a\wedge a',b\wedge b'\rangle \in R$.  Continuing this reasoning, it's
+not difficult to see that congruences, as defined above, are precisely
+the equivalence relations in the category $\cat{Bool}$ of Boolean
+algebras.  Thus, in the remainder of this chapter, when we speak of an
+equivalence relation on a Boolean algebra $B$, we mean an equivalence
+relation in $\cat{Bool}$, in other words, a congruence.  (To be clear,
+not every equivalence relation on the set $B$ is an equivalence
+relation on the Boolean algebra $B$.)
+
+Now suppose that $\cat{C}$ is a category in which equivalence
+relations are definable, and let $p_0,p_1:R\rightrightarrows B$ be an
+equivalence relation.  [Here $p_0$ and $p_1$ are the projections of
+$R$, considered as a subobject of $B\times B$.]  Then we can ask: do
+these two maps $p_0$ and $p_1$ have a coequalizer?  That is, is there
+an object $B/R$, and a map $q:B\to B/R$, with the relevant universal
+property?  In the case of $\cat{Bool}$, a coequalizer can be
+constructed directly.  We merely note that the Boolean operations on
+$B$ can be used to induce Boolean operations on the set $B/R$ of
+equivalence classes.
+
+\begin{defn}[Quotient algebra] Suppose that $R$ is an equivalence
+  relation on $B$.  For each $a\in B$, let $E_a$ denote its
+  equivalence class, and let $B/R = \{ E_a\mid a\in B\}$.  We then
+  define $E_a\wedge E_b=E_{a\wedge b}$, and similarly for $E_a\vee
+  E_b$ and $\neg E_a$.  Since $R$ is a congruence (i.e.\ an
+  equivalence relation on $\cat{Bool}$), these operations are
+  well-defined.  It then follows immediately that $B/R$ is a Boolean
+  algebra, and the quotient map $q:B\to B/R$ is a surjective Boolean
+  homomorphism. \end{defn}
+
+\begin{lemma} Let $R\subseteq B\times B$ be an equivalence relation.
+  Then $q:B\to B/R$ is the coequalizer of the projection maps
+  $p_0:R\to B$ and $p_1:R\to B$.  In particular, $q$ is a regular
+  epimorphism. \end{lemma}
+
+\begin{proof} It is obvious that $qp_0=qp_1$.  Now suppose that $A$ is
+  another Boolean algebra and $f:B\to A$ such that $fp_0=fp_1$.
+  Define $g:B/R\to A$ by setting $g(E_x)=f(x)$.  Since $fp_0=fp_1$,
+  $g$ is well-defined.  Furthermore, 
+  \[ g(E_x\wedge E_y)=g(E_{x\wedge y}) = f(x\wedge y)=f(x)\wedge
+  f(y)=g(E_x)\wedge g(E_y) .\] Similarly, $g(\neg E_x)=\neg g(E_x)$.
+  Therefore $g$ is a Boolean homomorphism.  Since $q$ is an
+  epimorphism, $g$ is the unique homomorphism such that $gq=f$.
+  Therefore, $q:B\to B/R$ is the coequalizer of $p_0$ and
+  $p_1$. \end{proof}
+
+The category $\cat{Bool}$ has further useful structure: there is a
+one-to-one correspondence between equivalence relations and filters.
+
+
+\begin{lemma} Suppose that $R\subseteq B\times B$ is an equivalence
+  relation.  Let $F=\{ a\in B \mid aR1 \}$.  Then $F$ is a filter, and
+  $R=\{ \langle a,b\rangle \in B\times B \mid a\lra b\in
+  F\}$. \end{lemma}
+
+\begin{proof} Suppose that $a,b\in F$.  That is, $aR1$ and $bR1$.
+  Since $R$ is a congruence, $(a\wedge b)R(1\wedge 1)$ and therefore
+  $(a\wedge b)R1$.  That is, $a\wedge b\in F$.  Now suppose that $x$
+  is an arbitrary element of $B$ such that $a\leq x$.  That is, $x\vee
+  a=x$.  Since $R$ is a congruence, $(x\vee a)R(x\vee 1)$ and so
+  $(x\vee a)R1$, from which it follows that $xR1$.  Therefore $x\in
+  F$, and $F$ is a filter.
+
+  Now suppose that $aRb$.  Since $R$ is reflexive, $(a\vee \neg a)R1$,
+  and thus $(b\vee \neg a)R1$.  Similarly $(a\vee \neg b)R1$, and
+  therefore $(a\lra b)R1$.  That is, $a\lra b\in F$.
+\end{proof}
+
+\begin{lemma} Suppose that $F$ is a filter on $B$.  Let $R=\{ \langle
+  a,b\rangle \in B\times B \mid a\lra b\in F\}$.  Then $R$ is an
+  equivalence relation, and $F=\{ a\in B\mid aR1\}$.  \end{lemma}
+
+\begin{proof} Showing that $R$ is an equivalence relation requires
+  several straightforward verifications.  For example, $a\lra a=1$,
+  and $1\in F$, therefore $aRa$.  We leave the remaining verifications
+  to the reader.
+
+  Now suppose that $a\in F$.  Since $a=(a\lra 1)$, it follows that
+  $a\lra 1\in F$, which means that $aR1$.
+\end{proof}
+
+
+\begin{defn}[Quotient algebra] Let $F$ be a filter on $B$.  Given the
+  correspondence between filters and equivalence relations, we write
+  $B/F$ for the corresponding algebra of equivalence
+  classes. \end{defn}
+
+\begin{prop} Let $F$ be a proper filter on $B$.  Then $B/F$ is a
+  two-element Boolean algebra if and only if $F$ is an
+  ultrafilter. \end{prop}
+
+\begin{proof} Suppose first that $B/F\cong 2$.  That is, for any $a\in
+  B$, either $a\lra 1\in F$ or $a\lra 0\in F$.  But $a\lra 1 =a$ and
+  $a\lra 0=\neg a$.  Therefore, either $a\in F$ or $\neg a\in F$, and
+  $F$ is an ultrafilter.
+
+  Suppose now that $F$ is an ultrafilter.  Then for any $a\in B$,
+  either $a\in F$ or $\neg a\in F$.  In the former case, $a\lra 1\in
+  F$.  In the latter case, $a\lra 0\in F$.  Therefore, $B/F\cong 2$.
+\end{proof}
+
+
+% Suppose that $f:B\to A$ is a homomorphism of Boolean algebras, and
+% consider the subset 
+% \[ E_f \: = \: \{ \langle a,b\rangle \in B\times B \mid f(a)=f(b) \}
+% .\] It is easy to check that $E_f$ is an equivalence relation on $A$.
+% The following proposition is then a straightforward verification.
+
+% \begin{prop} Let $R$ be an equivalence relation on $B$ in
+%   $\cat{Bool}$.  Then $R\cong E_f$, where $f:B\to B/R$ is the
+%   canonical surjection. \end{prop}
+
+
+% \begin{prop} Let $f:B\to A$ be a homomorphism of Boolean algebras.
+%   Then $f=me$, where $e:B\to B/E_f$ is a regular epimorphism, and
+%   $m:B/E_f\to A$ is a monomorphism. \end{prop}
+
+% \[ \begin{tikzcd}
+%   B \arrow{rr}{f} \arrow[->>]{dr}{e} & & A  \\
+%   & B/E_f \arrow[>->]{ur}{m} \end{tikzcd} \]
+
+
+% \begin{prop} Let $f:B\to A$ be a homomorphism, let $F\subseteq B$ be a
+%   filter, and let $p:B\epi B/F$ be the corresponding epimorphism.
+%   Then $f$ factorizes through $p$ if and only if $F\subseteq E_f=\{
+%   a\mid f(a)=1 \}$. \end{prop}
+
+% \begin{proof} Suppose first that $F\subseteq E_f$.  Let $e:B\epi
+%   B/E_f$ and $m:B/E_f\monic A$ be the canonical factorization of $f$.
+%   Let $E = \{ \langle a,b\rangle \mid a\lra b\in F \}$ be the
+%   equivalence relation corresponding to $F$, and let $E'$ be the
+%   equivalence relation corresponding to $E_f$.  Then $E\subseteq E'$,
+%   and there is a unique surjection $g$ of the set $B/E$ onto the set
+%   $B/E'$ such that $gp=e$.  It is straightforward to verify that
+%   $g:B/F\to B/E_f$ is a Boolean homomorphism.
+% \[ \begin{tikzcd} 
+% B \arrow{r}{f} \arrow{d}{p} \arrow{dr}{e} & A  \\
+% B/F \arrow{r}{g} & B/E_f \arrow{u}{m} \end{tikzcd} \]
+% Finally, $f=me=mgp$, and $f$ factorizes through $p$. 
+
+% Suppose now that $f$ factorizes through $p$, in particular, $f=hp$.
+% Then for any $a\in B$, if $a\in F$, then $p(a)=1$, from which
+% $f(a)=h(p(a))=h(1)=1$.  Thus, $a\in E_f$, and $F\subseteq E_f$.
+% \end{proof}
+
+\begin{exercise} (This exercise presupposes knowledge of measure
+  theory.)  Let $\Sigma$ be the Boolean algebra of Borel subsets of
+  $[0,1]$, and let $\mu$ be Lebesgue measure on $[0,1]$.  Let $\2F=\{
+  S\in \Sigma \mid \mu (S) = 1\}$.
+\begin{enumerate}
+\item Show that $\2F$ is a filter.
+\item Describe the equivalence relation on $\Sigma$ corresponding to
+  $\2F$.
+\end{enumerate}
+\end{exercise}
+
+
+
+According to our motivating analogy, a Boolean algebra $B$ is like a
+theory, and a homorphism $\phi :B\to 2$ is like a model of this
+theory.  We say that the algebra $B$ is \emph{syntactically
+  consistent} just in case $0\neq 1$.  (In fact, we defined Boolean
+algebras so as to require syntactic consistency.)  We say that the
+algebra $B$ is \emph{semantically consistent} just in case there is a
+homomorphism $\phi :B\to 2$.  Then semantic consistency clearly
+implies syntactic consistency.  But does syntactic consistency imply
+semantic consistency?
+
+It's at this point that we have to invoke a powerful theorem --- or,
+perhaps more accurately, a powerful set-theoretic axiom.  In short, if
+we use the axiom of choice, or some equivalent such as Zorn's lemma,
+then we can prove that every syntactically consistent Boolean algebra
+is semantically consistent.  However, we do not actually need the full
+power of the Axiom of Choice.  As set-theorists know, the Boolean
+ultrafilter axiom (``UF'' for short) is strictly weaker than the axiom
+of choice.\footnote{Algebraists often invoke an equivalent axiom
+  called the Boolean Prime Ideal Theorem (BPI).  It's often called a
+  ``Theorem'' because it can be proven from the Axiom of Choice, or
+  equivalently, Zorn's Lemma.  But BPI can also be taken as an axiom,
+  in which case it's strictly weaker than AC.}
+
+\begin{prop} The following are equivalent:
+  \begin{enumerate}
+  \item \textbf{Boolean ultrafilter axiom (UF)} For any Boolean
+    algebra $B$, there is a homomorphism $f:B\to 2$.
+  \item For any Boolean algebra $B$, and proper filter $F\subseteq B$,
+    there is a homomorphism $f:B\to 2$ such that $f(a)=1$ when $a\in
+    F$.
+  \item For any Boolean algebra $B$, if $a,b\in B$ such that $a\neq
+    b$, then there is a homomorphism $f:B\to 2$ such that $f(a)\neq
+    f(b)$.
+\item For any Boolean algebra $B$, if $\phi (a)=1$ for all $\phi :B\to
+  2$, then $a=1$.
+\item For any two Boolean algebras $A,B$, and homomorphisms
+  $f,g:A\rightrightarrows B$, if $\phi f=\phi g$ for all $\phi :B\to
+  2$, then $f=g$. 
+\end{enumerate} \end{prop}
+
+\begin{proof} ($1\Rightarrow 2$) Suppose that $F$ is a proper filter
+  in $B$.  Then there is a homomorphism $q:B\to B/F$ such that
+  $q(a)=1$ for all $a\in F$.  By UF, there is a homomorphism $\phi
+  :B/F\to 2$.  Therefore, $\phi \circ q:B\to 2$ is a homomorphism such
+  that $(\phi \circ q)(a)=1$ for all $a\in F$.
+
+  \bigskip ($1\Rightarrow 3$) Suppose that $a,b\in B$ with $a\neq b$.
+  Then either $\neg a\wedge b\neq 0$ or $a\wedge \neg b\neq 0$.
+  Without loss of generality, we assume that $\neg a\wedge b\neq 0$.
+  In this case, the filter $F$ generated by $\neg a\wedge b$ is
+  proper.  By UF, there is a homomorphism $\phi :B\to 2$ such that
+  $\phi (x)=1$ when $x\in F$.  In particular, $\phi (\neg a\wedge
+  b)=1$.  But then $\phi (a)=0$ and $\phi (b)=1$.
+
+  \bigskip ($2\Rightarrow 4$) Suppose that $\phi (a)=1$ for all $\phi
+  :B\to 2$.  Now let $F$ be the filter generated by $\neg a$.  If $F$
+  is proper, then by (2), there is a $\phi :B\to 2$ such that $\phi
+  (\neg a)=1$, a contradiction.  Thus, $F=B$, which implies that $\neg
+  a=0$ and $a=1$.
+
+  \bigskip ($4\Rightarrow 5$) Let $f,g:A\to B$ be homomorphisms, and
+  suppose that for all $\phi :B\to 2$, $\phi f=\phi g$.  That is, for
+  each $a\in A$, $\phi (f(a))=\phi (g(a))$.  But then $\phi (f(a)\lra
+  g(a))=1$ for all $\phi :B\to 2$.  By (4), $f(a)\lra g(a)=1$, and
+  therefore $f(a)=g(a)$.
+
+  \bigskip ($5\Rightarrow 3$) Let $B$ be a Boolean algebra, and
+  $a,b\in B$.  Suppose that $\phi (a)=\phi (b)$ for all $\phi :B\to
+  2$.  Let $F$ be the four element Boolean algebra, with generator
+  $p$.  Then there is a homomorphism $\hat{a}:F\to B$ such that
+  $\hat{a}(p)=a$, and a homomorphism $\hat{b}:F\to B$ such that
+  $\hat{b}(p)=b$.  Thus, $\phi \hat{a}=\phi \hat{b}$ for all $\phi
+  :B\to 2$.  By (5), $\hat{a}=\hat{b}$, and therefore $a=b$.
+
+  \bigskip ($3\Rightarrow 1$) Let $B$ be an arbitrary Boolean algebra.
+  Since $0\neq 1$, (3) implies that there is a homomorphism $\phi
+  :B\to 2$.
+\end{proof}
+
+We are finally in a position to prove the completeness of the
+propositional calculus.  The following result assumes the Boolean
+ultrafilter axiom (UF).
+
+\begin{box-thm}[Completeness Theorem] If $T\vDash \phi$ then $T\vdash
+  \phi$. \end{box-thm} \label{page:complete}
+
+\begin{proof} Suppose that $T\not\vdash\phi$.  Then in the Lindenbaum
+  algebra $L(T)$, we have $E_\phi\neq 1$.  In this case, there is a
+  homomorphism $h:L(T)\to 2$ such that $h(E_\phi )=0$.  Hence, $h\circ
+  i_T$ is a model of $T$ such that $(h\circ i_T)(\phi )=h(E_\phi )=0$.
+  Therefore, $T\not\vDash\phi$.  \end{proof}
+
+\begin{exercise} Let $\2P N$ be the powerset of the natural numbers.
+  We say that a subset $E$ of $N$ is \emph{cofinite} just in case
+  $N\backslash E$ is finite.  Let $\2F\subseteq \2P N$ be the set of
+  cofinite subsets of $N$.
+\begin{enumerate}
+\item Show that $\2F$ is a filter.
+\item Show that there are infinitely many ultrafilters containing
+  $\2F$.
+\end{enumerate}
+\end{exercise}
+
+
+\section{Stone spaces}
+
+Philosophers talk about the set of all possible worlds.  Logicians and
+mathematicians talk about ``sets of models''. Physicists talk about
+``models of a theory''.  It's all pretty much the same thing, at least
+from an abstract point of view.  But if we're going to undertake an
+exact study of the set of possible worlds, then we need to make a
+proposal about what structure this space carries.  But what do I mean
+her by ``structure''?  Isn't the space of possible worlds just a bare
+set?  Let me explain a couple of reasons why we might want to think of
+the space of possible worlds as a structured set, and in particular,
+as a topological space.
+
+Suppose that there are infinitely many possible worlds, which we
+represent by elements of a set $X$.  As philosophers are wont to do,
+we then represent \emph{propositions} by subsets of $X$.  But should
+we think that all $2^{|X|}$ subsets of $X$ correspond to genuine
+propositions?  What would warrant such a claim?
+
+There is another reason to worry about this approach.  For a person
+with training in set theory, it is not difficult to build a collection
+$C_1,C_2,\dots $ of subsets of $X$ with the following features: (i)
+each $C_i$ is non-empty, (ii) $C_{i+1}\subseteq C_i$ for all $i$, and
+(iii) $\bigcap _iC_i$ is empty.  Intuitively speaking, $\{ C_i\mid
+i\in \7N \}$ is a family of propositions that are individually
+consistent (since non-empty), that are becoming more and more
+specific, and yet there is no world in $X$ that makes all $C_i$ true.
+Why not?  It seems that $X$ is missing some worlds!  Indeed, here's a
+description of a new world $w$ that does not belong to $X$: for each
+proposition $\phi$, let $\phi$ be true in $w$ if and only if $\phi\cap
+C_i$ is nonempty for all $i$.  It's not difficult to see that $w$ is
+in fact a truth valuation on the set of all propositions, i.e.\ it is
+a possible world.  But $w$ is not represented by a point in $X$.  What
+we have here is a mismatch between the set $X$ of worlds, and the set
+of propositions describing these worlds.
+
+The idea behind logical topology is that not all subsets of $X$
+correspond to propositions.  A designation of a topology on $X$ is
+tantamount to saying which subsets of $X$ correspond to propositions.
+However, the original motivation for the study of topology comes from
+geometry (and analysis), not from logic.  Recall high school
+mathematics, where you learned that a continuous function is one where
+you don't have to lift your pencil from the paper in order to draw the
+graph.  If your high school class was really good, or if you studied
+calculus in college, then you will have learned that there is a more
+rigorous definition of a continuous function --- a definition
+involving epsilons and deltas.  In the early 20th century, it was
+realized that the essence of continuity is even more abstract than
+epsilons and deltas would suggest: all we need is a notion of nearness
+of points, which we can capture in terms of a notion of a neighborhood
+of a point.  The idea then is that a function $f:X\to Y$ is continuous
+at a point $x$ just in case for any neighborhood $V$ of $f(x)$, there
+is some neighborhood $U$ of $x$ such that $f(U)\subseteq V$.
+Intuitively speaking, $f$ preserves closeness of points.
+
+Notice, however, that if $X$ is an arbitrary set, then it's not
+obvious what ``closeness'' means.  To be able to talk about closeness
+of points in $X$, we need specify which subsets of $X$ count as the
+neighborhoods of points.  Thus, a \emph{topology} on $X$ is a set of
+subsets of $X$ that satisfies certain conditions.
+
+\begin{defn} A \emph{topological space} is a set $X$ and a family
+  $\2F$ of subsets of $X$ satisfying the following conditions:
+\begin{enumerate}
+\item $\emptyset\in \2F$ and $X\in \2F$;
+\item If $U,V\in \2F$ then $U\cap V\in \2F$;
+\item If $\2F _0$ is a subfamily of $\2F$, then $\bigcup _{U\in \2F
+    _0}U\in \2F$.
+\end{enumerate}
+The sets in $\2F$ are called \emph{open subsets} of the space $(X,\2F
+)$.  If $p\in U$ with $U$ an open subset, we say that $U$ is a
+\emph{neighborhood} of $p$.
+\end{defn}
+
+
+%% refer to Steen and Seebach
+
+There are many familiar examples of topological spaces.  In many
+cases, however, we only know the open sets indirectly, by means of
+certain nice open sets.  For example, in the case of the real numbers,
+not every open subset is an interval.  However, every open subset is a
+union of intervals.  In that case, we call the open intervals in
+$\mathbb{R}$ a \emph{basis} for the topology.
+
+\begin{prop} Let $\2B$ be a family of subsets of $X$ with the property
+  that if $U,V\in \2B$ then $U\cap V\in \2B$.  Then there is a unique
+  smallest topology $\2F$ on $X$ containing $\2B$.  \end{prop}
+
+\begin{proof} Let $\2F$ be the collection obtained by taking all
+  unions of sets in $\2B$, and then taking finite intersections of the
+  resulting collection.  Clearly $\2F$ is a topology on $X$, and any
+  topology on $X$ containing $\2B$ also contains $\2F$. \end{proof}
+
+\begin{defn} If $\2B$ is a family of subsets of $X$ that is closed
+  under intersection, and if $\2F$ is the topology generated by $\2B$,
+  then we say that $\2B$ is a \emph{basis} for $\2F$. \end{defn}
+
+\begin{prop} Let $(X,\2F )$ be a topological space.  Let $\2F_0$ be a
+  subfamily of $\2F$ with the following properties: (1) $\2F_0$ is
+  closed under finite intersections, and (2) for each $x\in X$ and
+  $U\in \2F_0$ with $x\in U$, there is a $V\in\2F _0$ such that $x\in
+  V\subseteq U$.  Then $\2F _0$ is a basis for the topology
+  $\2F$. \end{prop}
+
+\begin{proof} We need only show that each $U\in\2F$ is a union of
+  elements in $\2F _0$.  And that follows immediately from the fact
+  that if $x\in U$, then there is $V\in \2F _0$ with $x\in V\subseteq
+  U$. \end{proof}
+
+\newcommand{\cl}[1]{\overline{#1}}
+
+\begin{defn} Let $X$ be a topological space.  A subset $C$ of $X$ is
+  called \emph{closed} just in case $C=X\backslash U$ for some open
+  subset $U$ of $X$.  The intersection of closed sets is closed.
+  Hence, for each subset $E$ of $X$, there is a unique smallest closed
+  set $\cl{E}$ containing $E$, namely the intersection of all closed
+  supersets of $E$.  We call $\overline{E}$ the \emph{closure} of
+  $E$.  \end{defn}
+
+
+\begin{prop} Let $p\in X$ and let $S\subseteq X$.  Then $p\in
+  \overline{S}$ if and only if every open neighborhood $U$ of $p$ has
+  nonempty intersection with $S$.  \end{prop}
+
+\begin{proof} Exercise. \end{proof}
+
+\begin{defn} Let $S$ be a subset of $X$.  We say that $S$ is
+  \emph{dense} in $X$ just in case $\overline{S}=X$. \end{defn}
+
+\begin{defn} Let $E\subseteq X$.  We say that $p$ is a \textbf{limit
+    point} of $E$ just in case for each open neighborhood $U$ of $p$,
+  $U\cap E$ contains some point besides $p$.  We let $E'$ denote the
+  set of all limit points of $E$.  \end{defn}
+
+\begin{lemma} $E'\subseteq \overline{E}$.  \end{lemma}
+
+\begin{proof} Let $p\in E'$, and let $C$ be a closed set containing
+  $E$.  If $p\in X\backslash C$, then $p$ is contained in an open set
+  that has empty intersection with $E$.  Thus, $p\in C$.  Since $C$
+  was an arbitrary closed superset of $E$, it follows that
+  $p\in\overline{E}$.
+\end{proof}
+
+\begin{prop} $\overline{E}=E\cup E'$ \end{prop}
+
+\begin{proof} The previous lemma gives $E'\subseteq \overline{E}$.
+  Thus, $E\cup E'\subseteq \overline{E}$.  
+
+  Suppose now that $p\not\in E$ and $p\not\in E'$.  Then there is an
+  open neighborhood $U$ of $p$ such that $U\cap E$ is empty.  Then
+  $E\subseteq X\backslash U$, and since $X\backslash U$ is closed,
+  $\overline{E}\subseteq X\backslash U$.  Therefore $p\not\in
+  \overline{E}$.
+
+
+
+
+\end{proof}
+
+\begin{defn} A topological space $X$ is said to be:
+\begin{itemize}
+\item $T_1$ or \emph{Frechet} just in case all singleton
+  subsets are closed.
+\item $T_2$ or \emph{Hausdorff} just in case for any $x,y\in X$
+  if $x\neq y$ then there are disjoint open neighborhoods of $x$ and
+  $y$.
+\item $T_3$ or \emph{regular} just in case for each $x\in X$, and for
+  each closed $C\subseteq X$ such that $x\not\in C$, there are open
+  neighborhoods $U$ of $x$, and $V$ of $C$, such that $U\cap
+  V=\emptyset$.
+\item $T_4$ or \emph{normal} just in case any two disjoint closed
+  subsets of $X$ can be separated by disjoint open
+  sets.  \end{itemize} \end{defn}
+
+Clearly we have the implications 
+\[ (T_1+T_4)\Rightarrow (T_1+T_3)\Rightarrow T_2 \Rightarrow T_1\] A
+discrete space satisfies all of the separation axioms.  A non-trivial
+indiscrete space satisfies none of the separation axioms.  A useful
+heuristic here is that the stronger the separation axiom, the closer
+the space is to discrete.  In this book, most of the spaces we
+consider are very close to discrete in a precise sense we will
+describe below.
+
+
+\begin{exercise} \mbox{ }
+\begin{enumerate}
+\item Show that $X$ is regular iff for each $x\in X$ and open
+  neighborhood $U$ of $x$, there is an open neighborhood $V$ of $x$
+  such that $\cl{V}\subseteq U$.
+\item Show that if $E\subseteq F$ then $\overline{E}\subseteq
+  \overline{F}$.
+\item Show that $\cl{\cl{E}}=\cl{E}$.
+% \item Show that in the space $\mathbb{R}$, the only clopen subsets are
+%   $\emptyset$ and $\mathbb{R}$.
+\item Show that the intersection of two topologies is a topology.
+\item Show that the infinite distributive law holds:
+\[ U\cap \left( \bigcup _{i\in I}V_i \right) \: = \: \bigcup  _{i\in
+  I}(U\cap V_i ) .\]
+% \item Show that a space $X$ is Hausdorff if and only if the diagonal
+%   $\Delta = \{ \langle x,x\rangle :x\in X\}$ is closed in the product
+%   topology on $X\times X$.  [Oops: you cannot solve this exercise
+%   until you know what the product topology is!]
+\end{enumerate} \end{exercise}
+
+
+\begin{defn} Let $S\subseteq X$.  A family $\2C$ of open subsets of
+  $X$ is said to \emph{cover} $S$ just in case $S\subseteq \bigcup
+  _{U\in \2C}U$.  We say that $S$ is \emph{compact} just in case for
+  every open cover $\2C$ of $S$, there is a finite subcollection $\2C
+  _0$ of $\2C$ that also covers $S$.  We say that the space $X$ is
+  compact just in case it's compact as a subset of itself.  \end{defn}
+
+\begin{defn} A collection $\2C$ of subsets of $X$ is said to satisfy
+  the \emph{finite intersection property} if for every finite
+  subcollection $C_1,\dots ,C_n$ of $\2C$, the intersection $C_1\cap
+  \cdots \cap C_n$ is nonempty. \end{defn}
+
+\begin{disc} Suppose that $X$ is the space of possible worlds, so that
+  we can think of subsets of $X$ as propositions.  If $A\cap B$ is
+  nonempty, then the propositions $A$ and $B$ are consistent, i.e.\
+  there is a world in which they are both true.  Thus, a collection
+  $\2C$ of propositions has the finite intersection property just in
+  case it is finitely consistent.
+\end{disc}
+
+Recall that compactness of propositional logic states that if a set
+$\2C$ of propositions is finitely consistent, then $\2C$ is
+consistent.  The terminology here is no accident; a topological space
+is compact just in case finite consistency entails consistency.
+
+\begin{prop} A space $X$ is compact if and only if for every
+  collection $\2C$ of closed subsets of $X$, if $\2C$ satisfies the
+  finite intersection property, then $\bigcap \2C$ is
+  nonempty. \end{prop}
+
+\begin{proof} ($\Rightarrow$) Assume first that $X$ is compact, and
+  let $\2C$ be a family of closed subsets of $X$.  We will show that
+  if $\2C$ satisfies the finite intersection property, then the
+  intersection of all sets in $\2C$ is nonempty.  Assume the negation
+  of the consequent, i.e.\ that $\bigcap _{C\in\2C}C$ is empty.  Let
+  $\2C '=\{ C' :C\in \2C \}$, where $C'=X\backslash C$ is the
+  complement of $C$ in $X$.  [Warning: this notation can be confusing.
+  Previously I used $E'$ to denote the set of limit points of $E$.
+  This $C'$ has nothing to do with limit points.]  Each $C'$ is open,
+  and
+$$ \left( \bigcup _{C\in \2C}C' \right) ' \: = \: \bigcap _{C\in\2C}C ,$$
+which is empty.  It follows then that $\2C '$ is an open cover of $X$.
+Since $X$ is compact, there is a finite subcover $\2C '_0$ of $\2C '$.
+If we let $\2C _0$ be the complements of sets in $\2C '_0$, then $\2C
+_0$ is a finite collection of sets in $\2C$ whose intersection is
+empty.  Therefore $\2C$ does not satisfy the finite intersection
+property.
+
+($\Leftarrow$) Assume now that $X$ is not compact.  In particular,
+suppose that $\2U$ is an open cover with no finite
+subcover.  Let $\2C = \{ X\backslash U\mid U\in \2U \}$.  For any
+finite subcollection $X\backslash U_1,\dots ,X\backslash U_n$ of
+$\2C$, we have 
+\[ U_1\cup\cdots\cup U_n \neq X ,\]
+and hence 
+\[ (X\backslash U_1)\cap \cdots \cap (X\backslash U_n)\neq \emptyset
+.\] Thus, $\2C$ has the fip.  Nonetheless, since $\2U$ covers $X$, the
+intersection of all sets in $\2C$ is empty.  \end{proof}
+
+\begin{prop} In a compact space, closed subsets are
+  compact.  \label{closed-compact} \end{prop}
+
+\begin{proof} Let $\2C$ be an open cover of $S$, and consider the
+  cover $\2C' = \2C \cup \{ X\backslash S \}$ of $X$.  Since $X$ is
+  compact, there is a finite subcover $\2C _0$ of $\2C '$.  Removing
+  $X\backslash S$ from $\2C _0$ gives a finite subcover of the
+  original cover $\2C$ of $S$. \end{proof}
+
+
+\begin{prop} Suppose that $X$ is compact, and let $U$ be an open set
+  in $X$.  Let $\{ F_i\}_{i\in I}$ be a family of closed subsets of
+  $X$ such that $\bigcap _{i\in I}F_i\subseteq U$.  Then there is a
+  finite subset $J$ of $I$ such that $\bigcap _{i\in J}F_i\subseteq
+  U$. \label{fin-down} \end{prop}
+
+\begin{proof} Let $C=X\backslash U$, which is closed.  Thus, the
+  hypotheses of the proposition say that the family $\2C :=\{ C\}\cup
+  \{ F_i:i\in I\}$ has empty intersection.  Since $X$ is compact,
+  $\2C$ also fails to have the finite intersection property.  That is,
+  there are $i_1,\dots ,i_k\in I$ such that $C\cap
+  F_{i_1}\cap\cdots\cap F_{i_k}=\emptyset$.  Therefore
+  $F_{i_1}\cap\cdots\cap F_{i_k}\subseteq U$. \end{proof}
+
+
+\begin{prop} If $X$ is compact Hausdorff, then $X$ is
+  regular. \label{chaus-regular} \end{prop}
+
+\begin{proof} Let $x\in X$, and let $C\subseteq X$ be closed.  For
+  each $y\in C$, let $U_y$ be an open neighborhood of $x$, and $V_y$
+  an open neighborhood of $y$ such that $U_y\cap V_y=\emptyset$.  The
+  $V_y$ form an open cover of $C$.  Since $C$ is closed and $X$ is
+  compact, $C$ is compact.  Hence there is a finite subcollection
+  $V_{y_1},\dots ,V_{y_n}$ that cover $C$.  But then $U=\cap
+  _{i=1}^nU_{y_i}$ is an open neighborhood of $x$, and $V=\cup
+  _{i=1}^nV_{y_i}$ is an open neighborhood of $C$, such that $U\cap
+  V=\emptyset$.  Therefore $X$ is regular. \end{proof}
+
+
+
+\begin{prop} In Hausdorff spaces, compact subsets are
+  closed. \label{haus-cc} \end{prop}
+
+\begin{proof} Let $p$ be a point of $X$ that is not in $K$.  Since $X$
+  is Hausdorff, for each $x\in K$, there are open neighborhoods $U_x$
+  of $x$ and $V_x$ of $p$ such that $U_x\cap V_x=\emptyset$.  The
+  family $\{ U_x:x\in K\}$ covers $K$.  Since $K$ is compact, it is
+  covered by a finite subcollection $U_{x_1},\dots ,U_{x_n}$.  But
+  then $\cap _{i=1}^nV_{x_i}$ is an open neighborhood of $p$ that is
+  disjoint from $K$.  It follows that $X-K$ is open, and $K$ is
+  closed. \end{proof}
+
+
+\begin{defn} Let $X,Y$ be topological spaces.  A function $f:X\to Y$
+  is said to be \emph{continuous} just in case for each open subset
+  $U$ of $Y$, $f^{-1}(U)$ is an open subset of $X$.  \end{defn}
+
+\begin{example} Let $f:\mathbb{R}\to \mathbb{R}$ be the function that
+  is constantly zero on $(-\infty ,0)$, and $1$ on $[0,\infty )$.
+  Then $f$ is not continuous:
+  $f^{-1}(\frac{1}{2},\frac{3}{2})=[0,\infty )$, which is not
+  open. \end{example}
+
+In the exercises, you will show that a function $f$ is continuous if
+and only if $f^{-1}(C)$ is closed whenever $C$ is closed.  Thus, in
+particular, if $C$ is a clopen subset of $Y$, then $f^{-1}(C)$ is a
+clopen subset of $X$.
+
+
+\begin{prop} Let $\mathbf{Top}$ consist of the class of topological
+  spaces and continuous maps between them.  For $X\stackrel{f}{\to}
+  Y\stackrel{g}{\to }Z$, define $g\circ f$ to be the composition of
+  $g$ and $f$.  Then $\mathbf{Top}$ is a category. \end{prop}
+
+\begin{proof} It needs to be confirmed that if $f$ and $g$ are
+  continuous, then $g\circ f$ is continuous.  We leave this to the
+  exercises.  Since composition is associative, $\cat{Top}$ is a
+  category. \end{proof}
+
+
+\begin{prop} Suppose that $f:X\to Y$ is continuous.  If $K$ is compact
+  in $X$, then $f(K)$ is compact in
+  $Y$. \label{image-compact} \end{prop}
+
+\begin{proof} Let $\2G$ be a collection of open subsets of $Y$ that
+  covers $f(K)$.  Let
+  \[ \2G ' = \{ f^{-1}(U) :U\in \2G \} .\] When $\2G '$ is an open
+  cover of $K$.  Since $K$ is compact, $\2G '$ has a finite subcover
+  $f^{-1}(U_1),\dots ,f^{-1}(U_n)$.  But then $U_1,\dots ,U_n$ is a
+  finite subcover of $\2G$. \end{proof}
+
+We remind the reader of the category theoretic definitions:
+\begin{itemize}
+\item $f$ is a \emph{monomorphism} just in case $fh=fk$ implies $h=k$.
+\item $f$ is an \emph{epimorphism} just in case $hf=kf$ implies $h=k$.
+\item $f$ is an \emph{isomorphism} just in case there is a $g:Y\to X$
+  such that $gf=1_X$ and $fg=1_Y$.
+\end{itemize} For historical reasons, isomorphisms in $\mathbf{Top}$
+are usually called \emph{homeomorphisms}.  It is easy to show that a
+continuous map $f:X\to Y$ is monic if and only if $f$ is injective.
+It is also true that $f:X\to Y$ is epi if and only if $f$ is
+surjective (but the proof is somewhat subtle).  In contrast, a
+continuous bijection is not necessarily an isomorphism in $\cat{Top}$.
+For example, if we let $X$ be a two element set with the discrete
+topology, and $Y$ be a two element set with the indiscrete topology,
+then any bijection $f:X\to Y$ is continuous, but is not an
+isomorphism.
+
+% \begin{prop} In $\mathbf{Top}$, epimorphisms are
+%   surjective. \end{prop}
+
+% \begin{proof} Let $f:X\to Y$ be epi.  Let $Z=\{ 0,1\}$ with the
+%   indiscrete topology, let $h:Y\to Z$ be constantly $1$, and let
+%   $k:Y\to Z$ be the characteristic function of $f(Y)$.  Then $hf=kf$,
+%   and since $f$ is epi, $h=k$.  Therefore, $f(X)=Y$.  \end{proof}
+
+%% following example: $f$ is epi in $\mathbf{Haus}$, but not in
+%% $\mathbf{Top}$.
+
+
+
+
+\begin{exercise} \mbox{ } 
+\begin{enumerate}
+\item Show that if $f$ and $g$ are continuous, then $g\circ f$ is
+continuous.
+\item Suppose that $f:X\to Y$ is a surjection.  Show that if $E$ is
+  dense in $X$, then $f(E)$ is dense in $Y$.
+\item Show that $f:X\to Y$ is continuous if and only if $f^{-1}(C)$ is
+  closed whenever $C$ is closed.
+\item Let $Y$ be a Hausdorff space, and let $f,g:X\to Y$ be
+  continuous.  Show that if $f$ and $g$ agree on a dense subset $S$ of
+  $X$, then $f=g$.
+\end{enumerate} \end{exercise}
+
+\begin{exercise} Show that $f^{-1}(V)\subseteq U$ if and only if $V\subseteq
+Y\backslash f(X\backslash U)$. \end{exercise}
+
+\begin{defn} A continuous mapping $f:X\to Y$ is said to be
+  \emph{closed} just in case for every closed set $C\subseteq X$ the
+  image $f(C)$ is closed in $Y$.  Similarly, $f:X\to Y$ is said to be
+  \emph{open} just in case for every open set $U\subseteq X$, the
+  image $f(U)$ is open in $Y$. \end{defn}
+
+\begin{prop} Let $f:X\to Y$ be continuous.  Then the following are
+  equivalent.
+\begin{enumerate}
+\item $f$ is closed.
+\item For every open set $U\subseteq X$, the set $\{ y\in Y\mid
+  f^{-1}\{ y\}\subseteq U\}$ is open.
+\item For every $y\in Y$, and every neighborhood $U$ of $f^{-1}\{
+  y\}$, there is a neighborhood $V$ of $y$ such that
+  $f^{-1}(V)\subseteq U$.
+\end{enumerate}
+\label{closed-map} \end{prop}
+
+
+\begin{proof} ($2\Leftrightarrow 3$) The equivalence of (2) and (3) is
+  straightforward, and we leave its proof as an exercise.
+
+  \bigskip ($3\Rightarrow 1$) Suppose that $f$ satisfies condition
+  (3), and let $C$ be a closed subset of $X$.  To show that $f(C)$
+  closed, assume that $y\in Y\backslash f(C)$.  Then $f^{-1}\{ y\}
+  \subseteq X\backslash C$.  Since $X\backslash C$ is open, there is a
+  neighborhood $V$ of $y$ such that $f^{-1}(V)\subseteq U$.  Then
+  \[ V \: \subseteq \: Y\backslash f(X\backslash U) \: = \:
+  Y\backslash f(C) .\] Since $y$ was an arbitrary element of
+  $Y\backslash f(C)$, it follows that $Y\backslash f(C)$ is open, and
+  $f(C)$ is closed.
+
+  \bigskip ($1\Rightarrow 3$) Suppose that $f$ is closed.  Let $y\in
+  Y$, and let $U$ be a neighborhood of $f^{-1}\{ y\}$.  Then
+  $X\backslash U$ is closed, and $f(X\backslash U)$ is also closed.
+  Let $V=Y\backslash f(X\backslash U)$.  Then $V$ is an open
+  neighborhood of $y$ and $f^{-1}(V)\subseteq U$. \end{proof}
+
+\begin{prop} Suppose that $X$ and $Y$ are compact Hausdorff.  If
+  $f:X\to Y$ is continuous, then $f$ is a closed
+  map. \label{auto-closed} \end{prop}
+
+\begin{proof} Let $B$ be a closed subset of $X$.  By Proposition
+  \ref{closed-compact}, $B$ is compact.  By Proposition
+  \ref{image-compact}, $f(B)$ is compact.  And by Proposition
+  \ref{haus-cc}, $f(B)$ is closed.  Therefore, $f$ is a closed map.
+\end{proof}
+
+
+
+\begin{prop} Suppose that $X$ and $Y$ are compact Hausdorff.  If
+  $f:X\to Y$ is a continuous bijection, then $f$ is an
+  isomorphism. \label{chaus-bi} \end{prop}
+
+\begin{proof} Let $f:X\to Y$ be a continuous bijection.  Thus, there
+  is function $g:Y\to X$ such that $gf=1_X$ and $fg=1_Y$.  We will
+  show that $g$ is continuous.  By Proposition \ref{auto-closed}, $f$
+  is closed.  Moreover, for any closed subset $B$ of $X$, we have
+  $g^{-1}(B)=f(B)$.  Thus, $g^{-1}$ preserves closed subsets, and
+  hence $g$ is continuous.
+\end{proof}
+
+
+
+% \begin{defn} We say that a space $X$ is \emph{totally disconnected} if
+%   the only connected subsets are singletons (equivalently, all
+%   components are singletons).  We say that $X$ is a \emph{Stone space}
+%   if $X$ is compact, Hausdorff, and totally disconnected. \end{defn}
+
+\begin{defn} A topological space $X$ is said to be \emph{totally
+    separated} if for any $x,y\in X$, if $x\neq y$ then there is a
+  closed and open (clopen) subset of $X$ containing $x$ but not
+  $y$. \end{defn}
+
+\begin{defn} We say that $X$ is a \emph{Stone space} if $X$ is compact
+  and totally separated.  We let $\cat{Stone}$ denote the full
+  subcategory of $\cat{Top}$ consisting of Stone spaces.  To say that
+  $\cat{Stone}$ is a full subcategory means that the arrows between
+  two Stone spaces $X$ and $Y$ are just the arrows between $X$ and $Y$
+  considered as topological spaces, i.e.\ continuous
+  functions.  \end{defn}
+
+\begin{note} Let $E$ be a clopen subset of $X$.  Then there is a
+  continuous function $f:X\to \{ 0,1\}$ such that $f(x)=1$ for $x\in
+  E$, and $f(x)=0$ for $x\in X\backslash E$.  Here we are considering
+  $\{ 0,1\}$ with the discrete topology. \end{note}
+
+%% TO DO
+
+\begin{prop} Let $X$ and $Y$ be Stone spaces.  If $f:X\to Y$ is an
+  epimorphism, then $f$ is surjective. \label{stones} \end{prop}
+
+\begin{proof} Suppose that $f$ is not surjective.  Since $X$ is
+  compact, the image $f(X)$ is compact in $Y$, hence closed.  Since
+  $f$ is not surjective, there is a $y\in Y\backslash f(X)$.  Since
+  $Y$ is a regular space, there is a clopen neighborhood $U$ of $y$
+  such that $U\cap f(X)=\emptyset$.  Define $g:Y\to \{ 0,1\}$ to be
+  constantly $0$.  Define $h:Y\to \{ 0,1\}$ to be $1$ on $U$, and $0$
+  on $Y\backslash U$.  Then $g\circ f=h\circ f$, but $g\neq h$.
+  Therefore $f$ is not an epimorphism.
+\end{proof}
+
+\begin{prop} Let $X$ and $Y$ be Stone spaces.  If $f:X\to Y$ is both a
+  monomorphism and an epimorphism, then $f$ is an
+  isomorphism. \label{stone-balanced} \end{prop}
+
+\begin{proof} By Proposition \ref{stones}, $f$ is surjective.
+  Therefore, $f$ is a continuous bijection.  By Proposition
+  \ref{chaus-bi}, $f$ is an isomorphism.
+\end{proof}
+
+
+
+
+
+\section{Stone duality} \label{sec:stone}
+
+In this section we show that the category $\cat{Bool}$ is dual to a
+certain category of topological spaces, namely the category
+$\cat{Stone}$ of Stone spaces.  To say that categories are ``dual''
+means that the first is equivalent to the mirror image of the second.
+
+\begin{defn} We say that categories $\cat{C}$ and $\cat{D}$ are
+  \emph{dual} just in case there are contravariant functors
+  $F:\cat{C}\to\cat{D}$ and $G:\cat{D}\to\cat{C}$ such that $GF\cong
+  1_{\cat{C}}$ and $FG\cong 1_{\cat{D}}$.  To see that this definition
+  makes sense, note that if $F$ and $G$ are contravariant functors,
+  then $GF$ and $FG$ are covariant functors.  If $\cat{C}$ and
+  $\cat{D}$ are dual, we write $\cat{C}\cong \cat{D}^{op}$, to
+  indicate that $\cat{C}$ is equivalent to the opposite category of
+  $\cat{D}$, i.e.\ the category that has the same objects as
+  $\cat{D}$, but arrows running in the opposite direction. \end{defn}
+
+
+\subsection*{The functor from Bool to Stone}
+
+We now define a contravariant functor $S:\cat{Bool}\to\cat{Stone}$.
+For reasons that will become clear later, the functor $S$ is sometimes
+called the \emph{semantic functor}.
+
+Consider the set $\hom (B,2)$ of $2$-valued homomorphisms of the
+Boolean algebra $B$.  For each $a\in B$, define
+\[ C_a \: = \: \{ \phi \in \hom (B,2) \mid \phi (a)=1 \} .\] Clearly,
+the family $\{ C_a\mid a\in B\}$ forms a basis for a topology on $\hom
+(B,2)$.  We let $S(B)$ denote the resulting topological space.  Note
+that $S(B)$ has a basis of clopen sets.  Thus, if $S(B)$ is compact,
+then $S(B)$ is a Stone space.
+
+\begin{lemma} If $B$ is a Boolean algebra, then $S(B)$ is a Stone
+  space. \end{lemma}
+
+\begin{proof} Let $\2B = \{ C_a\mid a\in B\}$ denote the chosen basis
+  for the topology on $S(B)$.  To show that $S(B)$ is compact, it will
+  suffice to show that for any subfamily $\2C$ of $\2B$, if $\2C$ has
+  the finite intersection property, then $\bigcap \2C$ is nonempty.
+  Now let $F$ be the set of $b\in B$ such that
+  \[ C_{a_1}\cap \cdots \cap C_{a_n}\subseteq C_b ,\] for some
+  $C_{a_1},\dots ,C_{a_n}\in \2C$.  Since $\2C$ has the finite
+  intersection property, $F$ is a filter in $B$.  Thus, UF entails
+  that $F$ is contained in an ultrafilter $U$.  This ultrafilter $U$
+  corresponds to a $\phi :B\to 2$, and we have $\phi (a)=1$ whenever
+  $C_a\in \2C$.  In other words, $\phi \in C_a$, whenever $C_a\in
+  \2C$.  Therefore, $\bigcap \2C$ is nonempty, and $S(B)$ is compact.
+\end{proof}
+
+Let $f:A\to B$ be a homomorphism, and let $S(f):S(B)\to S(A)$ be given
+by $S(f)=\hom (f,2)$; that is,
+\[ S(f)(\phi ) \: = \: \phi \circ f ,\qquad \forall \phi \in S(B) .\]
+We claim now that $S(f)$ is a continuous map.  Indeed, for any basic
+open subset $C_a$ of $S(A)$, we have
+\begin{equation} S(f)^{-1}(C_a) \: = \: \{ \phi \in S(B) \mid \phi
+  (f(a)) = 1 \} \: = \: C_{f(a)} .\label{slick} \end{equation} It is
+straightforward to verify that $S(1_A)=1_{S(A)}$, and that $S(g\circ
+f)=S(f)\circ S(f)$.  Therefore, $S:\cat{Bool}\to\cat{Stone}$ is a
+contravariant functor.
+
+
+
+\subsection*{The functor from Stone to Bool}
+
+Let $X$ be a Stone space.  Then the set $K(X)$ of clopen subsets of
+$X$ is a Boolean algebra, and is a basis for the topology on $X$.  We
+now show that $K$ is the object part of a contravariant functor
+$K:\cat{Stone}\to\cat{Bool}$.  For reasons that will become clear
+later, $K$ is sometimes called the \emph{syntactic functor}.
+
+Indeed, if $X,Y$ are Stone spaces, and $f:X\to Y$ is continuous, then
+for each clopen subset $U$ of $Y$, $f^{-1}(U)$ is a clopen subset of
+$X$.  Moreover, $f^{-1}$ preserves union, intersection, and complement
+of subsets; thus $f^{-1}:K(Y)\to K(X)$ is a Boolean homomorphism.  We
+define the mapping $K$ on arrows by $K(f)=f^{-1}$.  Obviously,
+$K(1_X)=1_{K(X)}$, and $K(g\circ f)=K(f)\circ K(g)$.  Therefore $K$ is
+a contravariant functor.
+
+Now we will show that $KS$ is naturally isomorphic to the identity on
+$\cat{Bool}$, and $SK$ is naturally isomorphic to the identity on
+$\cat{Stone}$.  For each Boolean algebra $B$, define $\eta _B:B\to
+KS(B)$ by
+\[ \eta _B(a) \: = \: C_a \: = \: \{ \phi \in S(B) \mid \phi (a)=1 \}
+.\]
+
+\begin{lemma} The map $\eta _B:B\to KS(B)$ is an isomorphism of
+  Boolean algebras.  \end{lemma}
+
+\begin{proof} We first verify that $a\mapsto C_a$ is a Boolean
+  homomorphism.  For $a,b\in B$, we have
+  \[ \begin{array}{l l l}  C_{a\wedge b} & = & \{ \phi \mid \phi (a\wedge b)=1 \} \\
+    & = & \{ \phi \mid \phi(a)=1\;\text{and}\; \phi(b) =1
+    \} \\
+    & = & C_a\wedge C_b . \end{array} \] A similar calculation shows
+  that $C_{\neg a}=X\backslash C_a$.  Therefore, $a\mapsto C_a$ is a
+  Boolean homomorphism.
+
+  To show that $a\mapsto C_a$ is injective, it will suffice to show
+  that $C_a=\emptyset$ only if $a=0$.  In other words, it will suffice
+  to show that for each $a\in B$, if $a\neq 0$ then there is some
+  $\phi :B\to 2$ such that $\phi (a)=1$.  Thus, the result follows
+  from UF.
+
+  Finally, to see that $\eta _B$ is surjective, let $U$ be a clopen
+  subset of $S(B)$.  Since $U$ is open, $U=\bigcup _{a\in I}C_a$, for
+  some subset $I$ of $B$.  Since $U$ is closed in the compact space
+  $G(B)$, it follows that $U$ is compact.  Thus, there is a finite
+  subset $F$ of $B$ such that $U=\bigcup _{a\in F}C_a$.  And since
+  $a\mapsto C_a$ is a Boolean homomorphism, $\bigcup _{a\in
+    F}C_a=C_b$, where $b=\bigvee _{a\in F}a$.  Therefore, $\eta _B$ is
+  surjective.
+\end{proof}
+
+\begin{lemma} The family of maps $\{ \eta _A:A\to KS(A) \}$ is natural
+  in $A$.  \end{lemma}
+
+\begin{proof} Suppose that $A$ and $B$ are Boolean algebras, and that
+  $f:A\to B$ is a Boolean homomorphism.  Consider the following
+  diagram:
+\[ \begin{tikzcd}
+  A \arrow{d}{\eta _A} \arrow{r}{f} & B \arrow{d}{\eta _B} \\
+  KS(A) \arrow{r}{KS(f)} & KS(B) \end{tikzcd} \] For $a\in A$, we have
+$\eta _B(f(a))=C_{f(a)}$, and $\eta _A(a)=C_a$.  Furthermore,
+\[ KS(f)(C_a) \: = \: S(f)^{-1}(C_a) \: = \: C_{f(a)} ,\] by Eqn.\
+\ref{slick}.  Therefore, the diagram commutes, and $\eta$ is a natural
+transformation. \end{proof}
+
+Now we define a natural isomorphism $\theta :1_{\mathbf{S}}\Rightarrow
+SK$.  For a Stone space $X$, $K(X)$ is the Boolean algebra of clopen
+subsets of $X$, and $SK(X)$ is the Stone space of $K(X)$.  For each
+point $\phi \in X$, let $\hat{\phi}:K(X)\to 2$ be defined by
+\[ \hat{\phi }(C) = \left\{ \begin{array}{l l} 1 & \phi\in C , \\ 0 &
+    \phi\not\in C .\end{array}\right. \] It's straightforward to
+verify that $\hat{\phi}$ is a Boolean homomorphism.  We define $\theta
+_X:X\to SK(X)$ by $\theta _X(\phi )=\hat{\phi}$.  
+
+\begin{lemma} The map $\theta _X:X\to SK(X)$ is a homeomorphism of
+  Stone spaces. \end{lemma} 
+
+\begin{proof} It will suffice to show that $\theta _X$ is bijective
+  and continuous.  (Do you remember why?  Hint: Stone spaces are
+  compact Hausdorff.)  To see that $\theta _X$ is injective, suppose
+  that $\phi$ and $\psi$ are distinct elements of $X$.  Since $X$ is a
+  Stone space, there is a clopen set $U$ of $X$ such that $\phi\in U$
+  and $\psi\not\in U$.  But then $\hat{\phi}\neq \hat{\psi}$.  Thus,
+  $\theta _X$ is injective.
+
+To see that $\theta _X$ is surjective, let $h:K(X)\to 2$ be a Boolean
+homomorphism.  Let
+\[ \2C \: = \: \{ C\in K(X) \mid h(C) = 1 \} .\] In particular $X\in
+\2C$; and since $h$ is a homomorphism, $\2C$ has the finite
+intersection property.  Since $X$ is compact, $\bigcap \2C$ is
+nonempty.  Let $\phi$ be a point in $\bigcap\2C$.  Then for any $C\in
+K(X)$, if $h(C)=1$, then $C\in \2C$ and $\phi \in C$, from which it
+follows that $\hat{\phi}(C)=1$.  Similarly, if $h(C)=0$ then
+$X\backslash C\in \2C$, and $\hat{\phi }(C)=0$.  Thus, $\theta _X(\phi
+)=\hat{\phi}=h$, and $\theta _X$ is surjective.
+
+To see that $\theta _X$ is continuous, note that each basic open
+subset of $SK(X)$ is of the form 
+\[ \hat{C} \: = \: \{ h:K(X)\to 2 \mid h(C)=1 \} ,\] for some $C\in
+K(X)$.  Moreover, for any $\phi \in X$, we have $\hat{\phi}\in
+\hat{C}$ iff $\hat{\phi}(C)=1$ iff $\phi\in C$.  Therefore,
+\[ \theta _X^{-1}(\hat{C}) \: = \: \{ \phi\in X \mid \hat{\phi}(C)=1
+\} \: = \: C .\] Therefore, $\theta _X$ is continuous. \end{proof}
+
+\begin{lemma} The family of maps $\{ \theta _X:X\to SK(X) \}$ is
+  natural in $X$. \end{lemma}
+
+\begin{proof} Let $X,Y$ be Stone spaces, and let $f:X\to Y$ be
+  continuous.  Consider the diagram:
+\[ \begin{tikzcd}
+  X \arrow{r}{f} \arrow{d}{\theta _X} & Y \arrow{d}{\theta _Y} \\
+  SK(X) \arrow{r}{SK(f)} & SK(Y)
+\end{tikzcd} \] For arbitrary $\phi\in X$, we have $(\theta _Y\circ
+f)(\phi )=\widehat{f(\phi )}$.  Furthermore,
+\[ SK(f) \: = \: \hom (K(f),2) \: = \: \hom (f^{-1},2) \] In other
+words, for a homomorphism $h:K(X)\to 2$, we have
+\[ SK(f)(h) \: = \: h\circ f^{-1} .\] In particular, $SK(f)(\hat{\phi
+})=\hat{\phi}\circ f^{-1}$.  For any $C\in K(Y)$, we have
+\[ (\hat{\phi}\circ f^{-1})(C) \: = \: \left\{ \begin{array}{l l l}
+    1 & f(\phi ) \in C ,\\
+    0 & f(\phi ) \not\in C. \end{array} \right. \] That is,
+$\hat{\phi}\circ f^{-1}=\widehat{f(\phi )}$.  Therefore, the diagram
+commutes, and $\theta$ is a natural isomorphism.  \end{proof}
+
+This completes the proof that $K$ and $S$ are quasi-inverse, and
+yields the famous theorem:
+
+\begin{box-thm}[Stone Duality Theorem] The categories $\mathbf{Stone}$
+  and $\mathbf{Bool}$ are dual to each other.  In particular, any
+  Boolean algebra $B$ is isomorphic to the field of clopen subsets of
+  its state space $S(B)$.  \end{box-thm}
+
+
+% \begin{prop} Let $B$ be a finite Boolean algebra.  Then $B\cong \2P
+%   S(B)$, where $S(B)$ is the finite set of states of $B$. \end{prop}
+
+% \begin{proof} As a set, $S(B)$ consists of homomorphisms from $B$ to
+%   $2$.  If $B$ is finite, then $S(B)$ is finite, and every subset of
+%   $S(B)$ is clopen.  Therefore, $B\cong KS(B)\cong \2PS(B)$.
+% \end{proof}
+
+% In fact, Stone duality provides a complete classification of finite
+% Boolean algebras.  Each finite set $X$ (with discrete topology) is a
+% Stone space, and $K(X)\cong \2P X$ is a Boolean algebra.  Moreover,
+% the previous proposition shows that if $B$ is a finite Boolean
+% algebra, then $B\cong \2P X$, for some finite set $X$.  Using the
+% duality between $\cat{Stone}$ and $\cat{Bool}$, it follows directly
+% that:
+
+% \begin{thm} The powerset functor $\2P$ is one half of a duality
+%   between the category $\cat{Sets}_f$ of finite sets and the category
+%   $\cat{Bool}_f$ of finite Boolean algebras.  \end{thm}
+
+
+
+
+% \begin{prop} Let $B$ be a Boolean algebra, and $A$ a proper subalgebra
+%   of $B$.  Then there are states $f$ and $g$ of $B$ such that
+%   $f|_A=g|_A$ by $f\neq g$. \label{baby-beth} \end{prop}
+
+% \begin{proof} Let $m:A\to B$ be the inclusion of $A$ in $B$.  Then
+%   $S(m):S(B)\to S(A)$ is an epimorphism.  If $S(m)$ were also
+%   injective, then it would be an isomorphism (Proposition
+%   \ref{stone-balanced}).  In this case, $m$ is also an isomorphism,
+%   contradicting the assumption that $A$ is a proper subalgebra of $B$.
+%   Thus, $S(m)$ is not injective.  That is, there are $f,g\in S(B)$
+%   such that $f\neq g$ but $S(m)(f)=S(m)(g)$.  Finally, note that
+%   $S(m)(f)=f\circ m$ is the restriction of $f$ to $A$, and
+%   similarly for $S(m)(g)$.  Therefore, $f |_A=g |_A$.  \end{proof}
+
+
+
+
+%% this is Beth's theorem
+
+\begin{prop} Let $A\subseteq B$, and $a\in B$.  Then the following are
+  equivalent:
+\begin{enumerate}
+\item For any states $f$ and $g$ of $B$, if $f|_A=g|_A$
+  then $f(a)=g(a)$.
+\item If $h$ is a state of $A$, then any two extensions of $h$ to $B$
+  agree on $a$.
+\item $a\in A$. \end{enumerate} \label{bool-beth} \end{prop}
+
+\begin{proof} Since every state of $A$ can be extended to a state of
+  $B$, (1) and (2) are obviously equivalent.  Furthermore, (3)
+  obviously implies (1).  Thus, we only need to show that (1) implies
+  (3).
+
+  Let $m:A\to B$ be the inclusion of $A$ in $B$, and let $s:S(B)\to
+  S(A)$ be the corresponding surjection of states.  We need to show
+  that $C_a=s^{-1}(U)$ for some clopen subset $U$ of $S(A)$.
+
+  By (1), for any $x\in S(A)$, either $s^{-1}\{ x\}\subseteq C_a$ or
+  $s^{-1}\{ x\}\subseteq C_{\neg a}$.  By Proposition
+  \ref{auto-closed}, $s$ is a closed map.  Since $C_a$ is open,
+  Proposition \ref{closed-map} entails that the sets
+  \[ U = \{ x\in S(B) \mid s^{-1}\{ x\} \subseteq C_a \} ,\quad
+  \text{and} \quad V = \{ x\in S(B) \mid s^{-1}\{ x\} \subseteq
+  C_{\neg a} \} ,\] are open.  Since $U=S(A)\backslash V$, it follows
+  that $U$ is clopen.  Finally, it's clear that $s^{-1}(U)=C_a$.
+\end{proof}
+
+\begin{prop} In $\cat{Bool}$, epimorphisms are surjective. \end{prop}
+
+\begin{proof} Suppose that $f:A\to B$ is not surjective.  Then $f(A)$
+  is a proper subalgebra of $B$.  By Proposition \ref{bool-beth},
+  there are states $g,h$ of $B$ such that $g\neq h$, but
+  $g|_{f(A)}=h|_{f(A)}$.  In other words, $g\circ f=h\circ f$, and $f$
+  is not an epimorphism.
+\end{proof}
+
+
+Combining the previous two theorems, we have the following
+equivalences:
+\[ \cat{Th} \: \cong \: \cat{Bool} \: \cong \: \cat{Stone}^{op} .\] We
+will now exploit these equivalences to explore the structure of the
+category of theories.
+
+% \begin{prop} For each $n=0,1,\dots$, there is a unique propositional
+%   theory with $n$ models. \end{prop}
+
+% \begin{proof} Fix $n\in \7N$.  By Prop.\ \ref{}, there is a unique
+%   Boolean algebra $B$ with Stone space $\{ 1,\dots ,n\}$.  Thus, $T_B$
+%   is a theory with $n$ models.  Conversely, if $T$ is a theory with
+%   $n$ models, then $|\hom (L(T),2)|=n$, from which it follows that
+%   $L(T)\cong B$.  Thus, $T\cong T_{L(T)}\cong T_B$.  \end{proof}
+
+
+% \begin{defn} If $T$ is a propositional theory, we let $M(T)$ denote
+%   the set of all models of $T$. \end{defn}
+
+% \begin{prop} If $T$ is a theory, then $M(T)\cong\hom
+%   (L(T),2)$. \end{prop}
+
+% \begin{proof} A model of $T$ is none other than an interpretation of
+%   $T$ in $2$.  By Prop.\ \ref{lindenbaum}, interpretations of $T$ in
+%   $2$ are in bijective correspondence with homomorphisms of $L(T)$ to
+%   $2$. \end{proof}
+
+% \begin{prop} If $B$ is a Boolean algebra, then $M(T_B)\cong \hom
+%   (B,2)$.  \end{prop}
+
+% \begin{proof} Since $B\cong L(T_B)$, we have $\hom (B,2)\cong \hom
+%   (L(T_B),2)$.  By the previous Proposition, $\hom (L(T_B),2)\cong
+%   M(T_B)$. \end{proof}
+
+% \begin{prop} Let $T_0$ be the unique propositional theory whose
+%   Lindenbaum algebra is the free algebra on countably many generators.
+%   Let $\Sigma$ be a countably infinite signature, and let $T$ be an
+%   arbitrary theory in $\Sigma$.  Then there is a surjective
+%   interpretation $e:T\to T_0$, and there is a conservative
+%   interpretation $m:T\to T_0$.  However, $T_0$ and $T$ are not
+%   necessarily equivalent.  \end{prop}
+
+% This shows, by the way, that metatheory of propositional logic is a
+% first-order theory!  More is true, it's an algebraic theory --- and
+% that tells us some things, e.g.\ Birkhoff's theorem.
+
+\begin{prop} Let $T$ be a propositional theory in a countable
+  signature.  Then there is a conservative translation $f:T\to T_0$,
+  where $T_0$ is an empty theory, i.e.\ a theory with no
+  axioms. \label{charity} \end{prop}
+
+\begin{proof} After proving the above equivalences, we have several
+  ways of seeing why this result is true.  In terms of Boolean
+  algebras, the proposition says that every countable Boolean algebra
+  is embeddable into the free Boolean algebra on a countable number of
+  generators (i.e.\ the Boolean algebra of clopen subsets of the
+  Cantor space).  That well-known result follows from the fact that
+  Boolean algebras are always generated by their finite subalgebras.
+  (In categorical terms, every Boolean algebra is a filtered colimit
+  of finite Boolean algebras.)
+
+  In terms of Stone spaces, the proposition says that for every
+  separable Stone space $Y$, there is a continuous surjection
+  $p:X\to Y$, where $X$ is the Cantor space.  That fact is well-known
+  to topologists.  One interesting proof uses the fact that a Stone
+  space $Y$ is {\it profinite}, i.e.\ $Y$ is a limits of finite
+  Hausdorff (hence discrete) spaces.  One then shows that the Cantor
+  space $X$ has enough surjections onto discrete spaces, and lifts
+  these up to a surjection $p:X\to Y$.  See, for example,
+  \cite{ribes}.  Or, for a more direct argument: each clopen subset
+  $U$ of $Y$ corresponds to a continuous map $p_U:Y\to \{ 0,1\}$.
+  There are countably many such clopen subsets of $Y$.  Since
+  $X\simeq \prod_{i\in\7N}\{ 0,1\}$, these $p_U$ induce a continuous
+  function $p:X\to Y$.  Moreover, since every point $y\in Y$ has a
+  neighborhood basis of clopen sets, $p$ is surjective.
+\end{proof}
+
+\begin{disc}[Quine on eliminating posulates] \label{qgood} It's no
+  surprise that one can be charitable to a fault.  Suppose that I am a
+  theist, and you are an extremely charitable atheist.  You are so
+  charitable that you want to affirm the things I say.  Here's how you
+  can do it: when I say ``God'', assume that I really mean
+  ``kittens.''  Then when I say ``God exists,'' you can interpret me
+  to be saying ``kittens exist.''  Then you can smile and say: ``I
+  completely agree!''
+
+  Proposition \ref{charity} provides a general recipe for charitable
+  interpretation.  Imagine that I accept a theory $T$, which might be
+  controversial.  Imagine that you, on the other hand, like to play it
+  safe: you only accept tautologies, viz.\ empty theory $T_0$.  The
+  previous proposition shows that there is a conservative translation
+  $f:T\to T_0$.  In other words, you can reinterpret my sentences in
+  such a way that everything I say comes out as true by your lights,
+  i.e.\ true by logic alone.
+
+  Since we're dealing merely with propositional logic, this result
+  might not seem very provocative.  However, a directly analogous
+  result --- proven by \cite{quine-goodman,quine-implicit} --- was
+  thought to refute the analytic-synthetic distinction that was
+  central to the logical positivist program.  Quine's argument runs as
+  follows: suppose that $T$ is intended to represent a contingently
+  true theory, such as (presumably) quantum mechanics or evolutionary
+  biology.  By making a series of clever definitions, the sentences of
+  $T$ can be reconstrued as tautologies.  That is, any contingently
+  true theory $T$ can be reconstrued so that all of its claims come
+  out as true by definition.
+
+  What we see here is an early instance of a strategy that Quine was
+  to use again and again throughout his philosophical career.  There
+  is a supposedly important distinction in a theory $T$.  Quine shows
+  that this distinction doesn't survive translation of $T$ into some
+  other theory $T_0$.  This result, Quine claims, shows that the
+  distinction must be rejected.
+
+  Whether or not Quine's strategy is generally good, we should be a
+  bit suspicious in the present case.  The translation $f:T\to T_0$ is
+  not an {\it equivalence} of theories, i.e.\ it does not show that
+  $T$ is equivalent to $T_0$.  Since $f$ is conservative, it does show
+  a sense in which $T$ is {\it embeddable in} or {\it reducible to}
+  $T_0$.  But we are left wondering: why should the existence of a
+  formal relation $f:T\to T_0$ undercut the importance of the
+  distinctions that are made within $T$?
+\end{disc}
+
+If Proposition \ref{charity} was surprising, then the following result
+is even more surprising:
+
+\begin{prop} Let $T$ be a consistent propositional theory in a
+  countably infinite signature.  If $T$ has a finite number of axioms,
+  then $T$ is equivalent to the empty theory $T_0$. \end{prop}
+
+%% TO DO: finish this
+
+\begin{proof}[Sketch of proof] Suppose that $T$ has a finite number of
+  axioms.  Without loss of generality, we assume that $T$ has a single
+  axiom $\phi$.  Let $X$ be the Cantor space, i.e.\ the Stone space of
+  the empty theory $T_0$.  Let $U_\phi\subseteq X$ be the clopen
+  subset of all models in which $\phi$ is true.  Then $U_\phi$ is
+  homeomorphic to the Stone space of $T$.  Assume for the moment any
+  nonempty clopen subset of the Cantor space is homeomorphic to the
+  Cantor space.  In that case, $U_\phi$ is homeomorphic to the Cantor
+  space $X$; and by Stone duality, $T$ is equivalent to $T_0$.
+
+  We now argue that nonempty clopen subset of the Cantor space is
+  homeomorphic to the Cantor space.  (This result admits of several
+  proofs, some more topologically illuminating than the one we give
+  here.)  We begin by arguing that if $\phi$ is a conjunction of
+  literals (atomic or negated atomic sentences), then $U_\phi$ is
+  homeomorphic to the Cantor space.  Indeed, there is a direct proof
+  that the theory $\{ \phi \}$ is equivalent to the empty theory;
+  hence by Stone duality, $U_\phi$ is homeomorphic to $X$.  Now, an
+  arbitrary clopen subset $U$ of $X$ has the form $U_\phi$ for some
+  sentence $\phi$.  We may rewrite $\phi$ in disjunctive normal form,
+  i.e.\ as a finite disjunction of conjunctions of literals.  Thus,
+  $U_\phi$ is a disjoint union of
+  $U_{\phi _1},U_{\phi _2},\dots ,U_{\phi _n}$.  By the previous
+  argument, each $U_{\phi _i}$ is homeomorphic to $X$, and a disjoint
+  union of copies of $X$ is also homeomorphic to $X$.
+\end{proof}
+
+The previous proposition might suggest that the notion of equivalence
+we have adopted (Definition \ref{df:hom}) is too {\it liberal}, i.e.\
+that it counts too many theories as equivalent.  If you think that's
+the case, we enjoin you to propose another criterion, and to explore
+its consequences.
+
+\begin{disc} The Stone duality theorem has proven to be extremely
+  fruitful in pure mathematics; and it also seems to offer some
+  interesting new vistas for understanding the structure of scientific
+  theories.  In particular, the Stone duality theorem suggests that to
+  accept a theory involves, or can involve, certain commitments to
+  claims about nearness relations between models/worlds/states.
+
+  One theory $T$ leads to a particular topological structure on the
+  space of possibilities, and another theory $T'$ leads to a different
+  topological structure on the space of possibilities.  This might
+  seem like a novelty to some philosophers, but scientists have always
+  known it.  For example, when one accepts the general theory of
+  relativity (GTR), one doesn't simply believe that our universe is
+  isomorphic to one of its models.  Rather, one believes that the
+  situtation we find ourselves in is one among many other situations
+  that obey the laws of this theory.  Moreover, some such situations
+  are more similar than others.  See \cite{fletcher} for an extended
+  discussion of this example.
+\end{disc}
+
+
+\section{Notes}
+
+We have given only the most cursory introduction to the rich
+mathematical fields of Boolean algebras, topology, and the
+interactions between them.  There is much more to be learned, and many
+good books on these topics.  We mention some of our favorites below.
+
+\begin{itemize}
+\item For more on Boolean algebras, see
+  \cite{sikorski-boo,dwinger,koppelberg,halmos,monk},
+\item There are many good books on topology.  We learned originally
+  from \cite{munkres}, and our favorites include \cite{engelking} and
+  \cite{willard}.  The latter is notable for its presentation of the
+  ultrafilter approach to convergence.
+\item Stone spaces, being a particular kind of topological space, are
+  sometimes mentioned in books about topology.  But for a more
+  systematic treatment of Stone spaces, you'll need to consult other
+  resources.  For a fully general and categorical treatment of Stone
+  duality, see \cite{john-stone}.  For briefer and more pedestriaan
+  treatments, see \cite{bell-machover,halmos1998,cori}.  For a proof
+  that Stone spaces are profinite, see \cite{ribes}.
+\end{itemize}
+
+%% Proper maps are treated in
+%%  Bourbaki, \textit{General Topology}, and in Escard{\'o},
+%%  ``Intersections of compactly many open sets are open.''  
+
+
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

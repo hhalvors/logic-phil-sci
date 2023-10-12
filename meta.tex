@@ -1,0 +1,562 @@
+\chapter{Invitation to Metatheory}
+
+This chapter is meant to serve as a preview, and for motivation to
+work through the chapters to come.  In the next chapter, we'll move
+quickly into ``categorical set theory'' --- which isn't all that
+difficult, but which is not yet well known among philosophers.  For
+the past fifty years or so, it has almost been mandatory for analytic
+philosophers to know a little bit of set theory.  However, it has most
+certainly not been mandatory for philosophers to know a little bit of
+category theory.  Indeed, most analytic philosophers are familiar with
+the words ``subset'' and ``powerset'', but not the word ``natural
+transformation'' or ``equivalence of categories''.  To what end these
+new concepts?
+
+The short answer is that is that category theory (unlike set theory)
+was designed to explicate {\it relations} between mathematical
+structures.  Since philosophers want to think about relations between
+theories (e.g.\ equivalence, reducibility) and since theories can be
+modeled as mathematical objects, philosophers' aims will be
+facilitated by gaining some fluency in the language of category
+theory.  At least that's one of the main premises of this book.  So,
+in this chapter, we'll review some of the basics of the metatheory of
+propositional logic.  We will approach the issues from a slightly
+different angle than usual, placing less emphasis on what a theory
+says, and more emphasis on relations between theories.
+
+To repeat, the aim of \emph{metatheory} is to theorize about theories.
+For simplicity, let's use $M$ to denote this hypothetical theory about
+theories.  Thus, $M$ is not the {\it object} of our study, it is the
+{\it tool} we will use to study other other theories and the relations
+between them.  In this chapter, I will begin using this tool $M$ to
+talk about theories --- without explicitly telling you anything about
+$M$ itself.  In the next chapter, I'll give you the user's manual for
+$M$.
+
+\section{Logical grammar}
+
+\begin{defn} A \emph{propositional signature} $\Sigma$ is a collection
+  of items, which we call \emph{propositional constants}.  Sometimes
+  these propositional constants are also called \emph{elementary
+    sentences}, or even \emph{atomic sentences}.  However, we will be
+  using the word ``atomic'' for a different concept.
+
+  These propositional constants are assumed to have no independent
+  meaning.  Nonetheless, we assume a primitive notion of identity
+  between propositional constants; the fact that two propositional
+  constants are equal or non-equal is not explained by any more
+  fundamental fact.  This assumption is tantamount to saying that
+  $\Sigma$ is a \emph{bare set} (and it stands in gross violation of
+  Leibniz's principle of the identity of indiscernibles).  \end{defn}
+
+\begin{ass} The \emph{logical vocabulary} consists of the symbols
+  $\neg ,\wedge ,\vee ,\to$.  We also use two further symbols for
+  punctuation: a left and a right parenthesis.
+\end{ass}
+
+\newcommand{\sigsn}{\mathsf{Sent}(\Sigma )}
+
+\begin{defn} Given a propositional signature $\Sigma$, we define the
+  set $\sigsn$ of $\Sigma$-sentences as follows:
+\begin{enumerate}
+\item If $\phi\in\Sigma$ then $\phi\in\sigsn$.
+\item If $\phi\in\sigsn$ then $(\neg\phi )\in\sigsn$.
+\item If $\phi\in\sigsn$ and $\psi\in\sigsn$, then $(\phi\wedge\psi )
+  \in\sigsn$, $(\phi\vee\psi )\in\sigsn$, and $(\phi\to\psi
+  )\in\sigsn$.
+\item Nothing is in $\sigsn$ unless it enters via one of the previous
+  clauses.
+\end{enumerate}
+The symbol $\phi$ here is a variable that ranges over finite strings
+of symbols drawn from the alphabet that includes $\Sigma$, the
+connectives $\neg ,\wedge ,\vee, \to$, and (when necessary) left and
+right parentheses ``$($'' and ``$)$''.  We will subsequently play it
+fast and loose with parentheses, omitting them when no confusion can
+result.  In particular, we take a negation symbol $\neg$ always to
+have binding precedence over the binary connectives.
+
+Note that each sentence is, by definition, a finite string of symbols,
+and hence contains finitely many propositional constants.
+\end{defn}
+
+Since the set $\sigsn$ is defined inductively, we can prove things
+about it using ``proof by induction.''  A proof by induction proceeds
+as follows: \begin{enumerate}
+\item Show that the property of interest, say $P$, holds of the
+  elements of $\Sigma$.
+\item Show that if $P$ holds of $\phi$, then $P$ holds of $\neg \phi$.
+\item Show that if $P$ holds of $\phi$ and $\psi$, then $P$ holds of
+  $\phi\wedge \psi$, $\phi\vee \psi$, and $\phi\to
+  \psi$. \end{enumerate} When these three steps are complete, one may
+conclude that all things in $\sigsn$ have property $P$.
+
+
+%% TO DO: parse trees
+
+\begin{defn} A \emph{context} is essentially a finite collection of
+  sentences.  However, we write contexts as sequences, for example
+  $\phi _1,\dots ,\phi _n$ is a context.  But $\phi _1,\phi _2$ is the
+  same context as $\phi _2,\phi _1$, and is the same context as $\phi
+  _1,\phi _1,\phi _2$.  If $\Delta$ and $\Gamma$ are contexts, then we
+  let $\Delta ,\Gamma$ denote the union of the two contexts.  We also
+  allow an empty context.  \end{defn}
+
+\section{Proof theory} \label{sec:pt}
+
+We now define the relation $\Delta\vdash \phi$ of derivability that
+holds between contexts and sentences.  This relation is defined
+\emph{recursively} (aka, \emph{inductively}), with base case
+$\phi\vdash\phi$ (Rule of Assumptions).  Here we use a horizontal line
+to indicate that if $\vdash$ holds between the things above the line,
+then $\vdash$ also holds for the things below the line.
+
+\begin{tabular}{l  l  l}
+\textbf{Rule of Assumptions} & \begin{tabular}{c}
+\mbox{ } \\
+\hline 
+$\phi \RA \phi$ \end{tabular}  \\  \\
+{\bf $\wedge$ elimination} & \begin{tabular}{l}
+$\Gamma \vdash \phi \wedge \psi$ \\
+\hline 
+$\Gamma \vdash \phi$ \end{tabular} & \begin{tabular}{l}
+$\Gamma \vdash \phi \wedge \psi$ \\
+\hline 
+$\Gamma \vdash \psi$ \end{tabular}  \\ \\
+{\bf $\wedge$ introduction} & \begin{tabular}{l}
+$\Gamma \vdash \phi \qquad \Delta \vdash \psi$ \\
+\hline 
+$\Gamma ,\Delta  \vdash \phi \wedge \psi$ \end{tabular} \\ \\ 
+{\bf $\vee$ introduction} & \begin{tabular}{l}
+$\Gamma \vdash \phi$ \\
+\hline 
+$\Gamma \vdash \phi \vee \psi$ \end{tabular} & 
+\begin{tabular}{l}
+  $\Gamma \vdash \psi$ \\
+  \hline 
+  $\Gamma \vdash \phi \vee \psi$ \end{tabular} \\ \\
+{\bf $\vee$ elimination} & \multicolumn{2}{l}{ \begin{tabular}{l}
+    $\Gamma \RA \phi\vee\psi \qquad \Delta ,\phi \RA \chi \qquad \Theta ,\psi
+    \RA \chi$   \\
+    \hline $\Gamma ,\Delta ,\Theta \RA \chi$ \end{tabular} } \\ \\ 
+{\bf $\to$ elimination} & \begin{tabular}{l}
+  $\Gamma \RA \phi\to \psi \qquad \Delta \RA \phi$ \\
+  \hline $\Gamma ,\Delta \RA \psi$ \end{tabular} \\ \\ 
+{\bf $\to$ introduction} & \begin{tabular}{l}
+  $\Gamma ,\phi \RA \psi$ \\
+  \hline $\Gamma \RA \phi \to \psi$ \end{tabular} \\ \\ 
+{\bf RA} & \begin{tabular}{l}
+  $\Gamma ,\phi \RA \psi\wedge\neg\psi$ \\
+  \hline $\Gamma \RA \neg\phi$ \end{tabular} \\ \\ 
+{\bf DN} & \begin{tabular}{l}
+  $\Gamma\RA\neg\neg\phi$ \\
+  \hline $\Gamma\RA\phi$ \end{tabular} 
+% \\ \\ 
+% $\forall$ elimination & \begin{tabular}{c}
+%   $\Gamma \RA \forall x\phi (x)$ \\
+% \hline  $\Gamma \RA \phi (a)$ \end{tabular} \\ \\ 
+% $\forall$ introduction & \begin{tabular}{ccc}
+%   $\Gamma \RA \phi (a)$ & & \multirow{3}{*}{$a$ does not occur in
+%     $\Gamma$ or $\phi (x)$} \\\cline{1-1}
+% $\Gamma \RA \forall x\phi (x)$ \end{tabular} \\ \\ 
+% $\exists$ introduction & \begin{tabular}{c}
+% $\Gamma \RA \phi (a)$ \\
+% \hline $\Gamma \RA \exists x\phi (x)$ \end{tabular} \\ \\ 
+% $\exists$ elimination & 
+% \begin{tabular}{ccc}
+%   $\Gamma \RA \exists x\phi (x) ,\quad \Delta ,\phi (a)\RA \psi$ & & \multirow{3}{*}{$a$ does not occur in
+%     $\Gamma$, $\Delta$, $\phi (x)$ or $\psi$} \\\cline{1-1}
+% $\Gamma ,\Delta \RA \psi$ \end{tabular} \\ \\ 
+% $=$ elimination & 
+% \begin{tabular}{c}
+% $\Gamma \RA \phi (a),\quad \Delta \RA a=b$ \\
+% \hline $\Gamma ,\Delta \RA \phi (b)$ \end{tabular} \\ \\ 
+% $=$ introduction & 
+% \begin{tabular}{c}
+% \mbox{ } \\
+% \hline $\RA a=a$ \end{tabular} 
+\end{tabular}
+
+\bigskip The definition of the turnstyle $\vdash$ is then completed by
+saying that $\vdash$ is the smallest relation (between sets of
+sentences and sentences) such that
+\begin{enumerate}
+\item $\vdash$ is closed under the clauses above, and
+\item If $\Delta \vdash \phi$ and $\Delta \subseteq \Delta '$ then
+  $\Delta '\vdash \phi$.
+\end{enumerate}
+The second property here is called \emph{monotonicity}.
+
+There are a variety of ways that one can explicitly generate pairs
+$\Delta ,\phi$ such that $\Delta\vdash\phi$.  A method for doing such
+is typically called a \emph{proof system}.  We will not explicitly
+introduce any proof system here, but we will adopt the following
+definitions.
+
+\begin{defn} A pair $\Delta ,\phi$ is called a \emph{sequent} or
+  \emph{proof} just in case $\Delta \vdash \phi$.  A sentence $\phi$
+  is said to be \emph{provable} just in case $\vdash\phi$.  Here
+  $\vdash\phi$ is shorthand for $\emptyset \vdash \phi$.  We use
+  $\top$ as shorthand for a sentence that is provable, for example,
+  $p\to p$.  We could then add as an inference rule ``$\top$
+  introduction'' that allowed us to write $\Delta\vdash \top$.  It can
+  be proven that the resulting definition of $\vdash$ would be the
+  same as the original definition.  We also sometimes use the symbol
+  $\bot$ as shorthand for $\neg\top$.  It might then be convenient to
+  restate RA as a rule that allows us to infer $\Delta\vdash\neg\phi$
+  from $\Delta,\phi\vdash\bot$.  Again, the resulting definition of
+  $\vdash$ would be the same as the original. \end{defn}
+
+\begin{disc} The rules we have given for $\vdash$ are sometimes called
+  the \emph{classical propositional calculus} or just the
+  \emph{propositional calculus}.  Calling it a ``calculus'' is meant
+  to indicate that the rules are purely formal, and don't require any
+  understanding of the meaning of the symbols.  If one deleted the DN
+  rule, and replaced it with Ex Falso Quodlibet, the resulting system
+  would be the \emph{intuitionistic propositional calculus}.  However,
+  we will not pursue that direction at present. \end{disc}
+
+
+\section{Semantics}
+
+\begin{defn} An \emph{interpretation} (sometimes called a
+  \emph{valuation}) of $\Sigma$ is a function from $\Sigma$ to the set
+  $\{ \mathrm{true},\mathrm{false} \}$, i.e.\ an assignment of
+  truth-values to propositional constants.  We will usually use $1$ as
+  shorthand for ``true'', and $0$ as shorthand for ``false''.
+
+  Clearly, an interpretation $v$ of $\Sigma$ extends naturally to a
+  function $v:\sigsn\to \{ 0,1\}$ by the following clauses:
+  \begin{enumerate}
+\item $v(\neg \phi )=1$ if and only if $v(\phi )=0$. 
+\item $v(\phi\wedge\psi )=1$ if and only if $v(\phi )=1$ and $v(\psi )=1$.
+\item $v(\phi\vee\psi )=1$ if and only if either $v(\phi )=1$ or
+  $v(\psi )=1$.
+\item $v(\phi\to\psi )=v(\neg\phi\vee
+  \psi)$. \end{enumerate} \end{defn}
+
+\begin{disc} The word ``interpretation'' is highly suggestive, but it
+  might lead to confusion.  It is sometimes suggested that elements of
+  $\sigsn$ are part of an uninterpreted calculus without intrinsic
+  meaning, and that an intepretation $v:\Sigma\to \{ 0,1\}$ endows
+  these symbols with meaning.  However, to be clear, $\sigsn$ and
+  $\{ 0,1\}$ are both mathematical objects; neither one of them is
+  more linguistic than the other, and neither one of them is more
+  ``concrete'' than the other.
+
+  This point becomes even more subtle in predicate logic, where we
+  might be tempted to think that we can interpret the quantifiers so
+  that they range over all actually existing things.  To the contrary,
+  the domain of a predicate logic interpretation must be a {\it set},
+  and a set is something whose existence can be demonstrated by ZF set
+  theory.  Since the existence of the World is not a consequence of ZF
+  set theory, it follows that the World is not a set.  (Put slightly
+  differently: a set is an abstract object, and the World is a
+  concrete object.  Therefore, the World is not a set.)  \end{disc}
+
+%% valuations = possible worlds
+
+\begin{defn} A \emph{propositional theory} $T$ consists of a signature
+  $\Sigma$, and a set $\Delta$ of sentences in $\Sigma$.  Sometimes we
+  will simply write $T$ in place of $\Delta$, although it must be
+  understood that the identity of a theory also depends on its
+  signature.  For example, the theory consisting of a single sentence
+  $p$ is different depending on whether it's formulated in the
+  signature $\Sigma = \{ p\}$, or in the signature
+  $\Sigma '=\{ p,q\}$. \end{defn}
+
+
+\begin{defn}[Tarski truth] Given an interpretation $v$ of $\Sigma$,
+  and a sentence $\phi$ of $\Sigma$, we say that $\phi$ is \emph{true}
+  in $v$ just in case $v(\phi )=1$.   \end{defn}
+
+\begin{defn} For a set $\Delta$ of $\Sigma$ sentences, we say that $v$
+  is a \emph{model} of $\Delta$ just in case $v(\phi )=1$, for all
+  $\phi$ in $\Delta$.  We say that $\Delta$ is \emph{consistent} if
+  $\Delta$ has at least one model, and that $\Delta$ is
+  \emph{inconsistent} if it has no models.  
+
+  Any time we define a concept for sets of sentences (e.g.\
+  consistency), we can also extend that concept to theories, as long
+  as it's understood that a theory is technically a pair consisting of
+  a signature and a set of sentences in that signature.  \end{defn}
+
+\begin{disc} The use of the word ``model'' here has its origin in
+  consistency proofs for non-euclidean geometries.  In that case, one
+  showed that certain non-euclidean geometries could be translated
+  into models of Euclidean geometry.  Thus, it was argued, if
+  Euclidean geometry is consistent, then non-euclidean geometry is
+  consistent.  This kind of maneuver is what we now call a \emph{proof
+    of relative consistency}.
+
+  In our case, it may not be immediately clear what sits on the
+  ``other side'' of an interpretation, because it's certainly not
+  Euclidean geometry.  What kind of mathematical thing are we
+  interpreting our logical symbols into?  The answer here --- as will
+  become apparent in Chapter \ref{cat-prop} --- is either a Boolean
+  algebra, or a fragment of the universe of sets.  \end{disc}
+
+\begin{defn} Let $\Delta$ be a set of $\Sigma$ sentences, and let
+  $\phi$ be a $\Sigma$ sentence.  We say that $\Delta$
+  \emph{semantically implies} $\phi$, written $\Delta\vDash \phi$,
+  just in case $\phi$ is true in all models of $\Delta$.  That is, if
+  $v$ is a model of $\Delta$, then $v(\phi )=1$. \end{defn}
+
+\begin{exercise} Show that if $\Delta,\phi\vDash \psi$, then
+  $\Delta\vDash\phi\to\psi$. \end{exercise}
+
+\begin{exercise} Show that $\Delta\vDash\phi$ if and only if
+  $\Delta\cup \{ \neg \phi \}$ is inconsistent.  Here $\Delta\cup \{
+  \neg \phi \}$ is the theory consisting of $\neg\phi$ and all
+  sentences in $\Delta$. \end{exercise}
+
+We now state three main theorems of the metatheory of propositional
+logic.
+
+\begin{thm}[Soundness] If $\Delta\vdash\phi$ then
+  $\Delta\vDash\phi$. \end{thm}
+
+The soundness theorem can be proven by an argument directly analogous
+to the substitution theorem below.  We leave the details to the
+reader.
+
+\begin{thm}[Completeness] If $\Delta\vDash\phi$ then
+  $\Delta\vdash\phi$.  \end{thm}
+
+The completeness theorem can be proven in various ways.  In this book,
+we will give a topological proof via the Stone duality theorem (see
+Chapter \ref{cat-prop}).
+
+\begin{thm}[Compactness] Let $\Delta$ be a set of sentences.  If every
+  finite subset $\Delta _F$ of $\Delta$ is consistent, then $\Delta$
+  is consistent.  \end{thm}
+
+The compactness theorem can be proven in various ways.  One way of
+proving it --- although not the most illuminating --- is as a
+corollary of the completeness theorem.  Indeed, it's not hard to show
+that if $\Delta\vdash\phi$, then $\Delta _F\vdash\phi$ for some finite
+subset $\Delta _F$ of $\Delta$.  Thus, if $\Delta$ is inconsistent,
+then $\Delta\vdash\bot$, hence $\Delta _F\vdash\bot$ for a finite
+subset $\Delta _F$ of $\Delta$.  But then $\Delta _F$ is inconsistent.
+
+\begin{defn} A theory $T$, consisting of axioms $\Delta$ in signature
+  $\Sigma$, is said to be \emph{complete} just in case $\Delta$ is
+  consistent, and for every sentence $\phi$ of $\Sigma$, either
+  $\Delta\vDash \phi$ or $\Delta\vDash \neg \phi$. \end{defn}
+
+Be careful to distinguish between the completeness of our proof system
+(which is independent of any theory), and completeness of some
+particular theory $T$.  Famously, Kurt G{\"o}del proved that the
+theory of Peano arithmetic is incomplete, i.e.\ there is a sentence
+$\phi$ of the language of arithmetic such that neither $T\vdash\phi$
+nor $T\vdash\neg\phi$.  However, there are much simpler examples of
+incomplete theories.  For example, if $\Sigma = \{ p,q\}$, then the
+theory with axiom $\vdash p$ is incomplete in $\Sigma$.  
+
+\begin{defn} Let $T$ be a theory in $\Sigma$.  The \emph{deductive
+    closure} of $T$, written $\cn{T}$, is the set of $\Sigma$
+  sentences that are implied by $T$.  If $T=\cn{T}$, then we say that
+  $T$ is \emph{deductively closed}. \end{defn}
+
+\begin{example} Let $\Sigma = \{ p\}$, and let $T = \{ p\}$.  Let
+  $\Sigma '= \{ p,q\}$, and let $T' = \{ p\}$.  Here we must think of
+  $T$ and $T'$ as different theories, even though they consist of the
+  same sentences, i.e.\ $T=T'$.  One reason to think of these as
+  different theories: $T$ is complete, but $T'$ is incomplete.
+  Another reason to think of $T$ and $T'$ as distinct is that they
+  have different deductive closures.  For example, $q\vee \neg q$ is
+  in the deductive closure of $T'$, but not of $T$.
+
+  The point here turns out to be philosophically more important than
+  you might think.  Quine argued (correctly, we think) that choosing a
+  theory is not just choosing axioms, but axioms in a particular
+  language.  Thus, you can't tell what theory a person accepts merely
+  by examining the sentences that they believe to be
+  true.  \end{example}
+
+\begin{exercise} Show that the theory $T'$ from the previous example
+  is not complete.  \end{exercise}
+
+\begin{exercise} Show that $\cn{\cn{T}}=\cn{T}$. \end{exercise}
+
+\begin{exercise} Consider the signature $\Sigma = \{ p\}$.  How many
+  complete theories are there in this signature?  (We haven't been
+  completely clear on the identity conditions of theories, and hence
+  on how to count theories.  For this exercise, assume that theories
+  are deductively closed, and two theories are equal just in case they
+  contain exactly the same sentences.) \end{exercise}
+
+
+
+\section{Translating between theories}
+
+Philosophers constantly make claims about relations between theories
+--- that they are equivalent, or inequivalent, or one is reducible to
+the other, or one is stronger than another.  What do all these claims
+mean?  Now that we have a formal notion of a theory, we can consider
+how we might want to represent relations between theories.  In fact,
+many of the relations that interest philosophers can be cashed out in
+terms of the notion of a {\it translation}.
+
+There are many different kinds of translations between theories.
+Let's begin with the most trivial kind of translation --- a change of
+notation.  Imagine that at Princeton, a scientist is studying a theory
+$T$.  Now, a scientist at Harvard manages to steal a copy of the
+Princeton scientist's file, in which she has been recording all the
+consequences of $T$.  However, in order to avoid a charge of
+plagiarism, the Harvard scientist runs a ``find and replace'' on the
+file, replacing each occurence of the propositional constant $p$ with
+the propositional constant $h$.  Otherwise, the Harvard scientist's
+file is identical to the Princeton scientist's file.
+
+What do you think: is the Harvard scientist's theory the same or
+different from the Princeton scientist's theory?
+
+Most of us would say that the Princeton and Harvard scientists have
+the same theory.  But it depends on what we mean by ``same''.  These
+two theories aren't the same in the strictest sense, since one of the
+theories contains the letter ``$p$'', and the other doesn't.
+Nonetheless, in this case, we're likely to say that the theories are
+the same in the sense that they differ only in ways that are
+incidental to how they will be used.  To borrow a phrase from Quine,
+we say that these two theories are \emph{notational variants} of each
+other, and we assume that notational variants are equivalent.
+
+Let's now try to make precise this notion of ``notational variants,''
+or more generally, of \emph{equivalent theories}.  To do so, we will
+begin with the more general notion of a translation from one theory
+into another.
+
+\begin{defn} Let $\Sigma$ and $\Sigma '$ be propositional signatures.
+  A \emph{reconstrual} from $\Sigma$ to $\Sigma '$ is a function from
+  the set $\Sigma$ to the set $\mathsf{Sent}(\Sigma
+  ')$.  \end{defn} \noindent A reconstrual $f$ extends naturally to a
+function
+$\overline{f}:\mathsf{Sent}(\Sigma )\to \mathsf{Sent}(\Sigma ')$, as
+follows:
+\begin{enumerate}
+\item For $p$ in $\Sigma$, $\overline{f}(p)=f(p)$. 
+\item For any sentence $\phi$, $\overline{f}(\neg \phi )=\neg
+  \overline{f}(\phi )$.
+\item For any sentences $\phi$ and $\psi$, $\overline{f}(\phi\circ\psi
+  )=\overline{f}(\phi )\circ \overline{f}(\psi )$, where $\circ$
+  stands for an arbitrary binary connective.  \end{enumerate} When no
+confusion can result, we use $f$ for $\overline{f}$.
+
+\begin{subthm} For any reconstrual $f:\Sigma\to\Sigma '$, if
+  $\phi\vdash\psi$ then $f(\phi )\vdash f(\psi )$. \end{subthm}
+
+\begin{proof} Since the family of sequents is constructed inductively,
+  we will prove this result by induction.
+
+  \bigskip\noindent (rule of assumptions) We have $\phi\vdash \phi$ by
+  the rule of assumptions, and we also have $f(\phi )\vdash f(\phi )$.
+
+  \bigskip\noindent ($\wedge$ intro) Suppose that $\phi _1,\phi
+  _2\vdash \psi _1\wedge \psi _2$ is derived from $\phi _1\vdash \psi
+  _1$ and $\phi _2\vdash \psi _2$ by $\wedge$ intro, and assume that
+  the result holds for the latter two sequents.  That is, $f(\phi
+  _1)\vdash f(\psi _1)$ and $f(\phi _2)\vdash f(\psi _2)$.  But then
+  $f(\phi _1),f(\phi _2)\vdash f(\psi _1)\wedge f(\psi _2)$ by
+  $\wedge$ introduction.  And since $f(\psi _1)\wedge f(\psi
+  _2)=f(\psi _1\wedge \psi _2)$, it follows that $f(\phi _1),f(\phi
+  _2)\vdash f(\psi _1\wedge \psi _2)$.
+
+  \bigskip\noindent ($\to$ intro) Suppose that $\theta \vdash \phi\to
+  \psi$ is derived by conditional proof from $\theta ,\phi \vdash
+  \psi$.  Now assume that the result holds for the latter sequent,
+  i.e. $f(\theta ),f(\phi )\vdash f(\psi )$.  Then conditional proof
+  yields $f(\theta )\vdash f(\phi )\to f(\psi )$.  And since $f(\phi
+  )\to f(\psi )=f(\phi\to \psi )$, it follows that $f(\theta )\vdash
+  f(\phi \to \psi )$.
+
+  \bigskip\noindent (reductio) Suppose that $\phi\vdash\neg\psi$ is
+  derived by RAA from $\phi ,\psi \vdash \bot$, and assume that the
+  result holds for the latter sequent, i.e. $f(\phi ),f(\psi )\vdash
+  f(\bot)$.  By the properties of $f$, $f(\bot )\vdash \bot$.  Thus,
+  $f(\phi ),f(\psi )\vdash \bot$, and by RAA, $f(\phi )\vdash \neg
+  f(\psi )$.  But $\neg f(\psi )=f(\neg \psi )$, and therefore $f(\phi
+  )\vdash f(\neg \psi )$, which is what we wanted to prove.
+
+  \bigskip\noindent ($\vee$ elim) We leave this step, and the others,
+  as an exercise for the reader.
+\end{proof}
+
+\begin{defn} Let $T$ be a theory in $\Sigma$, let $T'$ be a theory in
+  $\Sigma '$, and let $f:\Sigma\to\Sigma '$ be a reconstrual.  We say
+  that $f$ is a \textbf{translation} or \emph{interpretation} of $T$
+  into $T'$, written $f:T\to T'$, just in case:
+  \[ T\vdash \phi \quad \Longrightarrow \quad T'\vdash f(\phi )
+    .\] \end{defn}
+
+Note that we have used the word ``interpretation'' here for a mapping
+from one theory to another, whereas we previously used that word for a
+mapping from a theory to a different sort of thing, viz.\ a set of
+truth values.  However, there is no genuine difference between the two
+notions.  We will soon see that an interpretation in the latter sense
+is just a special case of an interpretation in the former sense.  We
+believe that it is a mistake to think that there is some other
+(mathematically precise) notion of interpretation, where the targets
+are concrete (theory-independent) things.
+
+\begin{disc} Have we been too liberal by allowing translations to map
+  elementary sentences, such as $p$, to complex sentences, such as
+  $q\wedge r$?  Could a ``good'' translation render a sentence that
+  has no internal complexity as a sentence that does have internal
+  complexity?  Think about it.  \end{disc}
+
+We will momentarily propose a definition for an equivalence of
+theories.  However, as motivation for our definition, consider the
+sorts of things that can happen in translating between natural
+languages.  If I look up the word ``car'' in my English-German
+dictionary, then I find the word ``Auto''.  But if I look up the word
+``Auto'' in my German-English dictionary, then I find the word
+``automobile.''  This is as it should be --- the English words ``car''
+and ``automobile'' are synonymous, and are equally good translations
+of ``Auto''.  A good round-trip translation need not end where it
+started, but it needs to end at something that has the {\it same
+  meaning} as where it started.
+
+But how are we to represent this notion of ``having the same
+meaning''?  The convicted Quinean might want to cover his eyes now, as
+we propose that a theory defines its own internal notion of sameness
+of meaning.  (Recall what we said in the preface: that first-order
+metatheory is chalk full of intensional concepts.)  In particular,
+$\phi$ and $\psi$ have the same meaning relative to $T$ just in case
+$T\vdash \phi\lra\psi$.  With this notion in mind, we can also say
+that two translations $f:T\to T'$ and $g:T\to T'$ are synonymous just
+in case they agree up to synonymy in the target theory $T'$.
+
+\begin{defn}[equality of translations] Let $T$ and $T'$ be theories,
+  and let both $f$ and $g$ be translations from $T$ to $T'$.  We write
+  $f\simeq g$ just in case $T'\vdash f(p)\leftrightarrow g(p)$ for
+  each atomic sentence $p$ in $\Sigma$.  \end{defn}
+
+With this loose notion of identity of translations, we are ready to
+propose a notion of an equivalence between theories.
+
+\begin{defn} For each theory $T$, the identity translation
+  $1_T:T\to T$ is given by the identity reconstrual on $\Sigma$.  If
+  $f:T\to T'$ and $g:T'\to T$ are translations, we let $gf$ denote the
+  translation from $T$ to $T$ given by $(gf)(p)=g(f(p))$, for each
+  atomic sentence $p$ of $\Sigma$.  Theories $T$ and $T'$ are said to
+  be \emph{homotopy equivalent}, or simply \emph{equivalent}, just in
+  case there are translations $f:T\to T'$ and $g:T'\to T$ such that
+  $gf\simeq 1_T$ and $fg\simeq 1_{T'}$. \label{df:hom} \end{defn}
+
+\begin{exercise} Prove that if $v$ is a model of $T'$, and $f:T\to T'$
+  is a translation, then $v\circ f$ is a model of $T$.  Here $v\circ
+  f$ is the interpretation of $\Sigma$ obtained by applying $f$ first,
+  and then applying $v$.  \end{exercise}
+
+\begin{exercise} Prove that if $f:T\to T'$ is a translation, and $T'$
+  is consistent, then $T$ is consistent. \end{exercise}
+
+
+
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

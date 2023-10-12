@@ -1,0 +1,537 @@
+\documentclass[10pt,fleqn]{article}
+\usepackage{array,multirow,amsthm,amsmath,amssymb,url}
+% \usepackage{fullpage}
+\newcommand{\RA}{\vdash}
+\usepackage{mVersion}
+\usepackage{natbib}
+\usepackage{bussproofs}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\title{Metatheory of Predicate Logic}
+\author{Hans Halvorson}
+\date{\today}
+% \setlength{\parindent}{0em}
+% \setlength{\parskip}{1em}
+\swapnumbers
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{thm}[prop]{Theorem}
+\newtheorem{cor}[prop]{Corollary}
+\newtheorem{lemma}[prop]{Lemma}
+\newtheorem{claim}[prop]{Claim}
+\newtheorem{fact}[prop]{Fact}
+\newtheorem*{subthm}{Substitution Theorem}
+\newtheorem{conj}[prop]{Conjecture}
+\theoremstyle{definition}
+\newtheorem*{defn}{Definition}
+\newtheorem{exercise}[prop]{Exercise}
+\newtheorem*{example}{Example}
+\theoremstyle{remark}
+\newtheorem*{note}{Note}
+\swapnumbers
+
+
+% \usepackage{fbb}
+\newcommand{\df}[1]{\textbf{#1}}
+\usepackage{mathrsfs}
+\newcommand{\2}{\mathscr}
+\renewcommand{\emph}{\textbf}
+
+
+\usepackage[framemethod=TikZ]{mdframed}
+\newenvironment{drool}[1][]{%
+\mdfsetup{%
+    frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=east,rectangle,fill=blue!20]
+        {\strut #1};},
+    skipabove=2em,
+    skipbelow=2em,
+    innertopmargin=0pt,linecolor=blue!20,%
+    linewidth=2pt,topline=true,%
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax%
+}
+\begin{mdframed}[]\relax}{%
+\end{mdframed}}
+\begin{document}
+
+
+
+\maketitle
+
+Our study of propositional logic was, in one sense, just a preview of
+the main show: the metatheory of first-order logic.  While first-order
+logic (FOL) is infinitely more powerful and interesting than
+propositional logic, it is also significantly more messy and
+complicated.  To give the most elegant treatment of FOL would require
+developing some rather advanced mathematical resources (such as the
+theory of coherent categories, and then topos theory).  Since our goal
+here isn't to provide the most extensive treatment conceivable, we
+will have to make some compromises.  Let's begin, then, by discussing
+the simple case of FOL with a single sort, without equality or
+function symbols.\footnote{Please don't worry if you don't know what
+  the word ``sort'' means in this sentence.  The contrast between
+  single- and many-sorted logic will be explained in Chapter \ref{?}.}
+
+\subsection*{Formation Rules}
+
+
+
+% We will also restrict ourselves to the connectives $\vee ,\neg$ and
+% $\exists$, which we will later show to be an ``adequate'' set.
+
+\begin{defn} We assume that we are given a set $\2S$ which we call
+  \emph{non-logical symbols}.  We assume that each element $p$ of
+  $\2S$ is assigned a natural number $\alpha (p)$ called its
+  \emph{arity}.  A \emph{signature} $\Sigma$ is a subset of
+  $\2S$. \end{defn}
+
+The intended use of the non-logical symbols is as predicate or
+relation letters.  (In the special case where $\alpha (p)=0$, we say
+that $p$ is a \emph{propositional constant}.)  For example, if $p$ is
+a unary symbol, then we will be able to combine it with a variable $x$
+to get a formula $p(x)$.  But $p(x)$ is not itself a ``sentence,''
+since the it contains a free variable.  Thus, we will simultaneously
+define the notion of a formula and its free variables.  To this end,
+we assume that we are given, besides the logical connectives $\vee
+,\neg$, also a set $\mathsf{Var}$ of variables, and the symbol
+$\exists$.  For convenience, we also assume that we are given a symbol
+$\bot$ which we will use to represent an arbitrary contradiction.
+
+\newcommand{\wff}{\mathsf{wff}(\Sigma )}
+\newcommand{\sgsn}{\mathsf{Sent}(\Sigma )}
+
+\begin{defn}[Formation rules] Let $\Sigma$ be a signature.  We define
+  the set $\wff$ of $\Sigma$ \emph{formulas}, and a function $V:\wff
+  \to \mathsf{Var}$, as follows:
+\begin{enumerate}
+\item We stipulate that $\bot\in \wff$, and that $V(\bot )=\emptyset$.
+\item Suppose that $p\in\Sigma$ has arity $n$.  Then for any
+  $x_1,\dots ,x_n\in \mathsf{Var}$, we let $p(x_1,\dots x_n)\in \wff
+  $, and we define $V(p(x_1,\dots ,x_n))=\{ x_1,\dots ,x_n \}$.
+\item If $\phi ,\psi \in \wff $, then $\phi\wedge\psi ,\phi\vee \psi
+  ,\phi\to \psi$ and $\neg \phi$ are all in $\wff $.  In each case,
+  the free variables in a composite formula is the union of the free
+  variables in the subformulas.  e.g.\ $V(\phi\wedge\psi )=V(\phi
+  )\cup V(\psi )$.
+\item If $\phi\in \wff $, then we let $(\exists x)\phi \in \wff $ and
+  $V((\exists x)\phi )=V(\phi )\backslash\{ x\}$.  \end{enumerate} We
+say that a variable $x$ occurs \emph{free} in $\phi$ just in case
+$x\in V(\phi )$.  We say that $\phi$ is a \emph{sentence} of $\Sigma$
+just in case $\phi\in\wff$, and $\phi$ has no free variables.
+\end{defn}
+
+It's time now to present our \emph{transformation rules}, i.e.\ the
+definition of the relation $\vdash$.  You probably have seen such
+rules before.\footnote{If not, check out \textit{Beginning Logic} by
+  E.J. Lemmon, or \textit{Logic} by P. Tomassi.}  But these rules are
+presented in a variety of different ways --- e.g.\ through proof
+trees, Fitch proofs, dependency numbers, etc..  Here we will stick
+close to the method of dependency numbers found in the book
+\textit{Beginning Logic}, by E.J. Lemmon.  Lemmon uses the device of
+``arbitrary names,'' i.e.\ letters $a_1,a_2,\dots $ that are neither
+part of the non-logical vocabulary $\Sigma$, nor members of the
+collection $\mathsf{Var}$ of variables.  But the difficulty, from a
+metatheoretical point of view, is that formulas such as $p(a)$ aren't
+really in $\sgsn$, and so Lemmon's relation of provability holds
+between things that aren't in $\sgsn$.
+
+
+
+
+\section*{Structural Rules}
+
+\begin{defn} We write $\vec{x}$ for a finite sequence $x_1,\dots ,x_n$
+  of distinct variables.  We say that $\vec{x}$ is a \emph{context}
+  for a formula $\phi$ just in case all free variables in $\phi$ occur
+  in the sequence $\vec{x}$.  (However, the sequence $\vec{x}$ might
+  also contain variables that do not occur in $\phi$, or that are not
+  free in $\phi$.)  We also allow the empty context, which indicate by
+  $[]$, or simply by writing nothing.  \end{defn}
+
+\begin{defn} A \emph{sequent} consists of a pair $\phi ,\psi$ of
+  formulas separated by a turnstile, indexed by a context $\vec{x}$
+  that contains all free variables occuring in either $\phi$ or
+  $\psi$.  We write this sequent as $(\phi\vdash _{\vec{x}}\psi )$.
+  If $\phi$ and $\psi$ have no free variables, then we write
+  $(\phi\vdash\psi )$ for the corresponding sequent over the empty
+  context. \end{defn}
+
+%% TO DO: how to read these
+
+\begin{defn} A \emph{theory} $T$ in signature $\Sigma$ is a set of
+  sequents built from $\Sigma$-formulas.  A \emph{deduction} in $T$
+  consists of a tree whose topmost nodes are elements of $T$ or
+  instances of the rule of assumptions, and whose branches consist of
+  valid applications of the transformation rules to be specified
+  below.  Thus, for example, a deduction might look like this:
+\begin{prooftree}
+  \AxiomC{$\sigma _1$} \AxiomC{$\sigma _2$} \BinaryInfC{$\sigma _3$}
+  \AxiomC{$\sigma _4$} \BinaryInfC{$\sigma _5$} \end{prooftree} where
+each $\sigma$ is a sequent: $\sigma _1,\sigma _2$ and $\sigma _4$ are
+either axioms of $T$, or instances of RA; and horizontal lines
+indicate applications of the transformation rules. \end{defn}
+
+The transformation rules are of two kinds: \emph{structural rules} and
+\emph{inference rules}.  The first structural rule is the Rule of
+Assumptions.  We already stated this rule in reference to
+propositional logic.  Thus, we need only be explicit about the fact
+that our sequents are now labeled by contexts.
+
+\def\fCenter{\mbox{\ $\vdash$\ }}
+
+\begin{drool}[Rule of Assumptions]
+\begin{prooftree}
+  \AxiomC{$(\phi\vdash _{\vec{x}}\phi )$} \end{prooftree} \end{drool}
+
+Our next structural rule is called \emph{substitution}.  However, this
+rule is typically not stated explicitly in the sorts of natural
+deduction systems that are taught in a first logic course.  Instead,
+it is almost a presupposition of these proofs systems.  Consider the
+following example: suppose that you have a derivation of $(\forall
+x)\phi$, but that you want to arrive at the conclusion $(\forall
+y)\phi [y/x]$, where $\phi [y/x]$ is the result of replacing the free
+variable $x$ in $\phi$ with $y$.  How can you get there?  From
+$(\forall x)\phi$, you can deduce $\phi [a/x]$, where $a$ is some
+arbitrary name, and from that, you can deduce $(\forall y)\phi [y/x]$.
+What did the trick here is the fact that you have this stock of
+arbitrary names (such as ``a''), and that you can replace an arbitrary
+name with any variable.
+
+What might be slightly less obvious is that from $(\forall x)(\forall
+y)\phi$, one can deduce $(\forall z)\phi [z/x,y]$, where $\phi
+[z/x,y]$ is the result of replacing all occurences of both $x$ and $y$
+with the variable $z$.  However, the trick to proving the latter is to
+use the same arbitrary name when instantiating both $x$ and $y$.  So,
+from $(\forall x)(\forall y)\phi$, one can deduce $(\forall y)\phi
+[a/y]$, and then $\phi [a/x,y]$; and finally using
+$\forall$-introduction, $(\forall z)\phi [z/x,y]$.
+
+We wish, however, to formulate transformation rules without the device
+of arbitrary names.  To this end, we need to define the notion of a
+substitution instance of a formula.
+
+\begin{defn} Suppose that $\phi$ is a formula, and that the variable
+  $x$ does not occur in the scope of either $(\exists y)$ or $(\forall
+  y)$.  In that case, we write $\phi [y/x]$ for the result of
+  replacing all free occurences of $x$ in $\phi$ with $y$. \end{defn}
+
+Why the conditions about the quantifiers $(\forall y)$ and $(\exists
+y)$?  Here's the issue.  The following is provable in FOL:
+\[ r(a,b)\vdash (\exists z)r(z,b) \] 
+Thus, if we use variables in the place of arbitrary names, we have
+\[ r(x,y)\vdash (\exists z)r(z,y) \] Now if we were allowed the
+substitution $z/y$, then we would have
+\[ r(x,z)\vdash (\exists z)r(z,z) \] which is patently invalid.  Thus,
+in order to prevent such disasters, we forbid substitutions that would
+``capture'' free variables.
+
+
+\begin{drool}[Substitution]
+\begin{prooftree}
+  \AxiomC{$(\phi \vdash _{\vec{x}}\psi )$} \UnaryInfC{$(\phi
+    [\vec{y}/\vec{x}]\vdash _{\vec{y}} \psi
+    [\vec{y}/\vec{x}])$} \end{prooftree} \end{drool}
+
+
+
+Substitution permits reordering variables in a context, for example:
+\begin{prooftree}
+  \AxiomC{$r(x,y)\vdash _{x,y}r(x,y)$} \UnaryInfC{$r(x,y)\vdash
+    _{y,x}r(x,y)$} \end{prooftree} Here we perform the trivial
+substitution of $[x,y/x,y]$, but we replace the context $x,y$ with the
+context $y,x$.  Similarly, substitution permits us to enlarge the
+context.  For example:
+\begin{prooftree}
+  \AxiomC{$p(x)\vdash _x p(x)$} \UnaryInfC{$p(x)\vdash _{x,y}
+    p(x)$} \end{prooftree} Finally, substitution permits us to
+eliminate redundant variables from a context.  For example, 
+\begin{prooftree}
+\AxiomC{$p(x)\vdash _{x,y}p(x)$}
+\UnaryInfC{$p(x)\vdash _x p(x)$}
+\end{prooftree}
+uses the substitution $[x,x/x,y]$. (However, in application to
+many-sorted logic, we will have to be more cautious about when this
+move is permitted.)
+
+Our final structural rule captures the transitivity of deducibility.
+
+\begin{drool}[Cut]
+\begin{prooftree} \AxiomC{$(\phi\vdash _{\vec{x}}\psi
+      )$} \AxiomC{$(\psi \vdash _{\vec{x}}\chi )$} \BinaryInfC{$(\phi
+      \vdash _{\vec{x}}\chi )$} \end{prooftree} \end{drool}
+
+
+
+\section*{Inference Rules}
+
+
+Note that 
+
+(Eliminating irrelevant variables) Suppose that $\phi$ and $\psi$ are
+formulas in context $\vec{x},y$, where $y$ does not occur free in
+either $\phi$ or $\psi$.  We will show that if $\phi\vdash
+_{\vec{x},y}\psi$ then $\phi\vdash _{\vec{x}}\psi$.
+
+\begin{prooftree}
+  \AxiomC{$\phi\vdash _{\vec{x},y}\phi$} \UnaryInfC{$\phi\vdash
+    _{\vec{x}} (\exists y)\phi$} \AxiomC{$\phi\vdash
+    _{\vec{x},y}\psi$} \UnaryInfC{$(\exists y)\phi\vdash _{\vec{x}}
+    \psi$}
+\BinaryInfC{$\phi\vdash _{\vec{x}}\psi$} \end{prooftree}
+As a special case, if $\phi$ and $\psi$ are sentences, then
+$\phi\vdash _y\psi$ only if $\phi\vdash \psi$.  
+
+
+
+
+A few notes on these rules.  First, the cut rule has no analogue in
+most textbook presentations of natural deduction.  The reason is that
+those systems contain the rule implicitly, since they allow proofs to
+be concatenated.  Similarly, the substitution rule has no analogue
+most textbook presentations of natural deduction.  However, these
+systems typically allow one to introduce arbitrary names, e.g.\ to
+deduce $\phi (a)$ from $\forall x\phi (x)$.  And then one can deduce
+$\forall y\phi (y)$ from $\phi (a)$.  Thus, the substitution rule is
+implicitly assumed by the fact that the arbitrary name $a$ can be
+replaced with either the variable $x$ or with the variable $y$.
+
+Now we can state the two inference rules corresponding to the
+existential quantifier. \\ \\ \begin{tabular}{p{3cm} p{7cm} }
+  \emph{$\exists$ introduction} & \begin{tabular}{c l l} $((\exists
+    y)\phi \vdash _{\vec{x}} \psi )$ \\ \hline
+    $(\phi \vdash _{\vec{x},y} \psi )$ \end{tabular} \\ \\
+  \emph{$\exists$ elimination} & \begin{tabular}{c} $(\phi\vdash
+    _{\vec{x},y} \psi )$ \\ \hline $((\exists y)\phi \vdash _{\vec{x}}
+    \psi )$ \end{tabular}
+\end{tabular} \\ \\ Our version of these rules might seem backwards and upside down.  Our
+introduction rule takes $\exists$ away from the left hand side of the
+turnstile!  In a typical textbook presentation, $\exists$ introduction
+might say that $\exists x\phi (x)$ follows from an instance $\phi
+(a)$.  But our rule has the advantage of being formally dual to the
+elimination rule.  Moreover, our version of the rule can reproduce the
+textbook version: since $\exists x\phi (x)\vdash \exists x\phi (x)$,
+our rule yields $\phi (a)\vdash \exists x\phi (x)$.
+
+Note also how the rule of $\exists$ elimination enforces the rule of
+using an arbitrary instance of the formula $(\exists y)\phi$.  In the
+top line, the variable $y$ cannot occur free, since $\vec{x}$ is
+assumed to contain all variables free in both $(\exists y)\phi$ and
+$\psi$.
+
+\begin{exercise} Explain how the rule ``from $\phi (a)$ infer $\exists
+  x\phi (x)$'' can be used to derive our version of the $\exists$
+  introduction rule. \end{exercise}
+
+Let's see how we can derive some familiar sequents from predicate
+logic.  For example, to prove $(\exists x)r(x,x)\vdash (\exists
+x)(\exists y)r(x,y)$: \\ \\ 
+\begin{tabular}{c}
+  $(\exists x)(\exists y)r(x,y) \vdash (\exists x)(\exists y)r(x,y)$ \\
+  \hline
+  $(\exists y)r(x,y) \vdash _x (\exists x)(\exists y)r(x,y)$ \\ \hline
+  $r(x,y) \vdash _{x,y}(\exists x)(\exists y)r(x,y)$  \\ \hline 
+  $r(z,z) \vdash _z (\exists x)(\exists y)r(x,y)$ \\ \hline 
+  $(\exists z)r(z,z) \vdash (\exists x)(\exists y)r(x,y)$ \end{tabular}
+\\ \\ 
+On the first line we used the rule of assumptions.  On the second and
+third lines we used $\exists$-intro.  On the fourth line we used the
+substitution of $z$ for both $x$ and $y$.  And on the fifth line we
+used $\exists$-elim.
+
+\newcommand{\vd}{\vdash}
+
+\begin{tabular}{p{3cm} p{7cm} }
+\emph{$\top$ introduction} & $(\phi\vd\top )$ \\ \\
+%
+\emph{$\bot$ introduction} & $(\bot\vd\phi )$ \\ \\ 
+%
+\emph{$\wedge$ introduction} & \begin{tabular}{c} $(\phi\vdash
+  \psi )\: (\phi\vd\chi )$ \\ \hline 
+  $(\phi\vd(\psi\wedge\chi ))$ \end{tabular} \\ \\ 
+%
+\emph{$\wedge$ elimination} & $((\phi\wedge\psi )\vd\phi
+)$ and $((\phi\wedge\psi )\vd\psi )$ \\ \\ 
+%
+  \emph{$\vee$ introduction} & $(\phi\vd(\phi\vee\psi ))$
+  and $(\psi\vd(\phi\vee\psi ))$ \\ \\
+% 
+  \emph{$\vee$ elimination} & \begin{tabular}{c} $(\phi\vd \chi
+    )\: (\psi \vd\chi )$ \\ \hline $((\phi\vee\psi )\vd
+    \chi )$ \end{tabular} \\ \\ 
+%
+  \emph{$\to$ introduction} & \begin{tabular}{c} $((\phi\wedge\psi
+    )\vd\theta )$ \\ \hline $(\phi\vd(\psi\to\theta
+    ))$ \end{tabular} \\ \\ 
+%
+  \emph{$\to$ elimination} & \begin{tabular}{c} $(\phi\vd
+    (\psi\to \theta ))$ \\ \hline $((\phi\wedge\psi )\vd
+    \theta )$ \end{tabular}  \\ \\ 
+%
+  \emph{$\neg$ introduction} & \begin{tabular}{c} $((\phi\wedge\psi
+    )\vd\bot )$ \\ \hline $(\psi\vd\neg\phi
+    )$ \end{tabular} \\ \\ 
+%
+  \emph{$\neg$ elimination} & \begin{tabular}{c} $(\psi\vd\neg\phi)$
+    \\ \hline $((\phi\wedge\psi )\vd\bot)$ \end{tabular} \\ \\  
+%
+\emph{excluded middle} & $(\top\vdash\phi\vee\neg\phi )$ \end{tabular}
+\\ \\ 
+
+
+
+
+
+Double Negation Intro
+\begin{prooftree}
+\Axiom$\neg p\fCenter \neg p$ 
+\UnaryInf$(p\wedge \neg p)\fCenter \bot$ 
+\UnaryInf$p\fCenter \neg\neg p$ \end{prooftree}
+
+Commutativity of $\wedge$
+\begin{prooftree}
+\Axiom$p\wedge q\fCenter q$
+\Axiom$p\wedge q\fCenter p$
+\BinaryInf$p\wedge q\fCenter q\wedge p$
+\end{prooftree}
+
+Contrapositive
+\begin{prooftree}
+\Axiom$p\fCenter q$ 
+\UnaryInf$p\fCenter \neg \neg q$
+\UnaryInf$\neg q\wedge p\fCenter \bot$
+\Axiom$p\wedge \neg q\fCenter \neg q\wedge p$
+\BinaryInf$p\wedge\neg q\fCenter \bot$
+\UnaryInf$\neg q\fCenter \neg p$ \end{prooftree}
+
+
+
+DeMorgan's Rule
+\begin{prooftree}
+\Axiom$\neg (p\vee q)\wedge p\fCenter p$
+\Axiom$p\fCenter (p\vee q)$
+\BinaryInf$\neg (p\vee q)\wedge p\fCenter (p\vee q)$
+\Axiom$\neg (p\vee q)\wedge p\fCenter \neg (p\vee q)$
+\BinaryInf$\neg (p\vee q)\wedge p\fCenter \neg (p\vee q)\wedge (p\vee q)$
+\Axiom$\neg (p\vee q)\wedge (p\vee q)\fCenter \bot$
+\BinaryInf$\neg (p\vee q)\wedge p\fCenter \bot$
+\UnaryInf$\neg (p\vee q)\fCenter \neg p$
+% \Axiom$\neg (p\vee q)\wedge (p\vee q)\fCenter \bot$
+\end{prooftree}
+
+
+Distribution 
+\begin{prooftree}
+\Axiom$(r\wedge p)\fCenter (r\wedge p)\vee (r\wedge q)$
+\UnaryInf$p\fCenter r\to ((r\wedge p)\vee (r\wedge q))$
+\Axiom$(r\wedge q)\fCenter (r\wedge p)\vee (r\wedge q)$
+\UnaryInf$q\fCenter r\to ((r\wedge p)\vee (r\wedge q))$
+\BinaryInf$(p\vee q)\fCenter r\to ((r\wedge p)\vee (r\wedge q))$
+\UnaryInf$r\wedge (p\vee q)\fCenter (r\wedge p)\vee (r\wedge q)$
+\end{prooftree}
+
+
+
+
+
+
+
+\begin{prooftree}
+\Axiom$(\exists x)(\exists y)r(x,y) \fCenter (\exists x)(\exists y)r(x,y)$
+\UnaryInf$(\exists y)r(x,y) \fCenter _{x} (\exists x)(\exists y)r(x,y)$
+\UnaryInf$r(x,y) \fCenter _{x,y} (\exists x)(\exists y)r(x,y)$
+\UnaryInf$r(z,z) \fCenter _{z} (\exists x)(\exists y)r(x,y)$
+\UnaryInf$(\exists z)r(z,z) \fCenter (\exists x)(\exists y)r(x,y)$ \end{prooftree}
+
+
+TO DO: can we reorder variables in contexts?
+
+\begin{defn} We define a relation $\equiv$ on $\wff$ as follows:
+  $\phi\equiv\psi$ just in case both $\phi\vdash _{\vec{x}}\psi$ and
+  $\psi\vdash _{\vec{x}}\phi$, where $\vec{x}$ is the canonical
+  context for $\phi\wedge\psi$.  An equivalent way of defining
+  $\equiv$ would be to say that $\phi\equiv\psi$ just in case $\vdash
+  \forall \vec{x}(\phi\leftrightarrow \psi)$, where $\vec{x}$ is the
+  canonical context for $\phi\wedge\psi$.  \end{defn}
+
+%% question: does Craig interpolation allow us to assume that \phi and
+%% \psi have a common context
+
+\begin{lemma} Suppose that $\phi\vdash _{\vec{x}}\psi$, where
+  $\vec{x}$ is some context for $\phi$ and $\psi$.  Then $\phi\vdash
+  _{\vec{y}}\psi$, where $\vec{y}$ is the canonical context for
+  $\phi\wedge \psi$.  \end{lemma}
+
+
+
+The relation $\equiv$ is reflexive by the rule of assumptions.
+Furthermore, the substitution rule allows us to reorder the variables
+in contexts, and hence $\equiv$ is symmetric.  
+
+It's a bit more challenging to show that $\equiv$ is transitive.  In
+particular, the relation $\phi\vdash _{\vec{x}}\psi$, where $\vec{x}$
+is the canonical context of $\phi\wedge\psi$ is not transitive.  
+first that $\vdash$ is not exactly transitive.  For example, we have
+$\bot\vdash _xp(x)$ and $p(x)\vdash _x\top$ ,
+suppose that $\phi \vdash _{\vec{x}}\psi$ and $\psi\vdash
+_{\vec{y}}\chi$ where $\vec{x}$ is the canonical context for
+$\phi\wedge\psi$, and $\vec{y}$ is the canonical context for
+$\psi\wedge\chi$.  By substitution and cut, we then have $\phi\vdash
+_{\vec{z}}\chi$, where $\vec{z}$ is the context that results from
+concatenating $\vec{x}$ and $\vec{y}$, and deleting duplicates.  Then
+$\vec{z}$ might contain redundant variables that occur in $\psi$, but
+not in $\phi$ or $\theta$.  For example, consider
+
+for some contexts $\vec{x}$ and $\vec{y}$.  By substitution,
+$\phi\vdash _{\vec{x},\vec{y}}\psi$ and $\psi\vdash
+_{\vec{x},\vec{y}}\theta$, and by cut, $\phi\vdash
+_{\vec{x},\vec{y}}\theta$.  A similar argument shows that $\theta
+\vdash_{\vec{x},\vec{y}}\phi$, and hence $\phi\equiv \theta$.
+Therefore, $\equiv$ is transitive, and is an equivalence relation.
+
+Let's consider a few examples: let $\phi$ be the formula $p(x)\vee
+\neg p(x)$, and let $\psi$ be the formula $\top$.  The canonical
+context for $\phi\wedge\psi$ is then the variable $x$, and we have
+both $p(x)\vee \neg p(x)\vdash _x\top$ and $\top\vdash _xp(x)\vee \neg
+p(x)$.  Thus, $(p(x)\vee \neg p(x))\equiv \top$.  Similarly, we have
+$(p(x)\vee \neg p(x))\equiv (p(y)\vee \neg p(y))$ since $(p(x)\vee
+\neg p(x))\vdash _{x,y}(p(y)\vee \neg p(y))$ and $(p(y)\vee \neg
+p(y))\vdash _{x,y}(p(x)\vee \neg p(x))$.
+
+-- depends on whether we say: equivalent for the canonical context, or
+equivalent for some context
+
+Note that the relation $\equiv$ does not identify formulas that are
+$\alpha$-equivalent, e.g.\ $p(x)\not\equiv p(y)$.  Thus, in one sense,
+$\equiv$ ignores some important information about relations between
+formulas.
+
+\begin{defn} For each formula $\phi$, let $E_{\phi}$ denote the
+  equivalence class of $\phi$ under the relation $\equiv$. \end{defn}
+
+
+\newcommand{\lra}{\leftrightarrow}
+
+We'll now collect the equivalence classes $E_\phi$ into a set $B$, and
+we'll define operations on $B$ that make it a Boolean algebra.  First,
+define 
+\[ E_\phi\cup E_\psi \: := \: E_{\phi\vee \psi} .\] To see that $\cup$
+is well-defined, we must verify that if $\phi\equiv\phi '$ and
+$\psi\equiv\psi '$ then $(\phi\vee \psi )\equiv (\phi '\vee \psi ')$.
+To this end, let's write $\phi \equiv _{\vec{x}}\phi '$ to specify
+some context relative to which $\phi$ and $\phi '$ are provably
+equivalent, and similarly for $\psi \equiv _{\vec{y}}\psi '$.  By the
+substitution rule, we can choose $\vec{y}$ so that it is disjoint from
+$\vec{x}$.  By the substitution rule again, we then have $\phi \equiv
+_{\vec{x},\vec{y}}\phi '$ and $\psi \equiv _{\vec{x},\vec{y}}\psi '$.
+Since the contexts are the same, the $\vee$ intro and elim rules imply
+that $(\phi \vee \phi ')\equiv _{\vec{x},\vec{y}}(\psi \vee \psi ')$,
+and therefore $(\phi\vee \phi ')\equiv (\psi \vee \psi ')$.
+
+
+
+
+
+
+
+
+\end{document}

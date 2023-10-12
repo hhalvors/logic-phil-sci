@@ -1,0 +1,2959 @@
+\chapter{Semantic Metalogic} \label{chap-sem}
+
+%% TO DO:
+
+%% 0. categorical => complete
+
+%% 0. $\kappa$-categorical
+
+%% 0. Robinson and Craig theorems -- Svenonius => Beth => Robinson =>
+%% especially Robinson, with diamond diagram
+
+%% 0. Scott definability theorem?
+
+%% 0. cite Visser papers
+
+%% 0. Beth's theorem = epi-surjective property for Boolean algebras.
+%% Do I mention this connection already in the chapter on Boolean
+%% algebras?  If not, then begin discussion of Beth by pointing that
+%% out.  (Recall that we prove ES by means of completeness.)
+
+%% 0. Craig interpolation theorem
+
+%% 0. How to prove: homotopy equivalent => categorically equivalent
+
+%% 0. perhaps prove some things about $\vDash$
+
+%% 0. Beth theorem
+
+%% 4. examples of models
+
+%% 5. functors between Mod(T) and Mod(T')
+
+%% 6. meaning of eso, faithful, etc..
+
+%% 0. ultraproducts
+
+%% 0. Bickle -- reduction
+
+%% 0. van Fraassen -- embeddable
+
+%% 7. standard versus non-standard models; intended versus non-intended
+%% model
+
+%% 8. conservative versus model-theoretically conservative ... the latter
+%% same as forgetful functor being eso.  TO DO: example of
+%% conservative but not M-conservative
+
+%% 10. mention completeness via Deligne embedding thm
+
+%% Do I want to show that $(GF)^*=F^*G^*$ ??
+
+%% Open Question
+%% I doubt that the following is true -- but something close to it
+%% is.  See Breiner thesis
+
+% \begin{prop} If $F$ is conservative then $F^*$ is
+%   superjective. \end{prop}
+
+% \begin{proof} Take a model $M$ of $T$.  The trick here is to grow $M$
+%   into a model $M'$ of $T'$, with an elementary embedding
+%   $h:M\to F^*(M')$.  Intuitively speaking, since $F$ is conservative,
+%   $M$ is also a model of a subtheory of $T'$, namely the image of $F$.
+%   Then we need to show that a model of a subtheory of $T'$ can be
+%   extended to a model of $T'$. \end{proof}
+
+
+%% TO DO: vF thought that he could explicate further notions than had
+%% been in the syntactic approach.  Most importantly, the notion of
+%% empirical content.  See vF - Muller paper, and my articles.  Also,
+%% that J Phil paper by Peter Turney
+
+
+\section{The semantic turn}
+
+Already in the 19th century, geometers were proving the relative
+consistency of theories by interpreting them into well-understood
+mathematical frameworks --- e.g.\ other geometrical theories, or the
+theory of real numbers.  At roughly the same time, the theory of sets
+was under active development, and mathematicians were coming to
+realize that the things they were talking about (numbers, functions,
+etc.) could be seen to be constituted by sets.  However, it was only
+in the middle of the 20th century that Alfred Tarski gave a precise
+definition of an {\it interpretation} of a theory in the universe of
+sets.  
+
+Philosophers of science were not terribly quick to latch onto the new
+discipline of logical semantics.  Early adopters included the Dutch
+philosopher Evert Beth, and to a lesser extent, Carnap himself.  It
+required a generational change for the semantic approach to take root
+in philosophy of science.  Here we are using ``semantic approach'' in
+the broadest sense --- essentially for any approach to philosophy of
+science that is reactionary against Carnap's syntax program, but that
+wishes to use precise mathematical tools (set theory, model theory,
+etc.) in order to explicate the structure of scientific theories.
+
+What's most interesting for us is how the shift to the semantic
+approach influenced shifts in philosophical perspective.  Some of the
+cases are fairly clear.  For example, with the rejection of the
+syntactic approach, many philosophers stopped worrying about the
+``problem of theoretical terms'', i.e.\ how scientific theories (with
+their abstract theoretical terms) connect up to empirical reality.
+According to Putnam, among others, if you step outside the confines of
+Carnap's syntax program, there is no problem of theoretical terms.
+(Interestingly, debates about the conventionality of geometry all but
+stopped around the 1970s, just when the move to the semantic view was
+in full swing.)  Other philosophers diagnosed the situation
+differently.  For example, van Fraassen saw the semantic approach as
+providing the salvation of empiricism --- which, he thought, was
+incapable of an adequate articulation from a syntactic point of view.
+
+In reading late 20th century analytic philosophy, it can seem that
+logical semantics by itself obviates many of the problems that
+exercised the previous generation of philosophers.  For example,
+\citet[p.\ 222]{bas1989} says that ``the semantic view of theories
+makes language largely irrelevant to the subject [philosophy of
+science].''  Indeed, the picture typically presented to us is that
+logical semantics deals with mind-independent things (viz.\
+set-theoretic structures), which can stand in mind-independent
+relations to concrete reality, and to which we have unmediated
+epistemic access.  Such a picture suggests that logical semantics
+provides a bridge over which we can safely cross the notorious
+mind-world gap.
+
+But something is fishy with this picture.  How could logical semantics
+get any closer to ``the world'' than any other bit of mathematics?
+And why think that set-theoretic structures play this privileged role
+as intermediaries in our relation to empirical reality?  For that
+matter, why should our philosophical views on science be tied down to
+some rather controversial view of the nature of mathematical objects?
+Why the set-theoretic middle-man?
+
+In what follows, I will attempt to put logical semantics back in its
+place.  The reconceptualization I'm suggesting begins with noting that
+logical semantics is a particular version of a general mathematical
+strategy called ``representation theory''.  There is a representation
+theory for groups, for rings, for $C^*$-algebras, etc., and the basic
+idea of all these representation theories is to study one category
+$\cat{C}$ of mathematical objects by studying the functors from
+$\cat{C}$ to some other mathematical category, say $\cat{S}$.  It
+might seem strange that such an indirect approach could be helpful for
+understanding $\cat{C}$, and yet, it has proven to be very frutiful.
+For example, in the representation theory of groups, one studies the
+representations of a group on Hilbert spaces.  Similarly, in the
+representation theory of rings, one studies the modules over a ring.
+In all such cases, there is no suggestion that a represented
+mathematical object is less linguistic than the original mathematical
+object.  If anything, the represented mathematical object has
+superfluous structure that is not intrinsic to the original
+mathematical object.
+
+To fully understand that logical semantics is representation theory,
+one needs to see theories as objects in a category, and to show that
+``interpretations'' are functors from that category into some other
+one.  We carried out that procedure for propositional theories in
+Chapter \ref{cat-prop}, where we represented each propositional theory
+as a Boolean algebra.  We could carry out a similar construction for
+predicate logic theories, but the resulting mathematical objects would
+be something more complicated than Boolean algebras.  (Tarski himself
+suggested representing predicate logic theories as cylindrical
+algebras, but a more elegant approach involves syntactic categories in
+the sense of \cite{makkai}.)  Thus, we will proceed in a different
+manner and directly define the arrows (in this case, translations)
+between predicate logic theories.  We begin, however, with a little
+crash course in traditional model theory.
+
+\begin{example} Let $T$ be the theory, in empty signature, that says:
+  ``there are exactly two things.''  A \emph{model} of $T$ is simply a
+  set with two elements.  However, every model of $T$ has ``redundant
+  information'' that is not specified by $T$ itself.  To the question
+  ``how many models does $T$ have?'' there are two correct answers:
+  (1) more than any cardinal number, and (2) exactly one (up to
+  isomorphism).  \end{example}
+
+\begin{example} Let $T_1$ be the theory of groups, as axiomatized in
+  Example \ref{groups}.  Then a model $M$ of $T_1$ is a set $S$ with a
+  binary function $\cdot ^M:S\times S\to S$ and a preferred element
+  $e^M\in S$ which satisfy the conditions laid out in the axioms.
+  Once again, every such model $M$ carries all the structure that
+  $T_1$ requires of it, and then some more structure that $T_1$
+  doesn't care about.  \end{example}
+
+In order to precisely define the concept of a model of a theory, we
+must first begin with the concept of a $\Sigma$-structure.
+
+\begin{defn} A \emph{$\Sigma$-structure} $M$ is a mapping from
+  $\Sigma$ to appropriate structures in the category $\cat{Sets}$.  In
+  particular $M$ fixes a particular set $S$, and then
+  \begin{itemize}
+  \item $M$ maps each $n$-ary relation symbol $p\in \Sigma$ to a
+    subset $M(p)\subseteq S^n=S\times \cdots \times S$.
+  \item $M$ maps each $n$-ary function symbol $f\in \Sigma$ to a
+    function $M(f):S^n\to S$.
+  \end{itemize} \label{sigstr}
+\end{defn}
+
+A $\Sigma$-structure $M$ extends naturally to all syntactic structures
+built out of $\Sigma$.  In particular, for each $\Sigma$-term $t$, we
+define $M(t)$ to be a function, and for each $\Sigma$-formula $\phi$,
+we define $M(\phi )$ to be a subset of $S^n$ (where $n$ is the number
+of free variables in $\phi$).  In order to do so, we need to introduce
+several auxiliary constructions.
+
+%% now contexts
+
+\begin{defn} Let $\Gamma$ be a finite set of $\Sigma$-formulas.  We
+  say that $\vec{x}=x_1,\dots ,x_n$ is a \emph{context} for $\Gamma$
+  just in case $\vec{x}$ is a duplicate-free sequence that contains
+  all free variables that appear in any of the formulas in $\Gamma$.
+  We say that $\vec{x}$ is a \emph{minimal context} for $\Gamma$ just
+  in case every variable $x_i$ in $\vec{x}$ occurs free in some
+  formula in $\Gamma$.  Note: we also include, as a context for
+  sentences, the zero length string of variables. \end{defn}
+
+\begin{defn} Let $\vec{x}$ and $\vec{y}$ be duplicate-free sequences
+  of variables.  Then $\vec{x}.\vec{y}$ denotes the result of
+  concatenating the sequences, then deleting repeated variables in
+  order from left to right.  Equivalently, $\vec{x}.\vec{y}$ results
+  from deleting from $\vec{y}$ all variables that occur in $\vec{x}$,
+  and then appending the resulting sequence to $\vec{x}$. \end{defn}
+
+\begin{defn} For each term $t$, we define the \emph{canonical context}
+  $\vec{x}$ of $t$ as follows.  First, for a variable $x$, the
+  canonical context is $x$.  Second, suppose that for each term $t_i$,
+  the canonical context $\vec{x}_i$ has been defined.  Then the
+  canonical context for $f(t_1,\dots ,t_n)$ is
+  $(\cdots ((\vec{x}_1.\vec{x}_2)\cdots ).\vec{x_n}$. \end{defn}
+
+\begin{exercise} Suppose that $\vec{x}=x_1,\dots ,x_n$ is the
+  canonical context for $t$.  Show that $FV(t)=\{ x_1,\dots
+  ,x_n\}$. \end{exercise}
+%% these contexts behave like multisets -- duplicates don't matter,
+%% but order matters
+
+\begin{defn} For each formula $\phi$, we define the \emph{canonical
+    context} $\vec{x}$ of $\phi$ as follows.  First, if $\vec{x}_i$ is
+  the canonical context for $t_i$, then the canonical context for
+  $t_1=t_2$ is $\vec{x}_1.\vec{x}_2$, and the canonical context for
+  $p(t_1,\dots ,t_n)$ is
+  $(\cdots ((\vec{x}_1.\vec{x}_2)\cdots ).\vec{x_n}$.  For the Boolean
+  connnectives, we also use the operation $\vec{x}_1.\vec{x}_2$ to
+  combine contexts.  Finally, if $\vec{x}$ is the canonical context
+  for $\phi$, then the canonical context for $\forall x\phi$ is the
+  result of deleting $x$ from $\vec{x}$, if it occurs.  \end{defn}
+
+\begin{exercise} Show that the canonical context for $\phi$ does, in
+  fact, contain all and only those variables that are free in
+  $\phi$. \end{exercise}
+
+If a $\Sigma$-structure $M$ has a domain set $S$, then it assigns
+relation symbols to subsets of the Cartesian products,
+\[ S,S\times S,S^3,\dots \] Of course, these sets are all connected to
+each other by projection maps, such as the projection $S\times S\to S$
+onto the first coordinate.  We will now develop some apparatus to
+handle these projection maps.  To this end, let $[n]$ stand for the
+finite set $\{ 1,\dots ,n\}$.
+
+\begin{lemma} For each injective function $p:[m]\to [n]$, there is a
+  unique projection $\pi _p:S^n\to S^m$ defined by
+  \[ \pi _p\langle x_1,\dots ,x_n\rangle = \langle x_{p(1)},\dots
+    ,x_{p(m)}\rangle . \] Furthermore, if $q:[\ell ]\to [m]$ is also
+  injective, then $\pi _{p\circ q}=\pi _q\circ \pi _p$.  \end{lemma}
+
+\begin{proof} The first claim is obvious.  For the second claim, it's
+  easier if we ignore the variables $x_1,\dots ,x_n$ and note that
+  $\pi _p$ is defined by the coordinate projections:
+  \[ \pi _i\circ \pi _p \: = \: \pi _{p(i)} ,\] for $i=1,\dots ,m$.
+  Thus, in particular,
+    \[
+      \pi _i\circ \pi _q\circ \pi _p \: = \: \pi _{q(i)}\circ \pi _p
+      \: = \: \pi _{p(q(i))} \: = \: \pi _i\circ \pi _{p\circ q} ,\]
+    which proves the second claim.
+  \end{proof}
+
+  \begin{defn} Let $\vec{x}=x_1,\dots ,x_m$ and
+    $\vec{y}=y_1,\dots ,y_n$ be duplicate-free sequences of variables.
+    We say that $\vec{x}$ is a \emph{subcontext} of $\vec{y}$ just in
+    case each element in $\vec{x}$ occurs in $\vec{y}$.  In other
+    words, for each $i\in [m]$, there is a unique $p(i)\in [n]$ such
+    that $x_i=y_{p(i)}$.  Since $i\mapsto y_i$ is injective,
+    $p:[m]\to [n]$ is also injective.  Thus, $p$ determines a unique
+    projection $\pi _p:S^n\to S^m$.  We say that $\pi _p$ is the
+    \emph{linking projection} for contexts $\vec{y}$ and $\vec{x}$.
+    If $\vec{x}$ and $\vec{y}$ are canonical contexts of formulas or
+    terms, then we say that $\pi _p$ is the \emph{linking projection}
+    for these formulas or terms.
+  \end{defn}
+
+  We are now ready to complete the extension of the $\Sigma$-structure
+  $M$ to all $\Sigma$-terms.
+
+  \begin{defn} For each term $t$ with $n$-free variables, we define
+    $M(t):S^n\to S$.
+  \begin{enumerate}
+  \item Recall that a constant symbol $c\in \Sigma$ is really a
+    special case of a function symbol, viz.\ a $0$-ary function
+    symbol.  Thus, $M(c)$ should be a function from $S^0$ to $S$.
+    Also recall that the $0$-ary Cartesian product of any set is a
+    one-point set $\{\ast\}$.  Thus, $M(c):\{ \ast \}\to S$, which
+    corresponds to a unique element $c^M\in S$.
+  \item For each variable $x$, we let $M(x):S\to S$ be the identity
+    function.  This might seem like a strange choice, but its utility
+    will soon be clear.
+    %% TO DO: use van oosten to get this defn straight
+  \item Let $t\equiv f(t_1,\dots ,t_n)$, where $M(t_i)$ has already
+    been defined.  Let $n_i$ be the number of free variables in $t_i$.
+    The context for $t_i$ is a subcontext of the context for $t$.
+    Thus, there is a linking projection $\pi _i:S^n\to S^{n_i}$.
+    Whereas the $M(t_i)$ may have different domains (if
+    $n_i\neq n_j$), precomposition with the linking projections makes
+    them functions of a common domain $S^n$.  Thus, we define
+    \[ M[f(t_1,\dots ,t_n)] \: = \: M(f)\circ \langle M(t_1)\circ \pi
+      _1,\dots ,M(t_n)\circ \pi _n \rangle , \] which is a function
+    from $S^n$ to $S$.
+  \end{enumerate} \end{defn}
+
+We illustrate the definition of $M(t)$ with a couple of examples.
+
+\begin{example} Suppose that $f$ is a binary function symbol, and
+  consider the two terms $f(x,y)$ and $f(y,x)$.  The canonical context
+  for $f(x,y)$ is $x,y$, and the canonical context for $f(y,x)$ is
+  $y,x$.  Thus, the linking projection for $f(x,y)$ and $x$ is the
+  projection $\pi _0:S\times S\to S$ onto the first coordinate; and
+  the linking projection for $f(y,x)$ and $x$ is
+  $\pi _1:S\times S\to S$ onto the second coordinate.  Thus,
+  \[ M(f(x,y)) = M(f)\circ \langle \pi _0,\pi _1 \rangle = M(f) .\] A
+  similar calculation shows that $M(f(y,x))=M(f)$, which is as it
+  should be: $f(x,y)$ and $f(y,x)$ should correspond to the same
+  function $M(f)$.
+
+  However, it does \textit{not} follow that the formula
+  $f(x,y)=f(y,x)$ should be regarded as a semantic tautology.
+  Whenever we place both $f(x,y)$ and $f(y,x)$ into the \textit{same}
+  context, this context serves as a reference point by which the order
+  of inputs can be distinguished.
+\end{example}
+
+\begin{defn} For each formula $\phi$ of $\Sigma$ with $n$ distinct
+  free variables, we define $M(\phi )$ to be a subset of
+  $S^n=S\times \cdots\times S$.
+\begin{enumerate}
+\item $M(\bot )$ is the empty set $\emptyset$, considered as a subset
+  of the one-element set $1$.
+\item Suppose that $\phi\equiv (t_1=t_2)$, where $t_1$ and $t_2$ are
+  terms.  Let $n_i$ be the number of free variables in $t_i$.  Since
+  the context for $t_i$ is a subcontext of that for $t_1=t_2$, there
+  is a linking projection $\pi _i:S^n\to S^{n_i}$.  We define
+  $M(t_1=t_2)$ to be the equalizer of the functions
+  $M(t_1)\circ \pi _1$ and $M(t_2)\circ \pi _2$.
+  
+\item Suppose that $\phi\equiv p(t_1,\dots ,t_m)$, where $p$ is a
+  relation symbol and $t_1,\dots ,t_m$ are terms.  Let $n$ be the
+  number of distinct free variables in $\phi$.  Since the context of
+  $t_i$ is a subcontext of that of $\phi$, there is a linking
+  projection $\pi _i:S^n\to S^{n_i}$.  Then
+  $\langle \pi _1,\dots ,\pi _m\rangle$ is a function from $S^n$ to
+  $S^{n_1}\times\cdots\times S^{n_m}$.  We define
+  $M[p(t_1,\dots ,t_m)]$ to be the pullback of $M(p)\subseteq S^m$
+  along the function
+  \[ \langle M(t_1)\circ \pi _1,\dots ,M(t_m)\circ \pi _m\rangle .\]
+  %% TO DO: Boolean + Quantifiers
+\item Suppose that $M$ has already been defined for $\phi$.  Then we
+  define $M(\neg \phi )=S^n\backslash M(\phi )$.   
+\item Suppose that $\phi$ is a Boolean combination of
+  $\phi _1,\phi _2$, and that $M(\phi _1)$ and $M(\phi _2)$ have
+  already been defined.  Let $\pi _i$ be the linking projection for
+  $\phi _i$ and $\phi$, and let $\pi _i^*$ be the corresponding
+  pullback (preimage) map that takes subsets to subsets.  Then we define
+  \[ \begin{array}{l l l} M(\phi _1\wedge\phi _2 ) & = & \pi
+      _1^*(M(\phi
+                                                         _1))\cap \pi _2^*(M(\phi _2)) ,    \\
+       M(\phi _1\vee\phi _2) & = & \pi _1^*(M(\phi _1))\cup \pi
+                                   _2^*(M(\phi
+                                   _2)) , \\
+       M(\phi _1\to \phi _2) & = & (S^n\backslash \pi _1^*(M(\phi
+                                   _1)))\cup \pi _2^*(M(\phi _2)) . \end{array} \]
+
+\item Suppose that $M(\phi )$ is already defined as a subset of
+  $S^n$.  Suppose first that $x$ is free in $\phi$, and let $\pi
+  :S^{n+1}\to S$ be the linking projection for $\phi$ and $\exists
+  x\phi$.  Then we define $M(\exists x\phi )$ to be the image of
+  $M(\phi )$ under $\pi$, i.e., 
+  \[ M(\exists x\phi )\: = \: \{ \vec{a}\in S^n\mid \pi
+    ^{-1}(\vec{a})\cap M(\phi )\neq \emptyset \} .\] If $x$ is not
+  free in $\phi$, then we define $M(\exists x\phi )=M(\phi )$.
+
+  Similarly, if $x$ is free in $\phi$, then we define
+  \[ M(\forall x\phi ) \: = \: \{ \vec{a}\in S^n \mid \pi
+    ^{-1}(\vec{a})\subseteq M(\phi ) \} . \] If $x$ is not free in
+  $\phi$, then we define $M(\forall x\phi )=M(\phi )$.
+\end{enumerate} \end{defn}
+
+\begin{example} Let's unpack the definitions of $M(x=y)$ and $M(x=x)$.
+  For the former, the canonical context for $x=y$ is $x,y$.  Thus, the
+  linking projection for $x=y$ and $x$ is $\pi _0:S\times S\to S$ onto
+  the first coordinate, and the linking projection for $x=y$ and $y$
+  is $\pi _1:S\times S\to S$ onto the second coordinate.  By
+  definition, $M(x)\equiv 1_S\equiv M(y)$, and $M(x=y)$ is the
+  equalizer of $1_s\circ \pi _0$ and $1_S\circ \pi _1$.  This
+  equalizer is clearly the diagonal subset of $S\times S$:
+  \[ M(x=y) \: \equiv \: \{ \langle a,b\rangle \in S\times S \mid a=b
+    \} \: \equiv \: \{ \langle a,a\rangle \mid a\in S \} .\] In
+  contrast, the canonical context for $x=x$ is $x$, and the linking
+  projection for $x=x$ and $x$ is simply the identity.  Thus, $M(x=x)$
+  is defined to be the equalizer of $M(x)$ and $M(x)$, which is the
+  entire set $S$.  That is, $M(x=x)\equiv S$.
+\end{example}
+
+\begin{exercise} Describe $M(f(x,y)=f(y,x))$, and explain why it won't
+  neccesarily be the entire set $S\times S$. \end{exercise}
+
+We are now going to define a relation $\phi\vDash _M\psi$ of semantic
+entailment in a structure $M$; and we will use that notion to define
+the absolute relation $\phi\vDash\psi$ of semantic entailment.  (In
+short: $\phi\vDash\psi$ means that $\phi \vDash _M\psi$ in every
+structure $M$.)  Here $\phi$ and $\psi$ are formulas (not necessarily
+sentences), so we need to take a bit of care with their free
+variables.  One thing we could do is to consider the sentence
+$\forall \vec{x}(\phi\to\psi )$, where $\vec{x}$ is any sequence that
+includes all variables free in $\phi$ or $\psi$.  However, even in
+that case, we would have to raise a question about whether the
+definition depends on the choice of the sequence $\vec{x}$.  Since we
+have to deal with that question in any case, we will instead look more
+directly at the relation between the formulas $\phi$ and $\psi$, which
+might share some free variables in common.
+
+As a first proposal, we might try saying that $\phi\vDash _M\psi$ just
+in case $M(\phi )\subseteq M(\psi )$.  But the problem with this
+proposal is that $M(\phi )$ and $M(\psi )$ are typically defined to be
+subsets of different sets.  For example: the definition of $\vDash _M$
+should imply that $p(x)\vDash _M(p(x)\vee q(y))$.  However, for any
+$\Sigma$-structure $M$, $M(p(x))$ is a subset of $S$ whereas
+$M(p(x)\vee q(y))$ is a subset of $S\times S$.  The way to fix this
+problem is to realize that $M(p(x))$ can also be considered to be a
+subset of $S\times S$.  In particular, $p(x)$ is equivalent to
+$p(x)\wedge (y=y)$, and intuitively $M(p(x)\wedge (y=y))$ should the
+subset of $S\times S$ of things satisfying $p(x)$ and $y=y$.  In other
+words, $M(p(x)\wedge (y=y))$ should be $M(p(x))\times S$.
+
+Here's what we will do next.  First we will extend the definition of
+$M$ so that it assigns a formula $\phi$ an extension
+$M_{\vec{x}}(\phi )$ relative to a context $\vec{x}$.  Then we will
+define $\phi\vDash _M\psi$ to mean that
+$M_{\vec{x}}(\phi )\subseteq M_{\vec{x}}(\psi )$, where $\vec{x}$ is
+an arbitrarily chosen context for $\phi ,\psi$.  Then we will show
+that this definition does not depend on which context we chose.
+
+In order to define $M_{\vec{y}}(\phi )$ where $\vec{y}$ is an
+arbitrary context for $\phi$, we will first fix the canonical context
+$\vec{x}$ for $\phi$, and we will set $M_{\vec{x}}(\phi )=M(\phi )$.
+Then for any other context $\vec{y}$ of which $\vec{x}$ is a
+subcontext, we will use the linking projection $\pi _p$ to define
+$M_{\vec{y}}(\phi )$ as a pullback of $M_{\vec{x}}(\phi )$.
+
+\begin{defn} Let $\vec{y}=y_1,\dots ,y_n$ be a context for $\phi$, let
+  $\vec{x}=x_1,\dots ,x_m$ be the canonical context for $\phi$, and
+  let $p:[m]\to [n]$ be the corresponding injection.  We define
+  $M_{\vec{y}}(\phi )$ to be the pullback of $M(\phi )$ along
+  $\pi _p$.  In particular, when $\vec{y}=\vec{x}$, then
+  $p:[n]\to [n]$ is the identity, and $M_{\vec{x}}(\phi )=M(\phi
+  )$. \end{defn}
+
+Now we are ready to define the relation $\phi\vDash _M\psi$.
+
+\begin{defn} For each pair of formulas $\phi ,\psi$, let $\vec{x}$ be
+  the canonical context for $\phi\to\psi$.  We say that
+  $\phi\vDash _M\psi$ just in case
+  $M_{\vec{x}}(\phi )\subseteq M_{\vec{x}}(\psi )$.
+\end{defn}
+
+We will now show that the definition of $\phi\vDash _M\psi$ is
+independent of the chosen context $\vec{x}$ for $\phi ,\psi$.  In
+particular, we show that for any two contexts $\vec{x}$ and $\vec{y}$
+for $\phi ,\psi$, we have
+$M_{\vec{x}}(\phi )\subseteq M_{\vec{x}}(\psi )$ if and only if
+$M_{\vec{y}}(\phi )\subseteq M_{\vec{y}}(\psi )$.  As the details of
+this argument are a bit tedious, the impatient reader may wish to skip
+to Definition \ref{entailment}.
+
+We'll first check the compatibility of the definitions
+$M_{\vec{y}}(\phi )$ and $M_{\vec{z}}(\phi )$, where $\vec{y}$ and
+$\vec{z}$ are contexts for $\phi$.
+
+\begin{lemma} Suppose that $\vec{x}=x_1,\dots ,x_\ell$ is a subcontext
+  of $\vec{y}=y_1,\dots ,y_m$, and that $\vec{y}$ is a subcontext of
+  $\vec{z}=z_1,\dots ,z_n$.  Suppose that $p:[\ell ]\to [m]$,
+  $q:[m]\to [n]$, and $r:[\ell ]\to [n]$ are the corresponding
+  injections.  Then $r=q\circ p$.  \end{lemma}
+
+\begin{proof} By definition of $p$, $y_{p(i)}=x_i$ for $i\in [\ell ]$.
+  By definition of $r$, $z_{r(i)}=x_i$ for $i\in [\ell ]$.  Thus,
+  $y_{p(i)}=z_{r(i)}$.  Furthermore, by definition of $q$,
+  $z_{q(p(i))}=y_{p(i)}$.  Therefore, $z_{q(p(i))}=z_{r(i)}$, and
+  $q(p(i))=r(i)$.  \end{proof}
+
+\begin{lemma} Suppose that $\vec{x}$ is a context for $\phi$, and that
+  $\vec{x}$ is a subcontext of $\vec{y}$.  Let $\pi ^r:S^n\to S^m$ be
+  the projection connecting the contexts $\vec{y}$ and $\vec{x}$.
+  Then $M_{\vec{y}}(\phi )$ is the pullback of $M_{\vec{x}}(\phi )$
+  along $\pi _r$. \label{rolig} \end{lemma}
+
+\begin{proof} Let $\pi _p$ be the projection connecting $\vec{x}$ to
+  the canonical context for $\phi$, and let $\pi _q$ be the projection
+  connecting $\vec{y}$ to the canonical context for $\phi$.  Thus,
+  $M_{\vec{x}}(\phi )=\pi _p^*[M(\phi )]$, where $\pi _p^*$ denotes
+  the operation of pulling back along $\pi _p$.  Similarly,
+  $M_{\vec{y}}(\phi )=\pi _q^*[M(\phi )]$.  Furthermore,
+  $\pi _q=\pi _p\circ \pi _r$, and since pullbacks commute, we have
+  \[ M_{\vec{y}}(\phi )=\pi _q^*[M(\phi )] = \pi _r^*[\pi _p^*[M(\phi
+    )]] = \pi _r^*[M_{\vec{x}}(\phi )] ,\] as was to be
+  shown. \end{proof}
+
+\begin{prop} Suppose that $\vec{x}$ is a context for $\phi ,\psi$, and
+  that $\vec{x}$ is a subcontext of $\vec{y}$.  If
+  $M_{\vec{x}}(\phi )\subseteq M_{\vec{x}}(\psi )$ then
+  $M_{\vec{y}}(\phi )\subseteq M_{\vec{y}}(\psi
+  )$. \label{subcon} \end{prop}
+
+\begin{proof} Suppose that
+  $M_{\vec{x}}(\phi )\subseteq M_{\vec{x}}(\psi )$.  Let
+  $\pi _r:S^n\to S^m$ be the projection connecting the contexts
+  $\vec{y}$ and $\vec{x}$.  By the previous lemma,
+  $M_{\vec{y}}(\phi )=\pi _r^*[M_{\vec{x}}(\phi )]$ and
+  $M_{\vec{y}}(\psi )=\pi _r^*[M_{\vec{x}}(\psi )]$.  Since pullbacks
+  preserve set inclusion,
+  $M_{\vec{y}}(\phi )\subseteq M_{\vec{y}}(\psi )$.  \end{proof}
+
+Since we defined $\phi\vDash _M\psi$ using a minimal context $\vec{x}$
+for $\phi ,\psi$, we now have the first half of our result: if
+$\phi\vDash _M\psi$ then
+$M_{\vec{y}}(\phi )\subseteq M_{\vec{y}}(\psi )$ for any context
+$\vec{y}$ for $\phi ,\psi$.  To complete the result, we now show that
+redundant variables can be deleted from contexts.
+
+\begin{lemma} Let $\vec{x}$ be a context for $\phi$, and suppose that
+  $y$ does not occur in $\vec{x}$.  Then
+  $M_{\vec{x}.y}(\phi )=M_{\vec{x}}(\phi )\times S$.  \end{lemma}
+
+
+
+\begin{proof} Let $\vec{x}=x_1,\dots ,x_n$, and let $p:[n]\to [n+1]$
+  be the injection corresponding to the inclusion of $\vec{x}$ in
+  $\vec{x}.y$.  In this case, $p(i)=i$ for $i=1,\dots ,n$, and
+  $\pi _p:S^{n+1}\to S^n$ projects out the last coordinate.  By Lemma
+  \ref{rolig}, $M_{\vec{x}.y}(\phi )$ is the pullback of
+  $M_{\vec{x}}(\phi )$ along $\pi _p$.  However, the pullback of any
+  set $A$ along $\pi _p$ is simply $A\times S$. \end{proof}
+
+Now suppose that $M_{\vec{x}.y}(\phi )\subseteq M_{\vec{x}.y}(\psi )$,
+where $\vec{x}$ is a context for $\phi ,\psi$, and $y$ does not occur
+in $\vec{x}$.  Then the previous lemma shows that
+$M_{\vec{x}.y}(\phi )=M_{\vec{x}}(\phi )\times S$ and
+$M_{\vec{x}.y}(\psi )=M_{\vec{x}}(\psi )\times S$.  Thus,
+$M_{\vec{x}.y}(\phi )\subseteq M_{\vec{x}.y}(\psi )$ if and only if
+$M_{\vec{x}}(\phi )\subseteq M_{\vec{x}}(\psi )$.  A quick inductive
+argument then shows that any number of appended empty variables makes
+no difference.
+
+We can now conclude the argument that
+$M_{\vec{x}}(\phi )\subseteq M_{\vec{x}}(\psi )$ if and only if
+$M_{\vec{y}}(\phi )\subseteq M_{\vec{y}}(\psi )$, where $\vec{x}$ is a
+subcontext of $\vec{y}$.  The ``if'' direction was already shown in
+Prop.\ \ref{subcon}.  For the ``only if'' direction, suppose that
+$M_{\vec{y}}(\phi )\subseteq M_{\vec{y}}(\psi )$.  First use Prop.\
+\ref{subcon} again to move any variables not in $\vec{x}$ to the end
+of the sequence $\vec{y}$.  (Recall that $\vec{y}$ is a subcontext of
+any permutation of $\vec{y}$.)  Then use the previous lemma to
+eliminate these variables.  The resulting sequence is a permutation of
+$\vec{x}$, hence a subcontext of $\vec{x}$.  Finally, use Prop.\
+\ref{subcon} one more time to show that
+$M_{\vec{x}}(\phi )\subseteq M_{\vec{x}}(\psi )$.  Thus, we have shown
+that the definition of $\phi\vDash _M\psi$ is independent of the
+context chosen for $\phi ,\psi$.
+
+
+\begin{defn} We say that $\phi$ \emph{semantically entails} $\psi$,
+  written $\phi\vDash\psi$, just in case $\phi \vDash _M\psi$ for
+  every $\Sigma$-structure $M$.  We write $\vDash \psi$ as
+  shorthand for $\top\vDash\psi$.  \label{entailment} \end{defn}
+
+\begin{note} The canonical context $\vec{x}$ for the pair
+  $\{\top ,\phi \}$ is simply the context for $\phi$.  By definition,
+  $M_{\vec{x}}(\top )$ is the pullback of $1$ along the unique map
+  $\pi :S^n\to 1$.  Thus, $M_{\vec{x}}(\top )=S^n$, and
+  $\top\vDash _M\phi$ if and only if $M(\phi )=S^n$.
+  \end{note}
+
+We're now ready for two of the most famous definitions in
+mathematical philosophy.
+
+\begin{box-thm}[Truth in a structure]
+  A sentence $\phi$ has zero free variables.  In this case, $M(\phi )$
+  is defined to be a subset of $S^0=1$, a one-element set.  We say
+  that $\phi$ is \emph{true} in $M$ if $M(\phi )=1$, and we say that
+  $\phi$ is \emph{false} in $M$ if $M(\phi
+  )=\emptyset$.  \end{box-thm}
+
+\begin{box-thm}[Model] Let $T$ be a theory in signature $\Sigma$, and
+  let $M$ be a $\Sigma$-structure.  We say that $M$ is a \emph{model}
+  of $T$ just in case: for any sentence $\phi$ of $\Sigma$, if
+  $T\vdash\phi$ then $M(\phi )=1$. \end{box-thm}
+
+
+\section{The semantic view of theories}
+
+In Chapter \ref{ch:syntax}, we talked about how Rudolf Carnap used
+syntactic metalogic to explicate the notion of a scientific theory.
+By the 1960s, people were calling Carnap's picture the ``syntactic
+view of theories'', and they were saying that something was
+fundamentally wrong with it.  According to \cite{suppe2000}, the
+syntactic view of theories died in the late 1960s (March 26, 1969, to
+be precise) after having met with an overwhelming number of objections
+in the previous two decades.  Upon the death of the syntactic view, it
+was unclear where philosophy of science would go.  Several notable
+philosophers --- such as Feyerabend and Hanson --- wanted to push
+philosophy of science away from formal analyses of theories.  However,
+others such as Patrick Suppes, Bas van Fraassen, and Fred Suppe saw
+formal resources for philosophy of science in other branches of
+mathematics, most particularly set theory and model theory.  Roughly
+speaking, the ``semantic view of theories'' designates proposals to
+explicate theory-hood by means of semantic metalogic.
+
+We now have the technical resources in place to state a preliminary
+version of the semantic view of theories:
+\begin{quote}
+  (SV) A scientific theory is a class of $\Sigma$-structures for some
+  signature~$\Sigma$.
+\end{quote}
+Now, proponents of the semantic view will balk at SV for a couple of
+different reasons.  First, semanticists stress that a scientific
+theory has two components:
+\begin{enumerate}
+\item A theoretical definition; and
+\item A theoretical hypothesis.
+\end{enumerate} 
+The theoretical definition, roughly speaking, is intended to replace
+the first component of Carnap's view of theories.  That is, the
+theoretical definition is intended to specify some abstract
+mathematical object --- the thing that will be used to do the
+representing.  Then the theoretical hypothesis is some claim to the
+effect that some part of the world can be represented by the
+mathematical object given by the theoretical definition.  So, to be
+clear, SV here is only intended to give one half of a theory, viz.\
+the theoretical definition.  I am not speaking yet about the
+theoretical hypothesis.
+
+But proponents of the semantic view will balk for a second reason: SV
+makes reference to a signature $\Sigma$.  And one of the supposed
+benefits of the semantic view was to free us from the language
+dependence implied by the syntactic view.  So, how are we to modify SV
+in order to maintain the insight that a scientific theory is
+independent of the language in which it is formulated?
+
+I will give two suggestions, the first of which I think cannot
+possibly succeed.  The second suggestion works; but it shows that the
+semantic view actually has no advantage over the syntactic view in
+being ``free from language dependence.''
+
+How then to modify SV?  The first suggestion is to formulate a notion
+of mathematical structure that makes no reference to language.  At
+first glance, it seems simple enough to do so.  The paradigm case of a
+mathematical structure is supposed to be an ordered $n$-tuple
+$\langle X,R_1,\dots R_n\rangle$, where $X$ is a set, and
+$R_1,\dots ,R_n$ are relations on $X$.  (This notion of mathematical
+structure follows in the footsteps of \cite{bourbaki}, which
+incidentally, has been rendered obsolete by category theory.)
+Consider, for example, the proposal made by Lisa Lloyd:
+\begin{quote}
+  In our discussion, a {\it model} is not such an interpretation
+  [i.e.\ not an $\Sigma$-structure], matching statements to a set of
+  objects which bear certain relations among themselves, but the set
+  of objects itself.  That is, models should be understood as
+  structures; in the cases we shall be discussing, they are
+  mathematical structures, i.e., a set of mathematical objects
+  standing in certain mathematically representable
+  relations. \citep[p.\ 30]{lloyd}
+\end{quote}
+However, it's difficult to make sense of this proposal.  Consider the
+following example.
+
+\begin{example} Let $a$ be an arbitrary set, and consider the
+  following purported example of a mathematical structure:
+  \[ M \: = \: \Bigl\langle \{ a,b,\langle a,a\rangle \} ,\{ \langle
+    a,a\rangle \} \Bigr\rangle .\] That is, the domain $X$ consists of
+  three elements $a,b,\langle a,a\rangle$, and the indicated structure
+  is the singleton set containing $\langle a,a\rangle$.  But how are
+  we supposed to understand this structure?  Are we supposed to
+  consider $\{ \langle a,a\rangle \}$ to be a subset of $X$, or as a
+  subset of $X\times X$?  The former is a structure for a signature
+  $\Sigma$ with a single unary predicate symbol; the latter is a
+  structure for a signature $\Sigma '$ with a single binary relation
+  symbol.  In writing down $M$ as an ordered $n$-tuple, we haven't yet
+  fully specified an intended mathematical structure.
+
+  We conclude then that a mathematical structure cannot simply be, ``a
+  set of mathematical objects standing in certain mathematically
+  representable relations.''  To press the point further, consider
+  another purported example of a mathematical structure:
+\[ N \: = \: \Bigl\langle \{ a,b,\langle a,b\rangle \} ,\{ \langle a,b\rangle \}
+  \Bigr\rangle .\] Are $M$ and $N$ isomorphic structures?  Once again, the
+answer is underdetermined.  If $M$ and $N$ are supposed to be
+structures for a signature $\Sigma$ with a single unary predicate
+symbol, then the answer is Yes.  If $M$ and $N$ are supposed to be
+structures for a signature $\Sigma '$ with a single binary relation
+symbol, then the answer is No.  \end{example}
+
+Thus, it's doubtful that there is any ``language-free'' account of
+mathematical structures, and hence no plausible language-free semantic
+view of theories.  I propose then that we embrace the fact that we are
+``suspended in language'', to borrow a phrase from Niels Bohr.  To
+deal with our language-dependence, we need to consider notions of
+equivalence of theory-formulations --- so that the same theory to be
+formulated in different languages.  And note that this stratagem is
+available for both semantic and syntactic views of theories.  Thus,
+``language independence'' is not a genuine advantage of the semantic
+view of theories as against the syntactic view of theories.
+
+\begin{box-thm}[Philosophical Moral] It is of {\it crucial} importance
+  that we do not think of a $\Sigma$-structure $M$ as representing the
+  world.  To say that the world is isomorphic to, or even partially
+  isomorphic to, or even similar to, $M$, would be to fall into a
+  profound confusion.
+
+  A $\Sigma$-structure $M$ is {\it not} a ``set-theoretic structure''
+  in any direct sense of that phrase.  Rather, $M$ is a function whose
+  domain is $\Sigma$ and whose range consists of some sets, subsets,
+  and functions between them.  If one said that ``$M$ represents the
+  world,'' then one would be saying that the world is represented by a
+  mathematical object of type $\Sigma\to\cat{Sets}$.  Notice, in
+  particular, that $M$ has ``language'' built into its very
+  definition. \end{box-thm}
+
+%% It should be the case that if $T$ is defined in terms of sequences,
+%% then this defn is equivalent to saying that M(\phi )\subseteq
+%% M(\psi )$ for all sequents
+
+
+%% TO DO: examples of models
+
+
+%% TO DO: Should we prove soundness?
+
+\section{Soundness, completeness, compactness}
+
+We now prove versions of four central metalogical results: soundness,
+completeness, compactness, and L\"ownheim-Sk{\"olem} theorems.  For
+these results, we will make a couple of simplifying assumptions,
+merely for the sake of mathematical elegance.  We will assume that
+$\Sigma$ is fixed signature that is countable, and that has no
+function symbols.  This assumption will permit us to use the
+topological techniques introduced by \cite{rasiowa}.
+
+%% Baire category theorem
+
+\subsection*{Soundness}
+
+In its simplest form, the soundness theorem shows that for any
+sentence $\phi$, if $\phi$ is provable ($\top\vdash\phi$) then $\phi$
+is true in all $\Sigma$-structures ($\top\vDash\phi$).  Inspired by
+categorical logic, we derive this version of soundness as a special
+case of a more general result for $\Sigma$-formulas.  We show that:
+for any $\Sigma$-formulas $\phi$ and $\psi$, and for any context
+$\vec{x}$ for $\{ \phi ,\psi \}$, if $\phi\vdash _{\vec{x}}\psi$ then
+$M_{\vec{x}}(\phi )\subseteq M_{\vec{x}}(\psi )$.
+
+The proof proceeds by induction on the construction of proofs, i.e.\
+over the definition of the relation $\vdash$.  Most cases are trivial
+verifications, and we leave them to the reader.  We will just consider
+the case of the existential elimination rule, which we consider in the
+simple form:
+\[ \begin{array}{c c c} \phi\vdash _{x,y}\psi \\ \hline \exists
+    y\phi\vdash _x \psi \end{array} \] assuming that $y$ is not free
+in $\psi$.  We assume then that the result holds for the top line,
+i.e.\ $M_{x,y}(\phi )\subseteq M_{x,y}(\psi )$.  By definition,
+$M_x(\exists y\phi )$ is the image of $M_{x,y}(\phi )$ under the
+projection $X\times Y\to X$.  And since $y$ is not free in $\psi$,
+$M_{x,y}(\psi )=M_x(\psi )\times Y$.
+
+To complete the argument, it will suffice to make the following
+general observation about sets: If $A\subseteq X\times Y$ and
+$B\subseteq X$, then the following inference is valid:
+\[ \begin{array}{l l l}
+     A\subseteq \pi ^{-1}(B) \\ \hline
+     \pi (A)\subseteq B 
+   \end{array} \]
+ Indeed, suppose that $z\in \pi (A)$, which means that there is a $y\in
+ Y$ such that $\langle z,y\rangle \in A$.  By the top line, $\langle
+ z,y\rangle\in\pi ^{-1}(B)$, which means that $z=\pi \langle
+ z,y\rangle \in B$.  Now set $A=M_{x,y}(\phi )$ and $B=M_x(\psi )$,
+ and it follows that existential elimination is sound.
+
+ We leave the remaining steps of this proof to the reader, and briefly
+ comment on the philosophical significance (or lack thereof) of the
+ soundness theorem.\footnote{The discussion here borrows from the
+   ideas of Michaela McSweeney.  See \cite{mmm}.}  Philosophers often
+ gloss this theorem as showing that the derivation rules are ``safe'',
+ i.e.\ that they don't permit derivations which are not valid, or even
+ more strongly, that the rules won't permit us to derive a false
+ conclusion from true premises.  But now we have a bit of a
+ philosophical conundrum.  What is this standard of validity against
+ which we are supposed to measure $\vdash$?  Moreover, why think that
+ this other standard of validity is epistemologically prior to the
+ standard of validity we have specified with the relation $\vdash$?
+
+ Philosophers often gloss the relation $\vDash$ in terms of ``truth
+ preservation.''  They say that $\vp\vDash\psi$ \textit{means that}
+ whenever $\vp$ is true, then $\psi$ is true.  Such statements can be
+ highly misleading, if they cause the reader to think that $\vDash$ is
+ the intuitive notion of truth preservation.  No, the relation
+ $\vDash$ is yet another attempt to capture, in a mathemtically
+ precise fashion, our intuitive notion of logical consequence.  We
+ have two distinct ways of representing this intuitive notion: the
+ relation $\vdash$ and the relation $\vDash$.  The soundness and
+ completeness theorems happily show that we've captured the same
+ notion with two different definitions.
+
+The important point here is that: {\it logical syntax and logical
+semantics are enterprises of the same kind}.  The soundness and
+completeness theorems are not theorems about how mathematics relates
+to the world, nor are they theorems about how a mathematical notion
+relates to an intuitive notion.  No, these theorems demonstrate a
+relationship between mathematical things.
+
+The soundness theorem has sometimes been presented as an ``absolute
+consistency'' result, i.e.\ that the predicate calculus is consistent
+\textit{tout court}.  But such presentations are misleading: The
+soundness theorem shows only that the predicate calculus is consistent
+relative to the relation $\vDash$, i.e.\ that the relation $\vdash$
+doesn't exceed the relation $\vDash$.  It doesn't prove that there is
+no sentence $\vp$ such that $\vDash \vp$ and $\vDash \neg \vp$.  We
+agree, then, with David Hilbert: the only kind of formal consistency
+is relative consistency.
+
+
+\subsection*{Completeness}
+
+
+In Chapter \ref{cat-prop}, we saw that the completeness theorem for
+propositional logic is equivalent to the Boolean ultrafilter axiom
+(i.e.\ every nonzero element in a Boolean algebra is contained in an
+ultrafilter).  In many textbooks of logical metatheory, the
+completeness theorem for predicate logic uses Zorn's lemma, which is a
+variant of the axiom of choice (AC).  It is known, however, that the
+completeness theorem does not require the full strength of AC.  The
+proof we give here uses the Baire category theorem, which is derivable
+in ZF with the addition of the axiom of dependent choices, a slightly
+weaker choice principle.  (Exercise: can you see where in the proof we
+make use of a choice principle?)
+
+%% TO DO: check that we've defined all the vocabulary used here
+
+\begin{thm}[Baire Category Theorem] Let $X$ be a compact Hausdorff
+  space, and let $U_1,U_2,\dots $ be a countable family of sets, all
+  of which are open and dense in $X$. Then
+  $\bigcap _{i=1}^{\infty}U_i$ is dense in $X$. \end{thm}
+
+\begin{proof} Let $U=\bigcap _{i=1}^{\infty}U_i$, and let $O$ be a
+  nonempty open subset of $X$.  We need only show that $O\cap U$ is
+  nonempty.  To this end, we inductively define a family $O_i$ of open
+  subsets of $X$ as follows:
+  \begin{itemize} 
+  \item $O_1 =O\cap U_1$, which is open, and nonempty since $U_1$ is
+    dense;
+  \item Assuming that $O_n$ is open and nonempty, it has nonempty
+    intersection with $U_{n+1}$, since the latter is dense.  But any
+    point $x\in O_n\cap U_{n+1}$ is contained in a neighborhood
+    $O_{n+1}$ such that $O_{n+1}\subseteq U_{n+1}$, and
+    $\overline{O}_{n+1}\subseteq O_n$, using the regularity of $X$.
+\end{itemize}
+It follows then that the collection $\{ \overline{O}_i:i\in \7N \}$
+satisfies the finite intersection property.  Since $X$ is compact,
+there is a $p$ in $\bigcap _{i=1}^{\infty}\overline{O}_i$.  Since
+$\overline{O}_{i+1}\subseteq O_i$, it also follows that $p\in
+O_i\subseteq U_i$, for all $i$.  Therefore, $O\cap U$ is nonempty.
+\end{proof}
+
+Our proof of the completess theorem for predicate logic is similar in
+conception to the proof for propositional logic.  First we construct a
+Boolean algebra $B$ of provably-equivalent formulas.  Using the
+definition of $\vdash$, it is not difficult to see that the
+equivalence relation is compatible with the Boolean operations.  Thus,
+we may define Boolean operations as follows:
+\[ {[}\phi ]\cap {[}\psi ] =  {[}\phi\wedge\psi ] ,\qquad {[}\phi
+  ]\cup {[}\psi ] = {[}\phi\vee\psi ] , \qquad - {[}\phi ] = {[}\neg
+  \phi ] . \] If we let $0=[\bot ]$ and $1=[\top ]$, then it's easy to
+see that $\langle B,0,1,\cap ,\cup ,-\rangle $ is a Boolean algebra.
+
+Now we want to show that if $\phi$ is not provably equivalent to a
+contradition, then there is a $\Sigma$-structure $M$ such that
+$M(\phi )$ is not empty.  In the case of propositional logic, it was
+enough to show that there is a homomorphism $f:B\to 2$ such that
+$f(\phi )=1$.  But that won't suffice for predicate logic, because
+once we have this homomorphism $f:B\to 2$, we need to use it to build
+a $\Sigma$-structure $M$, and to show that $M(\phi )$ is not empty.
+As we will now see, to ensure that $M(\phi )$ is not empty, we must
+choose a homomorphism $f:B\to 2$ that is ``continuous on
+existentials''.
+
+\begin{defn} Let $f:B\to 2$ be a homomorphism.  We say that $f$ is
+  \emph{smooth on existentials} just in case for each formula $\psi$,
+  if $f(\exists x \psi )=1$ then $f(\psi [x_i/x])=1$ for some
+  $i\in \7N$. \end{defn}
+
+We will see now that these ``smooth on existentials'' homomorphisms
+are dense in the Stone space $X$ of $B$.  In fact, the argument here
+is quite general.  We first show that for any particular convergent
+family $a_i\to a$ in a Boolean algebra, the set of non-smooth
+homomorphisms is closed and has empty interior.  By saying that
+$a_i\to a$ is convergent, we mean that $a_i\leq a$ for all $i$, and
+for any $b\in B$, if $a_i\leq b$ for all $i$, then $a\leq b$.  That
+is, $a$ is the least upper bound of the $a_i$.
+
+Let's say that a homomorphism $f:B\to 2$ is \emph{smooth} relative to
+the convergent family $a_i\to a$ just in case $f(a_i)\to f(a)$ in the
+Boolean algebra $2$.  Now let $D$ be the set of homomorphisms
+$f:B\to 2$ such that $f$ is \textit{not} smooth on $a_i\to a$.  We
+will show that $D$ is a closed subset of $X$ with empty interior.  Any
+homomorphism $f:B\to 2$ preserves order, and hence $f(a_i)\leq f(a)$
+for all $i$.  Thus, if $f(a_i)=1$ for any $i$, then $f$ is smooth on
+$a_i\to a$.  It follows that
+\[ D \: = \: E_a \cap \left[ \bigcap _{i\in I}E_{-a_i} \right] .\] As
+an intersecton of closed sets, $D$ is closed.  To see that $D$ has
+empty interior, suppose that $f\in E_b\subseteq D$, where $E_b$ is a
+basic open subset of $X$.  Then we have $E_b\subseteq E_{-a_i}$, which
+implies that $a_i\leq \neg b$; and since $a_i\leq a$, we have
+$a_i\leq a\wedge \neg b$.  Thus, $a\wedge \neg b$ is an upper bound
+for the family $\{ a_i\}$.  Moreover, if $a=a\wedge \neg b$ then
+$a\wedge b=0$ in contradiction with the fact that $f(a\wedge b)=1$.
+Therefore $a$ is not the upper bound of $\{ a_i\}$, a contradiction.
+We conclude that $D$ contains no basic open subsets, and hence it has
+empty interior.
+
+Now, this general result about smooth homomorphisms is of special
+importance for the Boolean algebra of equivalence classes of formulas.
+For in this case, existential formulas are the least upper bound of
+their instances.
+
+\begin{lemma} Let $\phi$ be a $\Sigma$-formula, and let $I$ be the set
+  of indices such that $x_i$ does not occur free in $\phi$.  Then in
+  the Lindenbaum algebra, $E_{(\exists x\phi )}$ is the least upper
+  bound of $\{ E_{(\phi [x_i/x])} \mid i\in I \}$. \end{lemma}
+
+\begin{proof} For simplicity, set $E=E_{(\exists x\phi )}$ and
+  $E_i=E_{(\phi [x_i/x])}$.  The $\exists$-intro rule shows that
+  $E_i\leq E$.  Now suppose that $E_\psi \in B$ such that
+  $E_i\leq E_\psi $ for all $i\in \7N$.  That is,
+  $\phi [x_i/x]\vdash \psi$ for all $i\in I$.  Since $\phi$ and $\psi$
+  have a finite number of free variables, there is some $i\in I$ such
+  that $x_i$ does not occur free in $\psi$.  By the $\exists$-elim
+  rule, $\exists x_i\phi [x_i/x]\vdash \psi$.  Since $x_i$ does not
+  occur free in $\phi$, $\exists x_i\phi [x_i/x]$ is equivalent to
+  $\exists x\phi$.  Thus, $\exists x\phi\vdash \psi$, and
+  $E\leq E_\psi$.  Therefore, $E$ is the least upper bound of
+  $\{ E_i \mid i\in I \}$.  \end{proof}
+
+ Thus, for each existential $\Sigma$-formula $\phi$, the clopen set
+ $E_\phi$ is the union of the clopen subsets corresponding to the
+ instances of $\phi$, plus the meager set $D_\phi$ of homomorphisms
+ that are not smooth relative to $\phi$.  Since the signature $\Sigma$
+ is countable, there are countably many such existential formulas, and
+ countably many of these sets $D_\phi$ of non-smooth homomorphisms.
+ Since each $D_\phi$ is meager, the Baire category theorem entails
+ that their union also is meager.  Thus, the set $U$ of homomorphisms
+ that are smooth on {\it all} existentials is open and dense in the
+ Stone space $X$.
+
+We are now ready to continue with the completeness theorem.  Let
+$\phi$ be our arbitrary formula that is not provably equivalent to a
+contradiction.  We know that the set $E_\phi$ of homomorphisms
+$f:B\to 2$ such that $f([\phi ])=1$ is open and non-empty.  Hence,
+$E_\phi$ has non-empty intersection with $U$.  Let
+$f\in E_\phi\cap U$.  That is, $f([\phi ])=1$, and $f$ is smooth on
+all existentials.  We now use $f$ to define a $\Sigma$-structure $M$.
+  
+\begin{itemize}
+  \item Let the domain $S$ of $M$ be the set of natural numbers.
+  \item For an $n$-ary relation symbol $R\in \Sigma$, let
+    $\vec{a}\in M(R)$ if and only if $f(R(x_{a_1},\dots
+    ,x_{a_n}))=1$. \end{itemize}
+
+  % \begin{tomt} For the following proof, we will need to use a
+  %   slightly
+  %   stronger version of induction on the construction of formulas.
+  %   In
+  %   our original recipe, the step for quantifiers goes like this:
+  %   \begin{quote} Assume R for $\phi$; show R for $\exists x
+  %     \phi$.  \end{quote} The stronger version goes like this:
+  %   \begin{quote} Assume R for $\phi [y/x]$, for all variables $y$
+  %     that do not occur free in $\phi$; show R for $\exists x
+  %     \phi$. \end{quote} We claim that this stronger rule is also
+  %   valid.  Indeed, the weaker rule is implicitly schematic: if the
+  %   result shown doesn't depend on the specific choice of variable
+  %   $x$, then what we really have shown is that
+  %   \[ R(\phi [y/x])\Longrightarrow R(\exists y\phi ) ,\]
+  %   for any variable $y$ that doesn't occur free in $\phi$.  
+  % \end{tomt}
+
+  
+\begin{lemma} For any $\Sigma$-formula $\phi$ with canonical context
+   $x_{c_1},\dots ,x_{c_n}$, if $f(\phi )=1$ then
+  $\vec{c}\in M(\phi )$.  \end{lemma}
+
+\begin{proof} We prove this result by induction on the construction of
+  $\phi$.  Note that an $n$-tuple $\vec{c}$ of natural numbers
+  corresponds to a unique function $c:[n]\to \7N$.  Supposing that we
+  are given a fixed enumeration $x_1,x_2,\dots $ of the variables of
+  $\Sigma$, each such function $c$ also corresponds to an $n$-tuple
+  $x_{c_1},\dots ,x_{c_n}$, possibly with duplicate variables.  Since
+  each formula $\phi$ determines a canonical context (without
+  duplicates), $\phi$ also determines an injection $a:[n]\to\7N$.  For
+  any other function $c:[n]\to\7N$, we let $\phi _c$ denote the result
+  of replacing all free occurences of $x_{a_i}$ in $\phi$ with
+  $x_{c_i}$.
+  \begin{enumerate}
+  \item Suppose that $\phi\equiv R(x_{a_1},\dots ,x_{a_m})$, and let
+    $x_{c_1},\dots ,x_{c_n}$ be the canonical context of $\phi$.
+    Thus, for each $i=1,\dots ,m$, there is a $p(i)$ such that
+    $x_{a_i}=x_{c_{p(i)}}$.  Now, $M(\phi )$ is defined to be the
+    pullback of $M(R)$ along $\pi _p$.  Since
+    $\pi _i\pi _p(\vec{c})=c_{p(i)}=a_i$ and $\vec{a}\in M(R)$, it
+    follows that $\vec{c}\in M(\phi )$.
+
+    % [[Delete? $\pi _p:S^n\to S^m$ is projection linkithe linking
+    % projection for $\phi$ By definition, $\vec{a}\in M(R)$ and
+    % $\vec{By the definition of $M(Suppose now that $f(\phi )=1$.  By
+    %   the definition of $M$, $\vec{a}\in M(p)$.  Let $\pi _i:S^n\to S$
+    %   be the linking projection between this context and the variable
+    %   $x_{a_i}$.  In particular, if $x_{c_1},\dots ,x_{c_n}$ is the
+    %   canonical context of $\phi$, then $\pi _i(\vec{c})=a_i$.  Then
+    %   $M(\phi )$ is defined to be the pullback of $M(p)$ along
+    %   $\langle \pi _1,\dots ,\pi _m\rangle$.  In other words,
+    %   $\vec{c}\in M(\phi )$ iff
+    %   $\langle \pi _1(\vec{c}),\dots ,\pi _m(\vec{c})\rangle \in
+    %   M(p)$.]]
+
+  \item Suppose that the result is true for $\phi$ and $\psi$, and
+    suppose that $f(\phi\wedge\psi )=1$.  Let
+    $\vec{x}=x_{c_1},\dots ,x_{c_n}$ be the canonical context of
+    $\phi\wedge\psi$.  The context of $\phi$ is a subsequence of
+    $\vec{x}$, i.e.\ it is of the form
+    $x_{c_{p(1)}},\dots ,x_{c_{p(m)}}$ where $p:[m]\to [n]$ is an
+    injection.  If $\pi _p:S^n\to S^m$ is the corresponding
+    projection, then
+    \[ \pi _p(\vec{c}) \: = \: \langle c_{p(1)},\dots ,c_{p(m)}\rangle
+      .\] Similarly, if $x_{c_{q(1)}},\dots ,x_{c_{q(\ell )}}$ is the
+    context of $\psi$, then
+    \[ \pi _q(\vec{c}) \: = \: \langle c_{q(1)},\dots ,c_{q(\ell
+        )}\rangle .\] Since $f(\phi )=1=f(\psi )$, the inductive
+    hypothesis entails that $\pi _p(\vec{c})\in M(\phi )$ and
+    $\pi _q(\vec{c})\in M(\psi )$.  By definition,
+    $M(\phi\wedge\psi )=\pi _p^*(M(\phi ))\cap \pi _q^*(M(\psi ))$,
+    hence $\vec{c}\in M(\phi\wedge\psi )$ iff
+    $\pi _p(\vec{c})\in M(\phi )$ and $\pi _q(\vec{c})\in M(\psi )$.
+     
+
+    
+    
+  \item Suppose that $\phi\equiv \exists x_k\psi$, and that the result
+    is true for $\psi$, as well as for any $\psi '$ that results from
+    uniform replacement of free variables in $\psi$.  Suppose first
+    that $x_k$ is free in $\psi$.  For notational simplicity, we will
+    assume that $x_k$ is the last variable in the canonical context
+    for $\psi$.  Thus, if the context for $\phi$ is
+    $x_{c_1},\dots ,x_{c_n}$, then the context for $\psi$ is
+    $x_{c_1},\dots ,x_{c_n},x_k$.  (In the case where $\phi$ is a
+    sentence, i.e.\ $n=0$, the string $\vec{c}$ is empty.)
+
+    Now suppose that $f(\exists x_k\psi )=1$.  Since $f$ is smooth on
+    existentials, there is a $j\in\7N$ such that $x_j$ is not free in
+    $\psi$, and $f(\psi [x_j/x_k])=1$.  The context of
+    $\psi [x_j/x_k]$ is $x_{c_1},\dots ,x_{c_n},x_j$, and the
+    inductive hypothesis entails that
+    $\vec{c},j\in M(\psi [x_j/x_k])$.  By the definition of
+    $M(\exists x_k\psi )$, if $\vec{c},j\in M(\psi [x_j/x_k])$, then
+    $\vec{c}=\pi (\vec{c},j)\in M(\exists x_k\psi )$.
+  \end{enumerate}
+  The remaining inductive steps are similar to those above, and are
+  left to the reader.  \end{proof}
+
+This lemma concludes the proof of the completeness theorem, and
+immediately yields two other important model-theoretic results.
+
+\begin{thm}[Downward L{\"o}wenheim-Sk{\o}lem] Let $\Sigma$ be an
+  countable signature, and let $\phi$ be a $\Sigma$-sentence.  If
+  $\phi$ has a model, then $\phi$ also has a countable model.
+\end{thm}
+
+\begin{proof} If $\phi$ has a model, then by the soundness theorem,
+  $\phi$ is not provably equivalent to a contradiction.  Thus, by the
+  completeness theorem, $\phi$ has a model whose domain is the natural
+  numbers. \end{proof}
+
+\begin{disc} The downward L{\"o}wenheim-Sk{\o}lem theorem does not
+  hold for arbitrary sets of sentences in uncountable signatures.
+  Indeed, let $\Sigma = \{ c_r\mid r\in \mathbb{R} \}$, and let $T$ be
+  the theory with axioms $c_r\neq c_s$ when $r\neq s$.  Then $T$ has a
+  model (for example the real numbers $\mathbb{R}$), but no countable
+  model.
+
+  The L{\"o}wenheim-Sk{\o}lem theorem has sometimes been thought to be
+  paradoxical, particularly in application to the case where $T$ is
+  the theory of sets.  The theory of sets implies a sentence $\phi$
+  whose intended interpretation is, ``there is an uncountable set''.
+  The LS theorem implies that if $T$ has any model, then it has a
+  countable model $M$, and hence that $\vDash _M\phi$.  In other
+  words, there is a countable model $M$ which makes true the sentence,
+  ``there is an uncountable set''.  \end{disc}
+
+% We claim now that each $\Sigma$-structure $M$ with domain $\7N$ gives
+% rise to a homomorphism $f:B\to 2$ that is smooth on existentials.  We
+% continue to assume that $x_1,x_2,\dots $ is a fixed enumeration of the
+% variables of $\Sigma$.  Then for a formula $\phi$, we let $f(\phi )=1$
+% if and only if $\vec{c}\in M(\phi )$, where $x_{c_1},\dots ,x_{c_n}$
+% is the canonical context of $\phi$.  In the special case that $\phi$
+% is a sentence (and so has empty canonical context), our condition says
+% that $f(\phi )=1$ iff $M(\phi )=1$.
+
+\begin{thm}[Compactness] Suppose that $T$ is a set of
+  $\Sigma$-sentences.  If each finite subset of $T$ has a model, then
+  $T$ has a model.  \end{thm}
+
+It would be nice to be able to understand the compactness theorem for
+predicate logic directly in terms of the compactness of the Stone
+space of the Lindenbaum algebra.  However, this Stone space isn't
+exactly the space of $\Sigma$-structures, and so its compactness isn't
+the same thing as compactness in the logical sense.  We could indeed
+use each point $f\in X$ to define a $\Sigma$-structure $M$; but, in
+general, $f(\phi )=1$ wouldn't entail that $M(\phi )=1$.  What's more,
+there are additional $\Sigma$-structures that are not represented by
+points in $X$, in particular, $\Sigma$-structures with uncountably
+infinite domains.  Thus, we are forced to turn to a less direct proof
+of the compactness theorem.
+
+\begin{proof} We first modify the proof of the completeness theorem by
+  constructing the Boolean algebra $B_T$ of equivalence classes of
+  formulas modulo $T$-provable equivalence.  This strengthened
+  completeness theorem shows that if $T\vDash\phi$ then $T\vdash\phi$.
+  However, if $T\vdash\phi$ then $T_0\vdash\phi$ for some finite
+  subset $T_0$ of $T$. \end{proof}
+
+
+
+
+  % Since each finite subset of $T$ has a model, $T$ doesn't
+  % prove $\bot$.  (A proof draws upon only finitely many premises from
+  % $T$.)  By the completeness theorem, $T$ has a model. \end{proof}
+
+%% TO DO: curious consequences of compactness ... the way that Marker
+%% uses it, e.g. to show that there is a non-standard model of
+%% $Th(\mathbb{N})$ with
+
+\begin{disc} The compactness theorem yields all sorts of surprises.
+  For example, it shows that there is a model that satisfies all of
+  the axioms of the natural numbers, but which has a number greater
+  than all natural numbers.  Let $\Sigma$ consist of a signature for
+  arithmetic, and one additional constant symbol $c$.  We assume that
+  $\Sigma$ has a name $n$ for each natural number.  Now let
+  \[ T = Th(\mathbb{N}) \cup \{ n<c \mid n\in\mathbb{N} \} ,\] where
+  $Th(\mathbb{N})$ consists of all $\Sigma$-sentences true in
+  $\mathbb{N}$.  It's easy to see that each finite subset of $T$ of
+  consistent.  Therefore, by compactness, $T$ has a model $M$.  In the
+  model $M$, $n^M<c^M$ for all $n\in\7N$. \end{disc}
+
+
+%% compactness
+
+%% completeness
+
+%% Lowenheim-Skolem
+
+
+\section{Categories of models}
+
+There are many interesting categories of mathematical objects such as
+sets, groups, topological spaces, smooth manifolds, rings, etc..  Some
+of these categories are of special interest for the empirical
+sciences, as the objects in thos categories are the ``models'' of a
+scientific theory.  For example, a model of Einstein's general theory
+of relativity (GTR) is a smooth manifold with Lorentzian metric.
+Hence, the mathematical part of GTR can be considered to be some
+particular category of manifolds.  (The choice of arrows for this
+category of models raises interesting theoretical questions.  See,
+e.g., \cite{fewster}.)  Similarly, since a model of quantum theory is
+a complex vector space equipped with some particular dynamical
+evolution, the mathematical part of quantum theory can be considered
+to be some category of vector spaces.
+
+Philosophers of science want to talk about real-life scientific
+theories --- not imaginary theories that can be axiomatized in
+first-order logic.  Nonetheless, we can benefit tremendously from
+considering tractable formal analogies, what scientists themselves
+would call ``toy models''.  In this section, we pursue an analogy
+between models of a scientific theory and models of a first-order
+theory $T$.  In particular, we show that any first-order theory $T$
+has a category $\mathrm{Mod}(T)$ of models, and intertranslatable
+theories have equivalent categories of models.  Thus, we can think of
+the category of all categories of models of first-order theories as a
+formal analogy to the universe of all scientific theories.
+
+There are two natural definitions of arrows in the category
+$\mathrm{Mod}(T)$, one more liberal (homomorphism), and another more
+conservative (elementary embedding).
+
+\begin{defn} Let $\Sigma$ be a fixed signature, and let $M$ and $N$ be
+  $\Sigma$-structures.  We will use $X$ and $Y$ to denote their
+  respective domain sets.  A $\Sigma$-\emph{homomorphism} $h:M\to N$
+  consists of a function $h:X\to Y$ that satisfies the following:
+  \begin{enumerate}
+  \item For each relation symbol $R\in \Sigma$, there is a commutative
+    diagram:
+%% tikzcd picture Elephant p 818
+
+\begin{tikzcd}
+        MR \arrow{r}{} \arrow[>->]{d}{} & NR \arrow[>->]{d}{} \\
+        X^n \arrow{r}{h^n} &
+        Y^n 
+\end{tikzcd}
+
+\noindent Here the arrows $MR\monic X^n$ and $NR\monic Y^n$ are the
+subset inclusions, and $h^n:X^n\to Y^n$ is the map defined by
+$h^n\langle a_1,\dots ,a_n\rangle =\langle h(a_1),\dots
+,h(a_n)\rangle$.  The fact that the diagram commutes says that for any
+$\langle a_1,\dots ,a_n\rangle \in MR$, we have
+$\langle h(a_1),\dots ,h(a_n)\rangle\in NR$.
+ 
+\item For each function symbol $f\in \Sigma$, the following diagram
+  commutes:
+
+  \begin{tikzcd}
+    X^n \arrow{r}{h^n} \arrow{d}{Mf} & Y^n \arrow{d}{Nf} \\
+    X \arrow{r}{h} & Y \end{tikzcd}
+
+  \noindent In other words, for each
+  $\langle a_1,\dots ,a_n\rangle\in X^n$, we have
+  $h(M(f)\langle a_1,\dots ,a_n\rangle)=N(f)\langle h(a_1),\dots
+  ,h(a_n)\rangle$.  When $c$ is a constant symbol, this condition
+  implies that $h(c^M)=c^N$.
+\end{enumerate}
+\end{defn}
+
+%% perhaps now the example that not same homomorphisms if we use
+%% different signatures
+
+%% perhaps example of how you can't permute ... 
+
+
+\begin{defn} \label{elem} Let $M$ and $N$ be $\Sigma$-structures,
+  and let $h:M\to N$ be a homomorphism.  We say that $h$ is a
+  $\Sigma$-\emph{elementary embedding} just in case for each
+  $\Sigma$-formula $\phi$ the following is a pullback diagram:
+  \[ \begin{tikzcd} M(\phi ) \arrow{r}{} \arrow[>->]{d}{} & N(\phi )
+      \arrow[>->]{d}{}
+      \\
+      X^n \arrow{r}{h^n} & Y^n \end{tikzcd} \] In other words, for all
+  $\vec{a}\in X^n$, $\vec{a}\in M(\phi )$ iff
+  $h(\vec{a})\in N(\phi )$.  In particular, for the case where $\phi$
+  is a sentence, the following is a pullback:
+  \[ \begin{tikzcd} M(\phi ) \arrow{r}{} \arrow[>->]{d}{} & N(\phi )
+      \arrow[>->]{d}{}
+      \\
+      1 \arrow{r}{} & 1 \end{tikzcd} \] which means that
+  $M\vDash \phi$ iff $N\vDash\phi$.
+\end{defn}
+
+\begin{exercise} Show that the composite of elementary embeddings is
+  an elementary embedding. \end{exercise}
+
+Note that the conditions for being an elementary embedding are quite
+strict.  For example, let $\phi$ be the sentence that says there are
+exactly $n$ things.  If $h:M\to N$ is an elementary embedding, then
+$M\vDash\phi$ iff $N\vDash\phi$.  Thus, if the domain $X$ of $M$ has
+cardinality $n<\infty$, then $Y$ also has cardinality $n<\infty$.
+Suppose, for example, that $T$ is the theory of groups.  Then for any
+two finite groups $G,H$, there is an elementary embedding $h:G\to H$
+only if $|G|=|H|$.  Therefore, the notion of elementary embedding is
+stricter than the notion of a group homomorphism.
+
+Similarly, let $\Sigma$ be the empty signature.  Let $M$ be a
+$\Sigma$-structure with one element, and let $N$ be a
+$\Sigma$-structure with two elements.  Then any mapping $h:M\to N$ is
+a homomorphism, since $\Sigma$ is empty.  However, $\vDash _Mx=y$ but
+$\not\vDash _Nx=y$.  Therefore, there is no elementary embedding
+$h:M\to N$.
+
+The strictness of elementary embeddings leads to a little dilemma in
+choosing arrows in our definition of the category $\mathrm{Mod}(T)$ of
+models of a theory $T$.  Do we choose homomorphisms between models, of
+which there are relatively many, or do we choose elementary
+embeddings, of which there are relatively few?  We have opted to play
+it safe.
+
+\begin{defn} We henceforth use $\mathrm{Mod}(T)$ to denote the
+  category whose objects are models of $T$, and whose arrows are
+  elementary embeddings between models. \end{defn}
+
+There is a clear sense in which elementary embeddings between models
+of $T$ are structure that is definable in terms of $T$. In short,
+elementary embeddings between models should be considered to be part
+of the semantic content of the theory $T$.  Accordingly, formally
+equivalent theories ought at least to have equivalent categories of
+models.  We elevate this idea to a definition.
+
+\begin{defn} Let $T$ and $T'$ be theories, not necessarily in the same
+  signature.  We say that $T$ and $T'$ are \emph{categorically
+    equivalent} just in case the categories $\mathrm{Mod}(T)$ and
+  $\mathrm{Mod}(T')$ are equivalent. \end{defn}
+
+Notice that if we had chosen all homomorphisms as arrows, then
+$\mathrm{Mod}(T)$ would have more structure, and it would be more
+difficult for the categories $\mathrm{Mod}(T)$ and $\mathrm{Mod}(T')$
+to be equivalent.  In fact, there are theories $T$ and $T'$ that most
+mathematicians would consider to be equivalent, but which this
+criterion would judge to be inequivalent.
+
+%% Wait: don't embeddings have to preserve $E_n$ statements?  So how
+%% could they connect models of different sizes?  Consider case where
+%% $\phi$ is the sentence $E_2$.
+
+%% Claim: elementary embeddings 
+
+
+%% TO DO: show composite of morphisms is a morphism
+
+%% isomorphisms in this category.
+%% this is the thin category --- they're really not very many of
+%% these.  e.g. groups -- no elementary maps between groups of
+%% different sizes.  So, if you take group theory $T$, you don't get
+%% $Mod(T)$ is the category of groups.  [Hey, but that's an algebraic
+%% theory??]  
+
+
+%% TO DO: define elementary equivalence
+%% elementarily equivalent doesn't imply isomorphic (Lowenheim-Skolem)
+
+\begin{defn} If $M$ is a $\Sigma$-structure, we let $Th(M)$ denote the
+  theory consisting of all $\Sigma$-sentences $\phi$ such that
+  $M\vDash\phi$. \end{defn}
+
+
+%   then we define a few theories
+%   that extend $T$.
+%   \begin{enumerate}
+%   \item Define $
+%   \item Let $\Sigma '$ be the signature that results from adding to
+%     $\Sigma$ a new constant symbol for each element $a\in M$.  (We
+%     will use the same notation for elements of $M$ and these constant
+%     symbols.)  Let $\mathrm{Diag}(M)$ be the $\Sigma '$-theory
+%     generated by all atomic sentences $\phi [\vec{a}/\vec{x}]$ such
+%     that $\vec{a}\in M(\phi )$.  We call $\mathrm{Diag}(M)$ the
+%     \emph{diagonal} of $M$.
+%   \item Let $\mathrm{Diag_{el}}(M)$ be the $\Sigma '$-theory generated
+%     by all sentences $\phi [\vec{a}/\vec{x}]$ such that
+%     $\vec{a}\in M(\phi )$.  We call $\mathrm{Diag_{el}}(M)$ the
+%     \emph{elementary diagonal} of $M$. 
+%   \end{enumerate} \end{defn}
+
+% These extensions can be quite useful in describing the structure of a
+% theory $T$, and its relation to other theories.  First of all, each
+% model $M$ of $T$ gives rise to a complete, hence maximal, extension of
+% $T$ in the signature $\Sigma$.  Thus, $\mathrm{Mod}(T)$ divides into
+% equivalence classes, one for each complete extension of $T$.
+
+\begin{defn} Let $M$ and $N$ be $\Sigma$-structures.  We say that
+  $M$ and $N$ are \emph{elementarily equivalent}, written $M\equiv N$,
+  just in case $Th(M)=Th(N)$. \end{defn}
+
+\begin{exercise} Show that if $h:M\to N$ is an isomorphism, then $M$
+  and $N$ are elementarily equivalent.  \end{exercise}
+
+The converse to this exercise is not true.  For example, let $T$ be
+the empty theory in the signature $\{ = \}$.  Then for each cardinal
+number $\kappa$, $T$ has a model $M$ with cardinality $\kappa$; and if
+$M$ and $N$ are infinite models of $T$, then $M$ and $N$ are
+elementarily equivalent.  (The signature $\{ =\}$ has no formulas that
+can discriminate between two different infinite models.)  Thus, $T$
+has models that are elementarily equivalent but not isomorphic.
+
+% The following auxiliary result will help us to prove the existence of
+% elementary embeddings.
+
+% \begin{prop} Suppose that $N$ is a model of $\mathrm{Diag}(M)$.  Then
+%   there is a homomorphism $h:M\to N$.  If $N$ is a model of
+%   $\mathrm{Diag_{el}}(M)$, then there is an elementary embedding
+%   $h:M\to N$. \end{prop}
+
+% \begin{proof} Define $h:N\to M$ by setting $h(a)=N(a)$, i.e.\ the
+%   element in $N$ to which the new constant $a$ is
+%   assigned.  \end{proof}
+
+%% what to do here.  Well, I'm not terribly concerned that my reader
+%% can get into the nitty-gritty of model theory, along with all the
+%% set-theoretic details.  Instead, I want to give the high level
+%% picture about the *structure* of the models.  For this, we need a
+%% high level summary ...
+
+\section{Ultraproducts} \label{ultrap}
+
+The so-called ultraproduct construction is often considered to be a
+technical device for proving theorems.  Here we will emphasize the
+structural features of ultraproducts, rather than the details of the
+construction.  Note, however, that ultraproducts are not themselves
+limits or colimits in the sense of category theory.  Thus, we cannot
+give a simple formula relating an ultraproduct to the models from
+which it is constructed.  In one sense, ultraproducts are more like
+limits in the topological sense than they are in the
+category-theoretic sense.  Indeed, in the case of propositional
+theories, the ultraproduct of models of a theory \textit{is} the
+topological limit in the Stone space of the theory.
+
+To see this, it helps to redescribe limits in a topological space $X$
+in terms of infinitary operations $X^{\infty}\to X$.  Recall that a
+point $p\in X$ is said to be a limit point of a subset $A\subseteq X$
+just in case every open neighborhood of $p$ intersects $A$.  When $X$
+is nice enough (e.g.\ second countable), these limit points can be
+detected by sequences.  That is, in such cases, $p$ is a limit point
+of $A$ just in case there is a sequence $a_1,a_2,\dots $ of elements
+in $A$ such that $\lim _ia_i=p$.  This last equation is simply
+shorthand for the statement: for each neighborhood $U$ of $p$, there
+is a $n\in\7N$ such that $a_i\in U$ for all $i\geq n$.
+
+Suppose now, more specifically, that $X$ is a compact Hausdorff space.
+Consider the product $\prod _{i\in\7N}X$, which consists of infinite
+sequences of elements of $X$.  We can alternately think of elements of
+$\prod _{i\in\7N}X$ as functions from $\7N$ to $X$.  Since $\7N$ is
+discrete, every such function $f:\7N\to X$ is continuous, i.e.\
+$f^{-1}$ maps open subsets of $X$ to (open) subsets of $\7N$.  Of
+course, $f^{-1}$ also preserves inclusions of subsets.  Hence, for
+each filter $\2V$ of open subsets of $X$, $f^{-1}(\2V )$ is a filter
+on $\7N$.  For each point $p\in X$, let $\2V _p$ be the filter of open
+neighborhoods of $p$.  Now, for each ultrafilter $\2U$ on $\7N$, we
+define an operation $\lim _{\2U}:\prod _{i\in\7N}X\to X$ by the
+following condition:
+\[ \lim _{\2U}f =p \quad \Longleftrightarrow \quad f^{-1}(\2V
+  _p)\subseteq \2U . \] To show that this definition makes sense, we
+need to check that there is a unique $p$ satisfying the condition on
+the right.  For uniqueness, suppose that $f^{-1}(\2V _p )$ and
+$f^{-1}(\2V _q)$ are both contained in $\2U$.  If $p\neq q$, then
+there are $U\in \2V _p$ and $V\in \2V _q$ such that $U\cap V$ is
+empty.  Then $f^{-1}(U)\cap f^{-1}(V)$ is empty, in contradiction with
+the fact that $\2U$ is an ultrafilter.  For existence, suppose first
+that $\2U$ is a principal ultrafilter, i.e.\ contains all sets
+containing some $n\in \7N$.  Let $p=f(n)$.  Then for each neighborhood
+$V$ of $p$, $f^{-1}(V)$ contains $f(n)$, and hence is contained in
+$\2U$.  Suppose now that $\2U$ is non-principal, hence contains the
+cofinite filter.  Since $X$ is Hausdorff, the sequence
+$f(1),f(2),\dots $ has a limit point $p$.  Thus, for each
+$V\in\2V _p$, $f^{-1}(V)$ is a cofinite subset of $\7N$, and hence is
+contained in $\2U$.  In either case, there is a $p\in X$ such that
+$f^{-1}(\2V _p)\subseteq \2U$.
+
+Thus, the topological structure on a compact Hausdorff space $X$ can
+be described in terms of a family of operations
+$\lim _{\2U}:\prod _iX_i\to X$, where $\2U$ runs through all the
+ultrafilters on $\7N$.  This result holds in particular when
+$X=\mathrm{Mod}(T)$ is the Stone space of models of a propositional
+theory.  A limit model $\lim _{\2U}M_i$ is called an
+\emph{ultraproduct} of the models $M_i$.  Thus, in the propositional
+case, an ultraproduct of models is simply the limit relative to the
+Stone space topology.
+
+We will now try to carry over this intuition to the case of general
+first-order theories, modifying details when necessary.  To begin
+with, if $T$ is a first-order theory $\mathrm{Mod}(T)$ is too large to
+have a topology --- it is a class, and not a set.  What's more, even
+if we pretend that $\mathrm{Mod}(T)$ is a set, the ultraproduct
+construction couldn't be expected to yield a topology, but something
+like a ``pseudo-topology'' or ``weak topology'', where limits are
+defined only up to isomorphism.
+
+The details of the ultraproduct construction run as follows.  Let $I$
+be an index set, and suppose that for each $i\in I$, $M_i$ is a
+$\Sigma$-structure.  If $\2U$ is an ultrafilter on $I$, then we define
+a $\Sigma$-structure $N:=\lim _{\2U}M_i$ as follows:
+\begin{itemize}
+\item First consider the set $\prod M_i$ of ``sequences'', where each
+  $a_i\in M_i$.  We say that two such sequences are equivalent if they
+  eventually agree in the sense of the ultrafilter $\2U$.  That is,
+  $(a_i)\sim (b_i)$ just in case $\{ i\mid a_i=b_i\}$ is contained in
+  $\2U$.  We let the domain of $N$ be the quotient of $\prod M_i$
+  under this equivalence relation.
+\item For each relation symbol $R$ of $\Sigma$, we let $N(R)$ consist
+  of sequences on $n$-tuples that eventually lie in $M_i(R)$ in the
+  sense of the ultrafilter $\2U$.  That is, $(a_i)\in N( r)$ just in
+  case $\{ i\mid a_i\in M_i(R)\}$ is contained in $\2U$.  (Here one
+  uses the fact that $\2U$ is a ultrafilter to prove that $N(R)$ is
+  well-defined as a subset of $N$.)
+\end{itemize}
+The resulting model $\lim _{\2U}M_i$ is said to be an
+\emph{ultraproduct} of the models $M_i$.  In the special case where
+each $M_i$ is the same $M$, we call $\lim _{\2U}M_i$ an
+\emph{ultrapower} of $M$.  In this case, there is a natural elementary
+embedding $h:M\to \lim _{\2U}M_i$ that maps each $a\in M$ to the
+constant sequence $a,a,\dots $.
+
+We now cite without proof a fundamental theorem for ultraproducts.
+
+\begin{thm}[{\L}os] Let $\{ M_i\mid i\in I\}$ be a family of
+  $\Sigma$-structures, let $\2U$ be an ultrafilter on $I$, and let
+  $N=\lim _{\2U}M_i$.  Then for each $\Sigma$-sentence $\phi$,
+  $N\vDash \phi$ iff $\{ i \mid M_i\vDash \phi \}\in \2U$. \end{thm}
+Intuitively speaking, $\lim _{\2U}M_i$ satisfies exactly those
+sentences that are eventually validated by $M_i$ as $i$ runs through
+the ultrafilter $\2U$.
+
+%% examples -- hyperreal numbers?
+
+%% Los' theorem
+
+We saw before that elementarily equivalent models need not be
+isomorphic.  Indeed, for $M$ and $N$ to be elementarily equivalent,
+it's sufficient that there is a third model $L$ and elementary
+embeddings $h:M\to L$ and $j:N\to L$.  The following result shows that
+this condition is necessary as well. 
+
+\begin{prop} Let $M$ and $N$ be $\Sigma$-structures.  Then the
+  following are equivalent. \begin{enumerate}
+  \item $M\equiv N$, i.e.\ $M$ and $N$ are elementarily
+    equivalent.
+  \item There is a $\Sigma$-structure $L$ and elementary
+    embeddings $h:M\to L$ and $j:N\to L$. 
+  \item $M$ and $N$ have isomorphic ultrapowers.
+  \end{enumerate} \label{prop:keisler} \end{prop}
+
+\begin{proof}[Sketch of proof] $(3\Rightarrow 2)$ Suppose that
+  $j:\lim _{\2U _1}M\to \lim _{\2U _2}N$ is an isomorphism, and let
+  $L=\lim _{\2U _2}N$.  Let $h:M\to \lim _{\2U _1}M$ be the natural
+  embedding, and similarly for $k:N\to \lim _{\2U _2}N$.  Then
+  $j\circ h:M\to L$ and $k:N\to L$ are elementary embeddings.
+
+  $(2\Rightarrow 1)$ Since elementary embeddings preserve truth-values
+  of sentences, this result follows immediately.
+
+  $(1\Rightarrow 3)$ This is a difficult result, known as the
+  Keisler-Shelah isomorphism theorem.  We omit the proof, and refer
+  the reader to \cite{keisler-ult} for further
+  discussion.  \end{proof}
+
+%% Proof from Pillay notes  -- using elementary diagonal
+
+\section{Relations between theories}
+
+In the previous two chapters, we analyzed theories through a syntactic
+lense.  Thus, to explicate relations between theories --- such as
+equivalence and reduction --- we used a syntactic notion, viz.\
+translation.  In this chapter, we've taken up the semantic analysis of
+theories, i.e.\ thinking about theories in terms of their models.
+Accordingly, we would like to investigate precise technical relations
+between categories of models that correspond with our intuitive
+notions of the relations that can hold between theories.  In the best
+case scenario, the technical notions we investigate will be useful in
+honing our intuitions about specific, real-life cases.
+
+This investigation takes on special philosophical significance when we
+remember that at a few crucial junctures, philosophers claimed a
+decisive advantage for semantic analyses of relations between
+theories.  Let's recall just a couple of the most prominent such
+maneuvers.
+\begin{itemize}
+\item Van Fraassen claimed that the notion of the empirical content of
+  a theory could not be explicated syntactically, but could be
+  explicated semantically.  Hence, according to van Fraassen, the fate
+  of empiricism hangs on the fact that there are semantic relations
+  between theories that have no syntactic counterpart.
+\item Defenders of various dressed up versions of physicalism claim
+  that the mental-physical relationship cannot be explicated
+  syntactically, but can be explicated semantically.  For example, the
+  non-reductive physicalists of the 1970s claimed that the mental
+  isn't reducible (syntactically) to the physical, but it does
+  supervene (semanatically) on the physical.  Similarly, \cite{bickle}
+  claims that the failure of mind-brain reduction can be blamed on the
+  syntactic explication of reduction, and that the problems can be
+  solved by using a semantic explication of reduction.
+\end{itemize}
+These claims give the philosopher a strong motivation to explore the
+resources of logical semantics.
+
+Let's begin by setting aside some rather flatfooted attempts to use
+semantics to explicate relations between theories.  In particular,
+there seems to be a common misconception that the models of a theory
+are language-free, and can provide the standard by which to decide
+questions of theoretical equivalence.  The (mistaken) picture here is
+that two theories, $T$ and $T'$, in different languages, are
+equivalent just in case $\mathrm{Mod}(T)=\mathrm{Mod}(T')$.  We can
+illustrate this idea with a picture:
+\[ \begin{tikzcd}
+    & \mathrm{Mod}(T)=\mathrm{Mod}(T') & \\
+    T \arrow{ur} & & \arrow{ul} T' \end{tikzcd} \] The picture here is
+that the theory formulations $T$ and $T'$ are language-bound, but the
+class $\mathrm{Mod}(T)=\mathrm{Mod}(T')$ of models is a sort of
+thing-in-itself that these different formulations intend to pick out.
+
+If you remember that models are mappings from signatures, then you
+know that there is something wrong with this picture.  Yes, there are
+categories $\mathrm{Mod}(T)$ and $\mathrm{Mod}(T')$, but these
+categories are no more language-independent than the syntactic objects
+$T$ and $T'$.  In particular, if $\Sigma$ and $\Sigma '$ are different
+signatures, then there is no standard by which one can compare
+$\mathrm{Mod}(T)$ with $\mathrm{Mod}(T')$.  A model of $T$ is a
+function from $\Sigma$ to $\cat{Sets}$, and a model of $T'$ is a
+function from $\Sigma '$ to $\cat{Sets}$.  Functions with different
+domains cannot be equal; but it would also be misleading to say that
+they are {\it unequal}.  In the world of sets, judgments of equality
+and inequality only make sense for things that live in the same set.
+
+In a similar fashion, we can't make any progress in analyzing the
+relations between $T$ and $T'$ by setting their models side by side.
+One occasionally hears philosophers of science say things like:
+\begin{quote}
+  (I) There is a model of $T$ that is not isomorphic to any model of
+  $T'$; hence, $T$ and $T'$ are not
+  equivalent.  \end{quote} \begin{quote} (E) If $T$ is a subtheory of
+  $T'$, then each model of $T$ can be embedded in a model of $T'$.
+\end{quote}
+However, if $T$ and $T'$ are theories in different signatures, then
+neither I nor E makes sense.  The notions of isomorphism and
+elementary embedding are signature-relative: a function $h:M\to N$ is
+an elementary embedding just in case $h(M(\phi ))=N(\phi )$ for each
+$\Sigma$-formula $\phi$.  If $T$ and $T'$ are written in different
+signatures, then there is simply no way to compare a model $M$ of $T$
+directly with a model $N$ of $T'$.  (And this lesson goes not only for
+theories in first-order logic, but for any mathematically formalized
+scientific theory, such as quantum mechanics, general relativity,
+Hamiltonian mechanics, etc.)
+
+With these flat-footed analyses set aside, we can now raise some
+serious questions about the relations between $\mathrm{Mod}(T)$ and
+$\mathrm{Mod}(T')$.  For example, what mathematical relation between
+$\mathrm{Mod}(T)$ and $\mathrm{Mod}(T')$ would be a good explication
+of the idea that $T$ is equivalent to $T'$?  Is it enough that
+$\mathrm{Mod}(T)$ and $\mathrm{Mod}(T')$ are equivalent categories, or
+should we require something more?  Similarly, what mathematical
+relation between $\mathrm{Mod}(T)$ and $\mathrm{Mod}(T')$ would be a
+good explication of the idea that $T$ is reducible to $T'$?  Finally,
+to return to the issue of empiricism, can the empirical content of a
+theory $T$ be identified with some structure inside the category
+$\mathrm{Mod}(T)$?
+
+We will approach these questions from two directions.  Our first
+approach will involve attempting to transfer notions from the
+syntactic side to the semantic side, as in the following picture:
+\[ \begin{tikzcd}
+    T \arrow{dd} &  & \mathrm{Mod}(T) \\ \\
+    T' & & \mathrm{Mod}(T') \arrow{uu} \end{tikzcd} \] You will have
+noticed that we already followed this approach, in Chapter
+\ref{cat-prop}, with respect to propositional theories.  The goal is
+to take a syntactic relation between theories (such as ``being
+reducible to''), and to translate it over to a semantic relation
+between the models of those theories.
+
+Of course, this first approach won't be at all satisfying to those who
+would be free from the ``shackles of language.''  Thus, our second
+angle of attack is to ask directly about relations between
+$\mathrm{Mod}(T)$ and $\mathrm{Mod}(T')$.  Where do $\mathrm{Mod}(T)$
+and $\mathrm{Mod}(T')$ live in the mathematical universe, and what are
+the mathematical relationships between them?  Again, it will be no
+surprise to you that we think $\mathrm{Mod}(T)$ should, at the very
+least, be considered to be a {\it category}, whose mathematical
+structure includes not only models, but also arrows between them.
+Moreover, once we equip $\mathrm{Mod}(T)$ with sufficient structure,
+we will see that these two approaches converge, i.e.\ that the most
+interesting relations between $\mathrm{Mod}(T)$ and $\mathrm{Mod}(T')$
+are those that correspond to some syntactic relation between $T$ and
+$T'$.  It is in this sense that logical semantics is {\it dual} to
+logical syntax.
+
+We begin then with the first approach, and in particular, with showing
+that each translation $F:T\to T'$ gives rise to a functor
+$F^*:\mathrm{Mod}(T')\to \mathrm{Mod}(T)$.  We will also provide a
+partial translation manual between properties of the translation $F$
+and properties of the functor $F^*$.  To the extent that such a
+translation manual exists, each syntactic relation between $T$ and
+$T'$ corresponds to a unique semantic relation between
+$\mathrm{Mod}(T)$ and $\mathrm{Mod}(T')$, and vice versa.
+
+\begin{defn} Suppose that $F:T\to T'$ is a translation, and let $M$ be
+  a model of $T'$.  We define a $\Sigma$-structure $F^*M$ as follows:
+  \begin{itemize}
+  \item Let $F^*M$ have the same domain as $M$.
+  \item For each relation symbol $r$ of $\Sigma$, let
+    \[ (F^*M)(r) \: = \: M(Fr) .\]
+  \item For each function symbol $f$ of $\Sigma$, let $(F^*M)(f)$ be
+    the function with graph $M(Ff)$.  \end{itemize} \end{defn}
+
+We will now show that $(F^*M)(\phi )=M(F\phi )$ for each
+$\Sigma$-formula $\phi$.  However, we first need an auxiliary lemma.
+For this, recall that if $f:X\to Y$ is a function then its graph is
+the subset $\{ \langle x,f(x)\rangle \mid x\in X\}$ of $X\times Y$.
+
+%% For next result we need to assume that $Ff$ is a functional
+%% relation
+
+\begin{lemma} For each $\Sigma$-term $t$, $M(Ft)$ is the graph of the
+  function $(F^*M)(t)$.  \end{lemma}
+
+\begin{proof} We prove this by induction on the construction of $t$.
+  Recall that if $t$ is a term with $n$ free variables, then $Ft$ is a
+  formula with $n+1$ free variables, and $M(Ft)$ is a subset of
+  $S^{n+1}$.
+  \begin{itemize}
+  \item Suppose that $t\equiv x$.  Then $Ft\equiv (x=y)$ for some
+    variable $y\not\equiv x$.  In this case, $M(Ft)$ is the diagonal
+    of $S\times S$, which is the graph of $1_S=(F^*M)(x)$.
+  \item Now suppose that the result is true for $t_1,\dots ,t_m$, and
+    let $t\equiv f(t_1,\dots ,t_m)$.  Recall that $Ft$ is defined as
+    the composite of the relation $Ff$ with the relations
+    $Ft_1,\dots ,Ft_m$.  Since $M$ preserves the relevant logical
+    structures, $M(Ft)$ is the composite of the relation $M(Ff)$ with
+    the relations $M(Ft_1),\dots ,M(Ft_m)$.  Moreover, $(F^*M)(t)$ is
+    defined to be the composite of the function $(F^*M)(f)$ with the
+    functions $(F^*M)(t_1),\dots ,(F^*M)(t_m)$.  In general, the graph
+    of a composite function is the composite of the graphs.
+    Therefore, $M(Ft)$ is the graph of
+    $(F^*M)(t)$.  \end{itemize} \end{proof}
+
+\begin{prop} For each $\Sigma$-formula $\phi$,
+  $(F^*M)(\phi )=M(F\phi )$.  \end{prop}
+
+\begin{proof} We prove this by induction on the construction of
+  $\phi$. \begin{itemize}
+  \item Suppose that $\phi\equiv (t_1=t_2)$.  Then $F\phi$ is the
+    formula $\exists y(Ft_1(\vec{x},y)\wedge Ft_2(\vec{x},y)$.  Here,
+    for simplicity, we write $\vec{x}$ for the canonical context of
+    $F\phi$.  Thus, $M(F\phi )$ consists of elements $\vec{a}\in S^n$
+    such that $\langle \vec{a},b\rangle \in M(Ft_1)$ and
+    $\langle \vec{a},b\rangle \in M(Ft_2)$ for some $b\in S$.  By the
+    previous lemma, $M(Ft_i)$ is the graph of $(M^*F)(t_i)$.  Thus,
+    $M(F\phi )$ is the equalizer of $(M^*F)(t_1)$ and $(M^*F)(t_2)$.
+    That is, $M(F\phi )=(M^*F)(\phi )$.
+
+ \item Suppose that $\phi\equiv p(t_1,\dots ,t_m)$.  Then $F\phi$ is
+   the formula
+   \[ \exists z_1\cdots \exists z_m(Fp(y_1,\dots ,y_m)\wedge
+     Ft_1(\vec{x},y_1)\wedge\cdots\wedge Ft_m(\vec{x},y_m)) .\] Hence
+   $M(F\phi )$ consists of those $\vec{a}\in S^n$ such that there are
+   $b_1,\dots ,b_m\in S$ with $\langle \vec{a},b_i\rangle \in M(Ft_i)$
+   and $\vec{b}\in M(Fp)$.  By the previous lemma, $M(Ft_i)$ is the
+   graph of $(F^*M)(t_i)$.  Hence, $M(F\phi )$ consists of those
+   $\vec{a}\in S^n$ such that
+   \[ \langle (F^*M)(t_1),\dots ,(F^*M)(t_m)\rangle (\vec{a}) \in
+     M(Fp) = (F^*M)(p) .\] In other words, $M(F\phi )=(F^*M)(\phi )$.
+   (Here we have ignored the fact that the terms $t_1,\dots ,t_m$
+   might have different free variables.  In that case, we need simply
+   to prefix the $(F^*M)(t_i)$ with the appropriate projections to
+   represent them on the same domain $S^n$.)
+
+ \item Suppose that $\phi\equiv (\phi _1\wedge \phi _2)$, and the
+   result is true for $\phi _1$ and $\phi _2$.  Now,
+   $F(\phi _1\wedge \phi _2)=F\phi _1\wedge F\phi _2$.  Hence
+   $M(F(\phi _1\wedge \phi _2))$ is the pullback of $M(F\phi _1)$ and
+   $M(F\phi _2)$ along the relevant projections (determined by the
+   contexts of $\phi _1$ and $\phi _2$).  Since $F$ preserves contexts
+   of formulas, and $M(F\phi _i)=(F^*M)(\phi _i)$, it follows that
+   $M(F(\phi _1\wedge \phi _2))=(F^*M)(\phi _1\wedge \phi _2)$.
+
+ \item We now deal with the existential quantifier.  For simplicity,
+   suppose that $\phi$ has free variables $x$ and $y$.  We suppose
+   that the result is true for $\phi$, that is,
+   \[ (F^*M)(\phi )=M(F(\phi)) ,\] and we show that 
+   \[ (F^*M)(\exists x\phi )=M(F(\exists x\phi )) .\] By definition,
+   $(F^*M)(\exists x\phi )$ is the image of $(F^*M)(\phi )$ under the
+   projection $\pi :X\times Y\to Y$.  Moreover,
+   $F(\exists x\phi )=\exists xF(\phi )$, which means that
+   $M(F(\exists x\phi ))$ is the image of $M(F(\phi ))$ under the
+   projection $\pi$.
+    \end{itemize}
+  \end{proof}
+
+\begin{prop} Suppose that $F:T\to T'$ is a translation.  If $M$ is a
+model of $T'$ then $F^*M$ is a model of $T$. \end{prop}
+
+\begin{proof} Suppose that $T\vdash \phi$.  Since $F$ is a
+translation, $T'\vdash F\phi$.  Since $M$ is a model of $T'$,
+$M(F\phi )=S^n$.  Therefore $(F^*M)(\phi )=S^n$.  Since $\phi$ was
+an arbitrary $\Sigma$-formula, we conclude that $F^*M$ is a model
+of $T$.  \end{proof}
+
+
+\begin{defn} \label{mfunc} Let $F:T\to T'$ be a translation.  We now
+  extend the action of $F^*$ from models of $T'$ to elementary
+  embeddings between these models.  Let $M$ and $N$ be models of $T'$
+  with corresponding domains $X$ and $Y$.  Let $h:M\to N$ be an
+  elementary embedding.  Since $F^*M$ has the same domain as $M$, and
+  similarly for $F^*N$ and $N$, this $h$ is a candidate for being an
+  elementary embedding of $F^*M$ into $F^*N$.  We need only check that
+  the condition of Defn.\ \ref{elem} holds, i.e.\ that for each
+  $\Sigma$-formula $\phi$, the following diagram is a pullback:
+  \[ \begin{tikzcd} (F^*M)(\phi ) \arrow{r}{} \arrow[>->]{d}{} &
+      (F^*N)(\phi ) \arrow[>->]{d}{}
+      \\
+      X^n \arrow{r}{h^n} & Y^n \end{tikzcd} \] But
+  $(F^*M)(\phi )=M(F\phi )$ and $(F^*N)(\phi )=N(F\phi )$.  Since
+  $h:M\to N$ is elementary, the corresponding diagram is a pullback.
+  Therefore $h:F^*M\to F^*N$ is elementary.
+
+  Now, the underlying function of $F^*h:F^*M\to F^*N$ is the same as
+  the underlying function of $h:M\to N$.  Thus, $F^*$ preserves
+  composition of functions, as well as identity functions; and
+  $F^*:\mathrm{Mod}(T')\to \mathrm{Mod}(T)$ is a functor. \end{defn}
+
+We have shown that each translation $F:T\to T'$ corresponds to a
+functor $F^*:\mathrm{Mod}(T')\to \mathrm{Mod}(T)$.  Now we would like
+to compare properties of $F$ with properties of $F^*$.  The
+fundamental result here is that if $F$ is a homotopy equivalence, then
+$F^*$ is an equivalence of categories.  
+
+\begin{prop} If $T$ and $T'$ are intertranslatable, then
+  $\mathrm{Mod}(T)$ and $\mathrm{Mod}(T')$ are equivalent categories.
+  In particular, if $F:T\to T'$ and $G:T'\to T$ form a homotopy
+  equivalence, then $F^*$ and $G^*$ are inverse functors. \end{prop}
+
+\begin{proof}[Sketch of proof] In the following chapter, we prove a
+  stronger result: if $T$ and $T'$ are Morita equivalent, then
+  $\mathrm{Mod}(T)$ and $\mathrm{Mod}(T')$ are equivalent categories.
+  In order to avoid duplicating work, we will just sketch the proof
+  here.  One shows that $(FG)^*=G^*F^*$, and that for any two
+  translations $F$ and $G$, if $F\simeq G$ then $F^*=G^*$.  Since
+  $GF\simeq 1_T$, it follows that
+  \[ F^*G^* \: = \: (GF)^* \: = \:1_T^* \: = \: 1_{\mathrm{Mod}(T)}
+    .\] Similarly, $G^*F^*=1_{\mathrm{Mod}(T')}$, and therefore
+  $\mathrm{Mod}(T)$ and $\mathrm{Mod}(T')$ are equivalent categories.
+\end{proof}
+
+\begin{cor} If $T$ and $T'$ are intertranslatable, then $T$ and $T'$
+  are categorically equivalent. \end{cor}
+
+One upshot of this result is that categorical properties of
+$\mathrm{Mod}(T)$ are \emph{invariants} of intertranslatability.  For
+example, if $\mathrm{Mod}(T)$ has all finite products and
+$\mathrm{Mod}(T')$ does not, then $T$ and $T'$ are not
+intertranslatable.  We should think a bit, then, about which features
+of a category are invariant under categorical equivalence.
+
+Recall that the identity of a category $\cat{C}$ has nothing to do
+with the identity of its objects.  All that matters is the relations
+that these objects have to each other.  Thus, if we look at
+$\mathrm{Mod}(T)$ qua category, then we are forgetting that its
+objects are models.  Instead, we are focusing exclusively on the
+arrows (elementary embeddings) that relate these models, including the
+symmetries (automorphisms) of models.  Here are some of the properties
+that can be expressed in the language of category theory:
+\begin{enumerate}
+\item $\cat{C}$ has products.
+\item $\cat{C}$ has coproducts.
+\item $\cat{C}$ has all small limits. \end{enumerate} The list could
+go on, but the real challenge is to say which of the properties of the
+category $\mathrm{Mod}(T)$ corresponds to an interesting feature of
+the theory $T$.  For example, might it be relevant that
+$\mathrm{Mod}(T)$ has products, i.e.\ that for any two models $M,N$ of
+$T$, there is a model $M\times N$, with the relevant projections,
+etc.?  Keep in mind that these mathematical statements don't have an
+obvious interpretation in terms of what the theory $T$ might be saying
+about the world.  e.g.\ to say that $\mathrm{Mod}(T)$ has products
+doesn't tell us that there is an operation that takes two possible
+worlds and returns another possible world.
+
+Recall, in addition, that category theorists ignore properties that
+are not invariant under categorical equivalence.  For example, the
+property ``$\cat{C}$ has exactly two objects,'' is not invariant under
+all categorical equivalences.  Although the notion of a ``categorical
+property'' is somewhat vague, the practicing category theorist knows
+it when he sees it --- and fortunately, work is in progress in
+explicating this notion more precisely
+\citep[see][]{makkai-folds,dimitris-folds}.
+  
+To be clear, we don't mean to say that $\mathrm{Mod}(T)$ should be
+seen {\it merely} as a category.  If we did that, then we would lose
+sight of some of the most interesting information about a theory.
+Consider, in particular, the following fact:
+
+\begin{prop} If $T$ is a propositional theory, then $\mathrm{Mod}(T)$
+  is a discrete category, i.e.\ the only arrows in $\mathrm{Mod}(T)$
+  are identity arrows. \end{prop} This result implies that for any two
+propositional theories $T$ and $T'$, if they have the same number of
+models, then they are categorically equivalent.  But don't let this
+make you think that the space $\mathrm{Mod}(T)$ of models of a
+propositional theory $T$ has no interesting structure.  We saw in
+Chapter \ref{cat-prop} that it has interesting topological structure,
+which represents a notion of ``closeness'' of models.
+
+At the time of writing, there is no canonical account of the structure
+that is possessed by $\mathrm{Mod}(T)$ for a general first-order
+theory $T$.  However, there has been much interesting mathematical
+research in this direction.  The first main proposal, due to
+\cite{makkai-up}, defines the ``ultraproduct structure'' on
+$\mathrm{Mod}(T)$, i.e.\ which models are ultraproducts of which
+others.  Interestingly, as we saw in the previous section, the
+ultraproduct construction looks like a topological limiting
+construction --- and the coincidence is exact for the case of
+propositional theories.  The second proposal for identifying the
+structure of $\mathrm{Mod}(T)$ is due originally to \cite{butz}, and
+has been recently developed by \cite{awodey}.  According to this
+second proposal, $\mathrm{Mod}(T)$ is a topological groupoid, i.e.\ a
+groupoid in the category of topological spaces.  Thus, according to
+both proposals, $\mathrm{Mod}(T)$ is like a category with a topology
+on it, where neither bit of structure --- categorical or topological
+--- is dispensable.
+
+In the case of predicate logic theories, the categorical structure of
+$\mathrm{Mod}(T)$ does occasionally tell us something about $T$.  We
+first show that the completeness or incompleteness of a theory can be
+detected by its category of models.  Recall that a theory $T$ in
+signature $\Sigma$ is said to be \emph{complete} just in case for each
+$\Sigma$-sentence $\phi$, either $T\vdash\phi$ or $T\vdash\neg\phi$.
+Obviously every inconsistent theory is incomplete.  So when we talk
+about a complete theory $T$, we usually mean a complete, consistent
+theory.  In this case, the following conditions are equivalent:
+  \begin{enumerate}
+ \item $T$ is complete.
+  \item $\mathrm{Cn}(T)=\mathrm{Th}(M)$ for some $\Sigma$-structure
+  $M$.
+\item $T$ has a unique model, up to elementary equivalence.  i.e.\ if
+  $M,N$ are models of $T$, then $M\equiv N$.
+\item $\mathrm{Mod}(T)$ is directed in the sense that for any two
+  models $M_1,M_2$ of $T$, there is a model $N$ of $T$ and elementary
+  embeddings $h_i:M_i\to N$.\end{enumerate}
+
+\begin{exercise} Prove that the four conditions above are equivalent.
+  Hint: use Prop.\ \ref{prop:keisler}. \end{exercise}
+
+
+The last property is a categorical property: if $\cat{C}$ and
+$\cat{D}$ are categorically equivalent, then $\cat{C}$ is directed iff
+$\cat{D}$ is directed.  Therefore, completeness of theories is an
+invariant of categorical equivalence.
+
+Now, it is well known that complete theories can nontheless have many
+non-isomorphic models.  It has occasionally been thought that an ideal
+theory $T$ would be \emph{categorical} in the sense that every two
+models of $T$ are isomorphic.  (The word ``categorical'' here has
+nothing to do with category theory.)  However, the
+L{\"o}wenheim-Sk{\o}lem theorem destroys any hope of finding a
+non-trivial categorical theory: if $T$ has an infinite model, then it
+has models of other infinite cardinalities, and these models cannot be
+isomorphic.  For the purposes, then, of classifying more of less
+``nice'' theories, logicians found it useful to weaken categoricity in
+the following way:
+
+\begin{defn} Let $\kappa$ be a cardinal number, and let $T$ be a
+  theory in signature $\Sigma$.  We say that $T$ is
+  $\kappa$-\emph{categorical} just in case any two models $M$ and $N$
+  of $T$, if $|M|=|N|=\kappa$, then there is an isomorphism
+  $h:M\to N$. \end{defn}
+
+\begin{example} Let $T$ be the empty theory in signature $\{ =\}$.  A
+  model of $T$ is simply a set, and two models of $T$ are isomorphic
+  if they have the same cardinality.  Therefore, $T$ is
+  $\kappa$-categorical for each cardinal number
+  $\kappa$.  \end{example}
+
+\begin{example} Let $\Sigma = \{ <\}$, where $<$ is a binary relation
+  symbol.  Let $T$ be the theory in $\Sigma$ that says that $<$ is a
+  discrete linear order without endpoints.  Then $T$ is not
+  $\aleph _0$-categorical.  For example, the set $\7N$ of natural
+  numbers (with its standard ordering) is a model of $T$, but so is
+  the disjoint union $\7N\amalg\7N$, where every element of the second
+  copy is greater than every element of the first. \end{example}
+
+Thus, if $T$ is categorical for all cardinal numbers, then
+$\mathrm{Mod}(T)$ has a relatively simple structure as a category: it
+is like a tower, with a unique (up to isomorphism) model $M_\kappa$
+for each cardinal number $\kappa$.  (A generalization of the
+L\"owenheim-Sk{\o}lem theorem shows that for each infinite model $M$
+of $T$, there if a model $N$ of $T$ of higher cardinality and an
+elementary embedding $h:M\to N$.)  Nonetheless, it is well known that
+there are many inequivalent categorical theories, and these theories
+are differentiated by the topological groups of symmetries of their
+models.
+
+%% perhaps example here of DLO without endpoints.  perhaps simple
+%% example of a theory that isn't categorical.  e.g. linear order
+
+% The following result admits of a broad generalization.  However, it
+% will be convenient for us to deal only with the special case of a
+% countable signature.
+
+% \begin{prop} Suppose that $\Sigma$ is a countable signature, and that
+%   $T$ is a consistent theory in $\Sigma$.  Suppose also that $T$ has
+%   no finite models.  If $T$ is $\aleph _0$-categorical, then $T$ is
+%   complete. \end{prop}
+
+% \begin{proof} Suppose that $T$ is not complete.  Then there are two
+%   models $M$ and $N$ of $T$ that are not elementarily equivalent.  It
+%   follows immediately that $T$ has consistent extensions $T_1$ and
+%   $T_2$ which are mutually incompatible.  Since $T$ has no finite
+%   models, neither do $T_1$ and $T_2$.  By the L\"owenheim-Sk{\o}lem
+%   theorem, $T_i$ has a countably infinite model $M_i$.  But then $M_1$
+%   and $M_2$ are non-isomorphic countable models of $T$.  Therefore $T$
+%   is not $\aleph _0$-categorical. \end{proof}
+
+We now set aside the discussion of equivalence to look at other types
+of relations between theories.  Recall that a translation $F:T\to T'$
+is said to be \emph{essentially surjective} just in case for each
+$\Sigma$-sentence $\psi$ there is a $\Sigma$-sentence $\phi$ such that
+$T'\vdash \psi\lra F\phi$.  A paradigmatic case of an essentially
+surjective translation is the translation from a theory $T$ to a
+theory $T'$ with some new axioms in the same signature.  Recall also
+that a functor $F^*:\cat{C}\to \cat{D}$ is said to be \emph{full} just
+in case for any objects $M,N$ of $\cat{C}$, and for any arrow
+$f:F^*M\to F^*N$, there is an arrow $g:M\to N$ such that $F^*g=f$.  In
+the special case of groups (i.e.\ categories with only one object, and
+only isomorphisms), a functor is full iff it is a surjective
+homomorphism.
+
+\begin{prop} If $F:T\to T'$ is essentially surjective then
+  $F^*:\mathrm{Mod}(T')\to \mathrm{Mod}(T)$ is
+  full.  \label{rupaul} \end{prop}
+
+\begin{proof} Let $h:F^*M\to F^*N$ be a $\Sigma$-elementary embedding.
+  We need to show that $h=F^*j$ where $j:M\to N$ is a
+  $\Sigma '$-elementary embedding.  Finding the function $j$ is easy,
+  since $h$ is already a function from the domain of $M$ to the domain
+  of $N$.  Thus, we need only show that $h$ is $\Sigma '$-elementary,
+  i.e.\ that for any $\Sigma '$-formula $\psi$, the following is a
+  pullback:
+  \[ \begin{tikzcd} M(\psi ) \arrow{r}{} \arrow[>->]{d}{} & N(\psi )
+      \arrow[>->]{d}{}
+      \\
+      X^n \arrow{r}{h^n} & Y^n \end{tikzcd} \] Since $F$ is eso, there
+  is a $\Sigma$-formula $\phi$ such that $T'\vdash \psi\lra F\phi$.
+  Since $M$ and $N$ are models of $T'$,
+  $M(\psi )=M(F\phi )=F^*M(\phi )$ and
+  $N(\psi )=N(F\phi )=(F^*N)(\phi )$.  Since $h$ is
+  $\Sigma$-elementary, the diagram is a pullback.  Therefore,
+  $j:M\to N$ is $\Sigma '$-elementary, and $F^*$ is full. \end{proof}
+
+The preceeding result can be quite useful in showing that there is no
+essentially surjective translation from $T$ to $T'$.
+
+\begin{example} Let $T$ be the theory in signature $\{ =\}$ that says
+  there are exactly two things.  Let $T'$ be the theory in signature
+  $\{ =,c\}$ that says there are exactly two things.  These two
+  theories consist of exactly the same sentences; and yet, we will now
+  see that they are not intertranslatable.
+
+  The theory $T$ is categorical: i.e.\ it has a unique model
+  $M = \{ \ast ,\star \}$ up to isomorphism, and
+  $\mathrm{Aut}(M)=\mathbb{Z}_2$ is the permutation group on two
+  elements.  Thus, $\mathrm{Mod}(T)$ is equivalent to the group
+  $\mathbb{Z}_2$.  The theory $T'$ is also categorical; however, its
+  models are rigid, i.e.\ have no non-trivial automorphisms.  Hence,
+  $\mathrm{Mod}(T')$ is equivalent to the group $(e)$.  Clearly there
+  is no full functor $G:\mathrm{Mod}(T')\to \mathrm{Mod}(T)$, and
+  therefore Prop.\ \ref{rupaul} entails that there is no essentially
+  surjective translation $F:T\to T'$.
+
+
+  %% TO SHOW : TO DO : If $I^*$ is a categorical equivalence, then $I$
+  %% is a homotopy equivalence.  I think that Pearce and van Benthem
+  %% might even show this.
+
+  It would hardly to make sense to think of either $T$ or $T'$ as an
+  actual scientific theory.  However, in the spirit of constructing
+  toy models, we could raise a fanciful question: if Jack accepted
+  $T$, and Jill accepted $T'$, then what would be the locus of their
+  disagreement?  They both assert precisely the same sentence: there
+  are exactly two things.  We cannot say that they disagree about
+  whether there are constant symbols, because symbols aren't things
+  ``in the world'', but are devices used to speak about things in the
+  world.  So perhaps Jack and Jill disagree about whether the two
+  things in the world are interchangeable?
+\end{example}
+
+The next pair of results derive properties of $F$ from properties of
+$F^*$.  We first recall the syntactic notion of a conservative
+extension.
+
+\begin{defn} A translation $F:T\to T'$ is said to be
+  \emph{conservative} just in case $T'\vdash F\phi$ only if
+  $T\vdash\phi$, for each $\Sigma$-formula $\phi$.  \end{defn}
+
+Thus, a conservative translation $F:T\to T'$ is one that does not
+create new consequences for $T$.  Paradigm examples of this kind of
+translation can be generated by the inclusion $I:\Sigma\to\Sigma '$
+where $\Sigma\subseteq \Sigma '$.  Adding this new vocabulary to
+$\Sigma$ does not generate new consequences for a theory $T$ in
+$\Sigma$.
+
+Now let's consider how the notion of a conservative extension might be
+formulated semantically.  Recall that a functor
+$F^*:\mathrm{Mod}(T')\to\mathrm{Mod}(T)$ is said to be
+\emph{essentially surjective} just in case for each model $M$ of $T$,
+there is a model $N$ of $T'$ and an isomorphism $h:M\to F^*N$.  In the
+case of an inclusion $I:\Sigma\to\Sigma '$, the functor $I^*$ is
+essentially surjective iff each model of $T$ can be expanded to a
+model of $T'$.
+
+It's fairly easy to see that if $F^*$ is essentially surjective, then
+$F$ is conservative.  In fact, we can weaken the condition on $F^*$ as
+follows.
+
+\begin{defn} Let $F:T\to T'$ be a translation.  We say that
+  $F^*:\mathrm{Mod}(T')\to \mathrm{Mod}(T)$ is \emph{covering} just in
+  case for each $M\in \mathrm{Mod}(T)$, there is an
+  $N\in\mathrm{Mod}(T')$ and an elementary embedding $h:M\to
+  F^*(N)$. \end{defn}
+
+\begin{prop} Let $F:T\to T'$ be a translation.  If $F^*$ is covering
+  then $F$ is conservative.  \label{cover} \end{prop}
+
+\begin{proof} Suppose that $T'\vdash F\phi$.  Let $M$ be an arbitrary
+  model of $T$, and let $h:M\to F^*(N)$ be the promised elementary
+  embedding.  Since $N\vDash F\phi$, we have $F^*(N)\vDash \phi$, and
+  since $h$ is elementary $M\vDash\phi$.  Since $M$ was an arbitrary
+  model of $T$, it follows that $T\vdash \phi$.  \end{proof}
+
+\begin{cor} Let $F:T\to T'$ be a translation.  If $F^*$ is essentially
+  surjective then $F$ is conservative. \end{cor}
+
+The following example shows that the condition of $F^*$ being
+essentially surjective is strictly stronger than $F$ being
+conservative.  Thus, a translation $F:T\to T'$ may be conservative
+even though not every model of $T$ can be expanded to a model of $T'$.
+
+\begin{example} Let $\Sigma = \{ c_q\mid q\in\7Q\}$ and let
+  $\Sigma '=\{ c_r\mid r\in\7R \}$.  Let $T'$ be the theory with
+  axioms $c_r\neq c_s$ when $r\neq s$, and let $T$ be the restriction
+  of $T'$ to $\Sigma$.  Obviously, for each model $M$ of $T$, there is
+  a model $M'=M\amalg N$ of $T'$ and an elementary embedding
+  $h:M\to I^*(M')$.  By Prop.\ \ref{cover}, $T'$ is a conservative
+  extension of $T$.  However, a countable model $M$ of $T$ cannot be
+  isomorphic to $I^*(M')$, for any model $M'$ of $T'$.  Therefore,
+  $I^*$ is not essentially surjective.
+\end{example}
+
+
+
+% \begin{prop} Let $F:T\to T'$ be a translation.  If $F^*$ is
+%   essentially surjective then $F^*$ is surjective on the
+%   nose. \end{prop}
+
+% \begin{proof} Let $M$ be a models of $T$.  Since $F^*$ is eso, there
+%   is a model $N'$ of $T'$ an an isomorphism $h:M\to F^*N$.  Thus, for
+%   any relation symbol $p$ of $\Sigma$, we have $h^{-1}(N'(p))=M(p)$.
+%   Define a $\Sigma '$-structure $M'$ with the same domain set as $M$,
+%   letting
+%   \[ M'(p)\: = \: h^{-1}(N'(p)) ,\] for each relation symbol $p$ of
+%   $\Sigma '$.  If $\Sigma '$ has function symbols, we apply the same
+%   recipe to them.  Then $M'$ is trivially a model of $T'$.  Moreover,
+%   for any relation symbol $p$ of $\Sigma$, we have
+%   \[ F^*(M')(p) \: = \: M'(p) \: = \: h^{-1}(N'(p)) \: = \: M(p) .\]
+%   Therefore $F^*(M')=M(p)$, and $F^*$ is surjective on the nose.
+% \end{proof}
+
+% The previous result shows that for a translation $F:T\to T'$, there is
+% no difference between requiring that $F^*$ is surjective and requiring
+% that $F^*$ is essentially surjective.  (Incidentally, this trivial
+% result shows that not every functor between $\mathrm{Mod}(T)$ and
+% $\mathrm{Mod}(T')$ is of the form $F^*$ for some translation $F$.)
+% Thus, we are ready for our definition:
+
+
+% TO DO -- make this example work
+%
+% The previous example raises a question: do ``conservative'' and
+% ``mt-conservative'' fall apart only in cases where the signature
+% $\Sigma '$ is large, in particular, when $\Sigma '$ has cardinality
+% greater than $\aleph _0$?  The answer, in short, is No.  The issue
+% isn't the size of the signature $\Sigma '$, but the fact that $T'$ can
+% demand the existence of things that ``cannot be seen'' by $T$.
+
+% \begin{example} Let $T$ be Peano arithmetic in its standard signature
+%   $\Sigma$.  Let $\Sigma '=\Sigma\cup \{c\}$, where $c$ is a new
+%   constant symbol.  Let $T'=T\cup \{ n<c \mid n\in \7N \}$.  Here we
+%   use ``$n$'' ambiguously as a natural number, and as the
+%   $\Sigma$-term obtained by successive application of the successor
+%   function symbol $s$ to the constant symbol $0$.  We claim first that
+%   $T'$ is a conservative extension of $T$. 
+% \end{example}
+
+%% conservative => superjective
+
+%% eso =>
+
+
+\begin{disc} We have given a relatively weak condition on
+  $F^*:\mathrm{Mod}(T')\to\mathrm{Mod}(T)$ which implies that
+  $F:T\to T'$ is conservative.  Unfortunately, we do not know if these
+  conditions are equivalent.  It seems, in fact, that $F$ being
+  conservative is equivalent to a slightly weaker (and more
+  complicated) condition on $F^*$, as described by
+  \cite{breiner}.  \end{disc}
+
+The dual functor $F^*:\mathrm{Mod}(T')\to \mathrm{Mod}(T)$ has many
+additional uses.  For example, we can now complete the proof that two
+theories $T_1$ and $T_2$ have a common definitional extension iff they
+are intertranslatable (i.e.\ homotopy equivalent).
+
+\begin{thm}[Barrett] Suppose that $T_i$ is a theory in $\Sigma _i$,
+  where $\Sigma _1$ and $\Sigma _2$ are disjoint signatures.  If $T_1$
+  and $T_2$ are intertranslatable, then $T_1$ and $T_2$ have a common
+  definitional extension.  \label{it-cde} \end{thm}
+
+\begin{proof} Suppose that $T_1$ and $T_2$ are intertranslatable, with
+  $F:T_1\rightarrow T_2$ and $G:T_2\rightarrow T_1$ the relevant
+  translations.  We begin by defining definitional extensions $T_1^+$
+  and $T_2^+$ of $T_1$ and $T_2$ to the signature
+  $\Sigma_1\cup\Sigma_2$.
+
+  We define $T_1^+=T_1\cup \{\delta_s: s\in\Sigma_2\}$, where for each
+  symbol $s\in \Sigma_2$ the $\Sigma_2$-sentence $\delta_s$ is an
+  explicit definition of $s$.  If $q\in \Sigma_2$ is an $n$-ary
+  predicate symbol then we let the definition
+  $\delta_q\equiv \forall\vec{x}(q\lra Gq)$. If $g\in \Sigma_2$ is an
+  $n$-ary function symbol then we let the definition
+  $\delta_g\equiv \forall\vec{x}\forall y(g(\vec{x})=y\lra
+  Gg(\vec{x},y))$. It is straightforward to verify that $T_1$
+  satisfies the admissibility condition for $\delta_g$.
+  
+  We define $T_2^+=T_2\cup \{\delta_t: t\in\Sigma_1\}$ in the same
+  manner. If $p\in \Sigma_1$ is an $n$-ary predicate symbol then we
+  let $\delta_p\equiv \forall \vec{x}(p\lra Fp)$.  If $f\in \Sigma_1$
+  is an $n$-ary function symbol then we let
+  $\delta_f\equiv \forall\vec{x}\forall y(f(\vec{x})=y\lra
+  Ff(\vec{x},y))$.  It is also straightforward to verify that $T_2$
+  satisfies the admissibility condition for $\delta_f$.
+
+  We show now that $T_1^+$ and $T_2^+$ are logically
+  equivalent. Without loss of generality, we show that every model of
+  $T_2^+$ is a model of $T_1^+$. The converse follows via an analogous
+  argument. Let $M$ be a model of $T_2^+$. We show that $M$ is a model
+  of $T_1^+$. There are two cases that need checking.
+
+  First, we show that $M(\phi )=1$ when $T_1\vdash \phi$.  Since
+  $F^*M$ is a model of $T_1$, we have $1=(F^*M)(\phi )=M(F\phi )$.
+  One can then verify by induction that for every $\Sigma _1$ formula
+  $\psi$, and for every model $M$ of $T_2^+$, $M(\psi )=M(F\psi )$.
+  Therefore, $M(\phi )=1$.
+
+  Second, we show that $M(\delta _s)=1$ for every $s\in\Sigma_2$. Let
+  $q\in \Sigma_2$ be an $n$-ary predicate symbol.  Then
+  \[ M(q(\vec{x})) \: =\: M(FGq(\vec{x})) \: = \: M(Gq(\vec{x})) .\]
+  The first equality follows from the fact that $F$ and $G$ are
+  quasi-inverse and the fact that $M$ is a model of $T_2^+$. The
+  second equivalence follows from the argument of the previous
+  paragraph.  Thus, $M(\delta _q)=1$.  In a similar manner one can
+  verify that $M(\delta _g)=1$ for every function symbol
+  $g\in \Sigma_2$.
+
+  We have therefore shown that each model of $T_1^+$ is a model
+  $T_2^+$.  Thus, $T_1^+$ and $T_2^+$ are logically equivalent, and
+  $T_1$ and $T_2$ are definitionally equivalent.
+\end{proof}
+
+
+\begin{example} Let $\Sigma \equiv \{ =\}$, let $T_1$ be the theory in
+  $\Sigma$ that says there is exactly one thing, and let $T_2$ be the
+  theory in $\Sigma$ that says there are exactly two things.  In one
+  important sense, $T_1$ and $T_2$ have the same number of models: one
+  (up to isomorphism).  Since $T_1$ and $T_2$ should not be considered
+  to be equivalent, having the same number of models is not an
+  adequate criterion for equivalence.
+
+  Perhaps we can strengthen that criterion by saying that two theories
+  are equivalent if the models of the one can be \textit{constructed}
+  from the models of the other?  But that criterion seems also to say
+  that $T_1$ and $T_2$ are equivalent.  From each model $\{ \ast \}$
+  of $T_1$, we can construct a corresponding model $\{ \ast ,\{ \ast
+  \} \}$ of $T_2$; and we can recover the original model $\{ \ast \}$
+  from the model $\{ \ast ,\{ \ast \} \}$.  
+
+  This criterion is alluring, but it is still far too liberal.  We
+  will need to do something to capture it's intuition, but without
+  making the criterion of equivalence too liberal.  
+
+  One natural suggestion here is to consider $\mathrm{Mod}(T _1)$ and
+  $\mathrm{Mod}(T_2)$ as categories, and to consider functors between
+  them.  There are then two proposals to consider:
+\begin{enumerate}
+\item Each functor $F:\mathrm{Mod}(T_1)\to \mathrm{Mod}(T_2)$
+  represents a genuine theoretical relation between $T_1$ and $T_2$.
+\item Every genuine theoretical relation between $T_1$ and $T_2$ is
+  represented by a functor $F:\mathrm{Mod}(T_1)\to\mathrm{Mod}(T_2)$.
+\end{enumerate}
+There is immediate reason to question the first proposal.  For
+example, in the case of propositional theories $T_1$ and $T_2$, the
+categories $\mathrm{Mod}(T_1)$ and $\mathrm{Mod}(T_2)$ are discrete.
+Hence, functors $F:\mathrm{Mod}(T_1)\to\mathrm{Mod}(T_2)$ correspond
+one-to-one with functions on objects (in this case, models).  But we
+have seen cases where intuitively inequivalent propositional theories
+have categories with the same number of models.  Thus, it seems that
+not every functor (or function) between $\mathrm{Mod}(T_1)$ and
+$\mathrm{Mod}(T_2)$ represents a legitimate relation between the
+theories.
+
+%% non constructible? -- Hudetz
+There's another, more concrete, worry about the first proposal.
+Consider the case where $T_1$ and $T_2$ are fairly expressive theories
+in first-order logic.  For example, $T_1$ might be Peano arithmetic,
+and $T_2$ might be ZF set theory.  Setting aside worries about the
+size of sets, a function from $\mathrm{Mod}(T_1)$ to
+$\mathrm{Mod}(T_2)$ is simply a pairing $\langle M,N\rangle$ of models
+of $T_2$ with models of $T_1$.  But there need not be any ``internal''
+relation between $M$ and $N$.  This goes against an intuition that for
+theories $T_1$ and $T_2$ to be equivalent, there needs to be relations
+between their individual models, and not just their categories of
+models {\it qua} categories.  In the case at hand, we want to say that
+for any model $M$ of $T_1$, there is a model $N$ of $T_2$, and some
+relation $\Phi (M,N)$ between $M$ and $N$.  But what relations $\Phi$
+are permitted?  And does the {\it same} relation $\Phi$ need to hold
+for every model $M$ and the corresponding $N$, or can the relation
+itself depend on the input model $M$?
+
+%% TO DO: See de Bouvere as giving an account of permissible $\Phi$.
+%% Relate this to Gaifman, Meyers
+\end{example}
+
+
+
+
+\section{Beth's theorem and implicit definition} \label{go-beth}
+
+\begin{quote} ``\dots there is an argument, based on an application of
+  Beth's renowned definability theorem, which might appear to render
+  simultaneous support for physicalism and anti-reductionism
+  impossible.''  \citep{hellman} \end{quote}
+
+\bigskip \noindent The logical positivists vacillated between being
+metaphysically neutral, and being committed to metaphysical
+naturalism.  One particular instance of the latter commitment was
+their view on the mind-body problem.  With the new symbolic logic as
+their tool, they had a clear story to tell about how the mental is
+related to the physical: it is \emph{reducible} to it.  For example,
+suppose that $r(x)$ denotes some kind of mental property, say the
+property of being in pain.  In this case, the reductionist says that
+there is a predicate $\phi (x)$ in the language of basic physics such
+that $\forall x(r(x)\lra \phi (x))$, i.e.\ something is in pain iff it
+instantiates the physical property $\phi$.
+
+Of course, we should be more clear when we say that
+$\forall x(r(x)\lra \phi (x))$, for even a Cartesian dualist might say
+that this sentence is contingently true.  That is, a Cartesian dualist
+might say that there is a purely physical description $\phi (x)$ which
+happens, as a matter of contingent fact, to pick out exactly those
+things that are in pain.  The reductionist, in contrast, wants to say
+more --- that there is some sort of lawlike connection between being
+in pain and being in a certain physical state.  At the very least, a
+reductionist would say that
+\[ T\: \vdash \: \forall x(r(x)\lra \phi (x)) ,\] where $T$ is our
+best scientific theory (perhaps the ideal future scientific theory).
+That is, according to the best theory of the world, That is, our best
+scientific theory asserts that, as a matter of law, to be in pain is
+nothing more or less than to instantiate the physical property $\phi$.
+
+By the third quarter of the 20th century, this sort of hard-core
+reductionism had fallen out of fashion.  In fact, some of the leading
+lights in analytic philosophy --- such as Hilary Putnam --- had
+devised master arguments which were taken to demonstrate the utter
+implausibility of the reductionist point of view.  Nonetheless, what
+had not fallen out of favor among analytic philosophers was the
+naturalist stance that had found its precise explication in the
+reductionist thesis.  Thus, analytic philosophers found themselves on
+the hunt for a new, more plausible way to express their naturalistic
+sentiments.
+
+In the 1970s, philosophers with naturalistic sentiments often turned
+to the concept of ``supervenience'' in order to describe the
+relationship between the mental and the physical.  Now, there has been
+much debate in the ensuing years about how to cash out the notion of
+supervenience, and I don't have anything to add to that debate.
+Instead, I'll opt for the most obvious explication of supervenience in
+the context of first-order logic, in which case supervenience amounts
+to the model theorist's notion of implicit definability:
+\begin{quote} Given a fixed background theory $T$, a predicate $r$ is
+  implicitly definable in terms of others $p_1,\dots ,p_n$ just in
+  case for any two models $M,N$ of $T$, if $M$ and $N$ agree on the
+  extensions of $p_1,\dots ,p_n$, then $M$ and $N$ agree on the
+  extension of $r$. \end{quote}
+Now, there is a relevant theorem from model theory, viz.\ \emph{Beth's
+  theorem}, which shows that if $T$ implicitly defines $r$ in terms of
+$p_1,\dots ,p_n$, then $T$ explicitly defines $r$ in terms of
+$p_1,\dots ,p_n$, that is
+\[ T\:\vdash \: \forall x(r(x)\lra \phi (x)) ,\] where $\phi$ is a
+formula built from the predicates $p_1,\dots ,p_n$.  In other words,
+if $r$ supervenes on $p_1,\dots ,p_n$, then $r$ is reducible to
+$p_1,\dots ,p_n$.  According to Hellman and Thompson, this result
+``might appear to render simultaneous support for physicalism and
+anti-reductionism impossible.''
+
+We begin the technical exposition with a description of the background
+assumptions of Beth's theorem.  To be clear, philosophers can take
+exception with these background assumptions.  They might say that we
+have stacked the deck against non-reductive physicalism by means of
+these assumptions, and that a different account of supervenience will
+permit it to be distinguished from reducibility.  Although such a
+response is completely reasonable, it suggests that physicalism is
+more like a stance (in the sense of \cite{stance}) than it is a
+scientific hypothesis.
+
+\begin{box-thm}[Fixed assumptions of Svenonius' and Beth's theorems]
+  \begin{itemize}
+  \item $T$ is a theory in signature $\Sigma$.
+   \item $\Sigma ^+=\Sigma \cup \{ r\}$, where $r$ is an $n$-ary
+     relation symbol.
+   \item $T^+$ is a theory in $\Sigma ^+$.
+   \item $T^+$ is a conservative extension of $T$.
+  \end{itemize}
+\end{box-thm}
+
+Svenonius' and Beth's theorems are closely related.  Svenonius'
+theorem begins with an assumption about symmetry and invariance:
+\begin{quote} In each model $M$ of $T^+$, the subset $M(r)$ is
+  invariant under $\Sigma$-automorphisms. \end{quote} It then shows
+that for each model $M$ of $T^+$, there is a $\Sigma$-formula $\phi$
+such that $M(r)=M(\phi )$.  The formula $\phi$ may differ from model
+to model.  Beth's theorem begins with the assumption that $T^+$
+implicitly defines $r$ in terms of $\Sigma$.
+\begin{defn} We say that $T^+$ \emph{implicitly defines} $r$ in terms
+  of $\Sigma$ just in case for any two models $M,N$ of $T^+$, if
+  $M|_{\Sigma}=N|_{\Sigma}$ then $M=N$. \end{defn} \noindent (Here
+$M|_\Sigma$ is the $\Sigma$-structure that results from ``forgetting''
+what $M$ assigns to the relation symbol
+$r\in \Sigma ^+\backslash\Sigma$.)  Beth's theorem then shows that
+$T^+$ explicitly defines $r$ in terms of $\Sigma$, i.e.\ there is a
+single $\Sigma$-formula $\phi$ such that
+$T^+\vdash \forall \vec{x}(r(\vec{x})\lra \phi (\vec{x}))$, hence, in
+every model $M$ of $T^+$, the relation $r$ is coextensive with $\phi$.
+
+There are a variety of ways that one can prove the theorems of Beth
+and Svenonius.  The reader may like, for example, to study the fairly
+straightforward proof of Beth's theorem in \cite[Chap 20]{boolos}.
+However, our goal here is not merely to convince you that these
+theorems are true.  We want to give you a feel for why they are true,
+and to help you see that they are instances of certain general
+mathematical patterns.  To achieve these ends, it can help to expand
+the mathematical context --- even if that requires a bit more work.
+Accordingly, we will present a proof of Beth's theorem with a more
+topological slant.
+
+We begin with the notion of a \emph{type} in a model $M$ of a theory
+$T$.  (The terminology here is not particularly intuitive, but it has
+become standard.  A better phrase might be been ``ideal element''.)
+As a quick overview, each element $a\in M$ corresponds to a family
+$\Gamma$ of formulas $\phi (x)$, viz.\ those formulas that it
+satisfies.  That is,
+\[ \Gamma \: = \: \{ \phi (x) \mid a\in M(\phi (x)) \} .\] In fact,
+this set $\Gamma$ is a filter relative to implication in $M$.  That
+is, if $\phi (x)\in \Gamma$ and
+$M\models \forall x(\phi (x)\to \psi (x))$, then $\psi (x)\in \Gamma$.
+Similarly, if $\phi (x),\psi (x)\in \Gamma$, then
+$\phi (x)\wedge \psi (x)\in \Gamma$.  Finally, for any $\phi (x)$,
+either $\phi (x)\in\Gamma$ or $\neg\phi (x)\in\Gamma$.
+
+However, it's also possible to have an ultrafilter $\Gamma$ of
+formulas for which there is no corresponding element $a\in M$.  The
+obvious cases here are where the formulas ``run off to infinity''.
+For example, consider the family of formulas
+\[ \Gamma = \{ r<x \mid r\in \7R \} ,\] with $\7R$ the real numbers.
+Then $\Gamma$ is a filter, but no real number $a$ satisfies all
+formulas in $\Gamma$.  Intuitively speaking, the filter $\Gamma$ is
+satisfied by an ideal point at infinity that is greater than any real
+number.  (While $\Gamma$ is a filter, it is not an ultrafilter.  It is
+contained in infinitely many distinct ultrafilters, each of which
+corresponds to a point at infinity.)
+
+It's also possible for a model $M$ to have ideal points ``in the
+cracks'' between the real points.  For example, in the case of the
+real numbers $\7R$, let's say that a filter $\Gamma$ of formulas is
+{\it centered on $0$} just in case $\Gamma$ contains each formula
+$-\delta <x<\delta$.  Then a simple counting argument (with infinite
+cardinalities) shows that there are infinitely many incompatible
+filters, all of which are centered on $0$.  Each such filter
+corresponds to an ideal element that is smaller than any finite real
+number.
+
+\begin{defn} Let $M$ be a $\Sigma$-structure, and let $p$ be a set of
+  $\Sigma$-formulas in context $\vec{x}=x_1,\dots ,x_n$.  We call $p$
+  an \emph{n-type} if $p\cup \mathrm{Th}(M)$ is satisfiable.  We say
+  that $p$ is a \emph{complete $n$-type} if $\phi\in p$ or
+  $\neg\phi\in p$ for all $\Sigma$-formulas $\phi$ in context
+  $\vec{x}$.  We let $S^M_n$ be the set of all complete
+  $n$-types. \end{defn}
+
+Each element $a$ in a model gives rise to a complete 1-type:
+\[ \tp{M}{a} \: = \: \{ \phi (x) \mid a\in M(\phi (x)) \} .\]
+Similarly, each $n$-tuple $\vec{a}=a_1,\dots ,a_n$ gives rise to a
+complete $n$-type $\tp{M}{\vec{a}}\in S_n^M$.  We say that $\vec{a}$
+\emph{realizes the type} $p\in S^M_1$ when $p=\tp{M}{\vec{a}}$.
+
+\begin{defn} We now equip the set $S^M_n$ of complete $n$-types with a
+  topology, and we show that this topology makes $S^M_n$ a Stone
+  space.  For each $\Sigma$-formula $\phi$ in context $\vec{x}$, let
+  \[ E_\phi \: = \: \{ p\in S^M_n \mid \phi \in p \} .\] The
+  definition here is similar to that which we used in defining the
+  Stone space of a propositional theory.  In that case, $E_\phi$ was
+  the set of models of the sentence $\phi$.  In the present case,
+  $S^M_n$ are not quite models of a theory.  But if $M$ is a model of
+  a theory $T$, then the types $S_n^M$ are essentially all elements of
+  $M^n$ along with ideal elements.  \end{defn}
+
+In order to show that $S^M_n$ is a compact topological space, we will
+need to adduce a central theorem of model theory --- the so-called
+``realizing types theorem''.  We cite the result without proof,
+referring the interested reader to \cite[Chap 4]{marker}.
+
+\begin{thm}[Realizing types] Suppose that $F$ is a finite subset of
+  $S_n^M$.  Then there is an elementary extension $N$ of $M$ such that
+  each $p\in F$ is realized in $N$. \label{realize} \end{thm}
+
+\begin{prop} $S_n^M$ is a compact topological space. \end{prop}
+
+\begin{proof} Recall that a topological space is compact just in case
+  any family of closed sets with the finite intersection property
+  (fip) has nonempty intersection.  Suppose then that $\mathcal{F}$ is
+  a collection of closed subsets of $S_n^M$ that has the fip.  It will
+  suffice to consider the case where the elements of $\mathcal{F}$ are
+  each of the form $E_\phi$ for some $\Sigma$-formula $\phi$.  Let
+  $\mathcal{F}_0$ denote the corresponding family of formulas.  Since
+  $\mathcal{F}$ has the fip, for each
+  $\phi _1,\dots ,\phi _n\in \mathcal{F} _0$, there is some
+  $p\in S^M_n$ such that $\phi _1,\dots ,\phi _n\in p$, hence
+  $\phi _1\wedge\cdots\wedge\phi _n\in p$.  By the realizing types
+  theorem, there is an elementary extension $N$ of $M$ and
+  $a\in N(\phi _1\wedge\cdots\wedge \phi _n)$.  Thus,
+  $\mathrm{Th}(M)\cup \mathcal{F}_0$ is finitely satisfiable.  By the
+  compactness theorem, $\mathrm{Th}(M)\cup \mathcal{F}_0$ is
+  satisfiable, and hence $\mathcal{F}_0$ is an $n$-type.  Since each
+  $n$-type is contained in a complete $n$-type, we are done.
+\end{proof}
+
+We now look at the relationship between types and symmetries of
+models.
+
+\begin{defn} Let $M$ be a $\Sigma$-structure, and let $a,b\in M$.  We
+  say that $a$ and $b$ are \emph{indiscernible} in $M$ just in case
+  $\tp{M}{a}=\tp{M}{b}$.  In other words, for every $\Sigma$-formula
+  $\phi$, $a\in M(\phi )$ iff $b\in M(\phi )$.  \end{defn}
+
+\begin{defn} Let $a,b\in M$.  We say that $a$ and $b$ are
+  \emph{co-orbital} just in case there is an automorphism $h:M\to M$
+  such that $h(a)=b$.  \end{defn}
+
+Since automorphisms are invertible and closed under composition, being
+co-orbital is an equivalence relation on $M$, and it partitions $M$
+into a family of equivalence classes.  We call these equivalence
+classes the \emph{orbits} under the symmetry group $\mathrm{Aut}(M)$.
+
+\begin{prop} Let $h:M\to N$ be an elementary embedding.  Then
+  $\tp{M}{a}=\tp{N}{h(a)}$.  \end{prop}
+
+\begin{proof} Since $h$ is an elementary embedding $a\in M(\phi )$ iff
+  $h(a)\in N(\phi )$, for all $\Sigma$-formulas $\phi$. \end{proof}
+
+The preceeding result leads immediately to the following.
+
+\begin{prop} If two elements $a,b$ are co-orbital, then they are
+  indistinguishable.  That is, if there is an automorphism $h:M\to M$
+  such that $h(a)=b$, then $\tp{M}{a}=\tp{M}{b}$. \end{prop}
+
+\begin{example} \label{fragment} We now show that the converse to the
+  previous proposition is not generally true, i.e.\ indistinguishable
+  elements are not necessarily co-orbital.  Let
+  $\Sigma = \{ <,c_1,c_2,\dots ,d_1,d_2,\dots \}$, where $<$ is a
+  binary relation, and the $c_i$ and $d_j$ are constant symbols.
+  Define a $\Sigma$-structure $M$ as follows: the domain of $M$
+  is the rational numbers $\7Q$; $<$ is given its standard
+  interpretation on $\7Q$; $M(c_i)=-\frac{1}{i}$ and
+  $M(d_i)=1+\frac{1}{i}$ for $i=1,2,\dots $.  \begin{itemize}
+  \item We claim first that $[0,1]$ is invariant under all
+    automorphisms of $M$.  Indeed, for each $i\in \7N$, let
+    $(c_i,d_i)=M(c_i<x<d_i)$.  Then
+  \[ [0,1] \: = \: \bigcap _{i=1}^{\infty} \, (c_i,d_i) .\] If
+  $h:M\to M$ is an automorphism, then $(c_i,d_i)$ is invariant under
+  $h$, hence $[0,1]$ is invariant under $h$.
+\item We claim that there is no $\Sigma$-formula $\phi$ such that
+  $[0,1]=M(\phi )$.  Indeed, it's easy to see that for any formula
+  $\phi$, if $1\in M(\phi )$ then there is a $\delta>0$ such that
+  $1+\delta \in M(\phi )$.
+\item We claim that $\tp{M}{a}=\tp{M}{b}$ for all $a,b\in [0,1]$.  For
+  this, we can argue in two steps.  First, for any $a,b\in (0,1)$,
+  there is an automorphism $h:M\to M$ such that $h(a)=b$.  Second,
+  choose $a\in (0,1)$, and show that $\tp{M}{a}=\tp{M}{1}$.  Let
+  $\phi\in\tp{M}{1}$.  By an argument similar to the one above, there
+  is some $\delta>0$ and some $c\in (1-\delta ,1)$ such that
+  $\phi\in\tp{M}{c}$.  Since there is an automorphism $h$ such that
+  $h(a)=c$, it follows that $\phi\in\tp{M}{a}$.  Therefore
+  $\tp{M}{1}\subseteq \tp{M}{a}$.
+\item We claim that there is no automorphism $h:M\to M$ such that
+  $h(0)=1$.  Suppose to the contrary that $h$ is such an automorphism,
+  and let $a\in (0,1)$.  Since $0<a$ and $h$ is order-preserving,
+  $1=h(0)<h(a)$.  Thus, there is an $i\in\7N$ such that
+  $h(a)\in (d_i,\infty )$.  But $\tp{M}{a}=\tp{M}{h(a)}$, and
+  therefore $a\in (d_i,\infty )$, a
+  contradiction.
+\item Notice, finally, that the element $1\in M$ has the following
+  feature: for every formula $\phi$, if $M\vDash \phi (1)$ then
+  $M\vdash \phi (a)$ for some $a>1$.  \end{itemize} \end{example}
+
+The previous considerations show that $M$ has a partition $\7O$ into
+orbits, and a partition $\7I$ into indiscernables, and that
+$\7I\subseteq \7O$.
+
+We will also need the following result, which shows that
+indiscernibles in $M$ always lie on the same orbit in some elementary
+extension $N$ of $M$.  We again refer the reader to \cite[Chap
+4]{marker} for a proof.
+
+\begin{prop} Let $M$ be a $\Sigma$-structure, and suppose that
+  $\tp{M}{a}=\tp{M}{b}$.  Then there is a $\Sigma$-structure $N$, an
+  elementary embedding $h:M\to N$, and an automorphism $s:N\to N$ such
+  that $s(h(a))=h(b)$. \label{uber} \end{prop}
+
+In the case of finite structures, most of these subtle distinctions
+evaporate.  For example, in finite structures, indistinguishable
+elements are automatically co-orbital.
+
+\begin{prop} Let $M$ be a finite $\Sigma$-structure, and suppose that
+  $\tp{M}{a}=\tp{M}{b}$.  Then there is an automorphism $k:M\to M$
+  such that $k(a)=b$.  \label{orbit} \end{prop}
+
+\begin{proof} Suppose that $\tp{M}{a}=\tp{M}{b}$.  By Prop \ref{uber},
+  there is an elementary embedding $h:M\to N$ and an automorphism
+  $j:N\to N$ such that $j(h(a))=h(b)$.  Since $M$ is finite, $h$ is an
+  isomorphism.  Define $k=h^{-1}\circ j\circ h$.  Then
+  $k(a)=h^{-1}(j(h(a)))=h^{-1}(h(b))=b$.  \end{proof}
+
+Let's talk now about \emph{invariant subsets} of a model $M$.  A
+subset $A\subseteq M$ is said to be \emph{invariant} just in case
+$h(A)=A$ for every automorphism $h:M\to M$.  By definition, the
+automorphisms of a $\Sigma$-structure preserve the extensions of
+$\Sigma$ formulas.  That is, if $\phi$ is a $\Sigma$-formula (with a
+single free variable), then $M(\phi )$ is invariant under all
+automorphisms of $M$.  The converse, however, is not true --- i.e.\
+not all invariant subsets are extensions of some formula.  We already
+saw one example of this situation above in \ref{fragment}.  Other
+examples are easy to come by.  Consider, for example, the natural
+numbers $\7N$ as a model of Peano arithmetic.  This model is
+\emph{rigid}, i.e.\ there are no non-trivial automorphisms.  Hence,
+every subset of $\7N$ is invariant under automorphisms.  Nonetheless,
+the language $\Sigma$ of Peano arithmetic only has a countable number
+of formulas.  Thus, there are many invariant subsets of $\7N$ that are
+not of the form $\7N (\phi )$ for some formula $\phi$.
+
+Once again, finite structures don't have as much subtlety.  Indeed, in
+finite structures, all invariant subsets are definable.
+
+\begin{thm}[finite Svenonius] If $M$ is a finite
+  $\Sigma$-structure, and $A$ is an invariant subset of $M$, then
+  there is a $\Sigma$-formula $\theta$ such that $A=M (\theta
+  )$.  \end{thm}
+
+\begin{proof} Let $\2B$ be the Boolean algebra of representable
+  subsets of $M$, i.e.\ sets of the form $M(\phi )$ for some formula
+  $\phi$.  For each $a\in M$, the set
+  \[ \{ M(\phi )\mid \phi \in \tp{M}{a} \} \: = \: \{ M(\phi )\mid
+    a\in M(\phi ) \} ,\] is an ultrafilter on $\2B$.  Thus, if $X$ is
+  the Stone space of $\2B$, there is a map
+  $\pi \equiv \mathrm{tp}^M:M\to X$ such that $\pi (a)[M(\phi )]=1$
+  iff $a\in M(\phi )$.  In this case, since $\2B$ is finite, each
+  ultrafilter is principal, i.e.\ is the up-set of some $M(\phi )$.
+  Hence $\pi :M\epi X$ is surjective.
+
+  Since $A$ is invariant under $\mathrm{Aut}(M)$, Prop.\ \ref{orbit}
+  entails that $\tp{M}{a}\neq \tp{M}{b}$ whenever $a\in A$ and
+  $b\not\in A$.  Thus, $A$ descends along $\pi$, i.e.\
+  $\pi ^{-1}[\pi (A)]=A$.  Since $X$ is finite, $\pi (A)$ is clopen,
+  i.e.\ there is a formula $\theta$ such that $A=M(\theta )$.
+\end{proof}
+
+The following key result will lead very quickly to a proof of
+Svenonius' theorem.
+
+\begin{prop} Let $M$ be a $\Sigma ^+$-structure, and suppose that for
+  every elementary extension $N$ of $M$, any automorphism of
+  $N|_\Sigma$ preserves $N(r)$.  Then there is a $\Sigma$-formula
+  $\phi$ such that $M\vDash \forall x(r(x)\lra \phi (x))$.  \end{prop}
+
+\begin{proof} We first claim that in every elementary extension $N$ of
+  $M$, if $a,b\in N$ such that $\tp{N}{a}|_\Sigma=\tp{N}{b}|_\Sigma$,
+  then $a\in N(r)$ iff $b\in N(r)$.  Suppose not, i.e.\ that there is
+  an elementary extension $N$ of $M$ with $a,b\in N$ satisfying the
+  same $\Sigma$-formulas, but $a\in N(r)$ and $b\not\in N(r)$.  By
+  using an argument similar to the realizing types theorem, we can
+  show that there is an elementary extension $i:N\to N'$, and an
+  automorphism $s$ of $N'|_\Sigma$ such that $s(i(a))=i(b)$.  Thus,
+  $s$ does not leave $N'(r)$ invariant, contradicting the assumptions
+  of the proposition.
+
+  Now since any finite subset of $S_1^M$ is realized in some
+  elementary extension of $M$ (Prop \ref{realize}), it follows that
+  for all $p,q\in S_1^M$, if $p|_\Sigma=q|_\Sigma$, then $p\in E_r$
+  iff $q\in E_r$.  Conversely, if $p\in E_r$ and $q\not\in E_r$, then
+  there is some $\Sigma$-formula $\phi$ such that $p\in E_\phi$ and
+  $q\not\in E_\phi$.  From this it follows that the intersection of
+  all $E_\phi$ such that $p\in E_\phi$ lies in $E_\phi$.  By the
+  compactness of $S_1^M$, there are finitely many $\Sigma$-formulas
+  $\phi _1,\dots ,\phi _n$ such that $p\in E_{\phi _i}$ and
+  \[ E_{\phi _i}\cap\cdots\cap E_{\phi _n} \: \subseteq \: E_r .\] If
+  we let $\psi _p\equiv \phi _1\wedge\cdots\wedge\phi _n$, then
+  $p\in E_{\psi _p}$ and $E_{\psi _p}\subseteq E_r$.  The family
+  $\{ E_{\psi _p}\mid p\in E_r \}$ covers $E_r$, hence by compactness
+  again has a finite subcover.  Taking the conjunction of the
+  corresponding formulas gives an explicit definition of $r(x)$ in
+  terms of $\Sigma$.  \end{proof}
+
+\begin{thm}[Svenonius] Suppose that in every model $M$ of $T^+$, the
+  set $M(r)$ is invariant under all $\Sigma$-automorphisms.  Then
+  there are $\Sigma$-formulas $\phi _1,\dots ,\phi _n$ such that
+  \[ T \:\vdash \: \forall x(r(x)\lra \phi _1(x))\vee\cdots\vee
+    \forall x(r(x)\lra\phi _n(x)) .\]
+\end{thm}
+
+\begin{proof} By the previous proposition, for each model $M$ of $T$,
+  there is a $\Sigma$-formula $\phi _M$ such that
+  $M\vDash \forall x(r(x)\lra \phi _M(x))$.  Let
+  $\psi _M\equiv \forall x(r(x)\lra \phi _M(x))$, and let $\Delta$ be
+  the set of $\neg \psi _M$, where $M$ runs over all models of $T$.
+  (To deal with size issues, we could consider isomorphism classes of
+  models bounded by a certain size, depending on the signature
+  $\Sigma$.)  Then $T\cup \Delta$ is inconsistent.  By compactness,
+  there is a finite subset $\neg \psi _1,\dots ,\neg \psi _n$ of
+  $\Delta$ such that $T\vdash \psi _1\vee\cdots\vee \psi _n$.
+\end{proof}
+
+If, in addition, the theory $T$ is complete, then the assumptions of
+Svenonius' theorem entail that $T$ explicitly defines $r$ in terms of
+$\Sigma$.  Beth's theorem derives the same conclusion, without the
+completeness assumption, but with a stronger notion of implicit
+definability.  Consider the following explications of the notion of
+definability:
+\begin{description}
+  \item[IE] Invariance under elementary embeddings: For any models $M$
+  and $N$ of $T$, and for any $\Sigma$-elementary embedding
+  $h:M\to N$, $h(M(r))=N(r)$.
+\item[IA] Invariance under automorphisms: For any model $M$ of
+  $T$, and for any $\Sigma$-automorphism $h:M\to M$, $h(M(r))=M(r)$.
+\item[IS] For any models $M$ and $N$ of $T$, if
+  $M|_{\Sigma}=N|_{\Sigma}$ then $M=N$.  (This version is very close
+  to the metaphysician's notion of global supervenience.)
+\item[ID] Let $T'$ be the result of uniformly replacing $r$ in $T$
+  with $r'$.  Then
+  $T\cup T'\:\vdash\:\forall x(r(x)\lra r'(x))$. \end{description}
+
+The implication $\mathrm{IE}\Rightarrow\mathrm{IA}$ is immediate.  To
+see that $\mathrm{IE}\Rightarrow\mathrm{IS}$, suppose that
+$M|_{\Sigma}=N|_\Sigma$, and let $h:M\to N$ be the identity function.
+Then $h$ is a $\Sigma$-elementary embedding, hence $\mathrm{IE}$
+implies that $h(M(r))=N(r)$, that is, $M(r)=N(r)$.  To see that
+$\mathrm{IS}\Rightarrow\mathrm{ID}$, let $M$ be a model of $T\cup T'$.
+Define a $\Sigma \cup \{r \}$ structure $N$ to agree with $M$ on
+$\Sigma$, and such that $N(r)=M(r')$.  Because $M$ is a model of $T'$,
+it follows that $N$ is a model of $T$.  Hence $M(r)=N(r)=M(r')$, and
+$M\vDash \forall x(r(x)\lra r'(x))$.
+
+We now show that $\neg\mathrm{IE}\Rightarrow\neg\mathrm{ID}$.  If
+$\neg\mathrm{IE}$ then there are models $M$ and $N$ of $T$, and an
+elementary embedding $h:M\to N$ such that $h(M(r))\neq N(r)$.  We use
+$N$ to define a $\Sigma\cup \{ r,r'\}$ structure $N'$: let $N'$ agree
+with $N$ on $\Sigma \cup \{r \}$, and let $N'(r')=h(M(r))$.  Obviously
+$N'$ is a model of $T$.  To see that $N'$ is a model of $T'$, first
+let $M'$ be the $\Sigma\cup \{ r'\}$ structure that looks just like
+$M$ except that $M'(r')=M(r)$.  Then $M'\vDash T'$, and
+$N'(r')=h(M(r))=h(M'(r'))$.  That is, $N'$ is the push-forward of
+$M'$, and hence $N'\vDash T'$.  Finally, $N'(r)\neq N'(r')$, and hence
+$T\cup T'\not\vDash \forall x(r(x)\lra r'(x))$.  This completes the
+proof that $\neg\mathrm{IE}\Rightarrow\neg\mathrm{ID}$.
+
+All told, we have the following chain of implications:
+\[ \begin{tikzcd}
+  \mathrm{IE} \arrow[Leftrightarrow]{r}{} & \mathrm{ID}
+  \arrow[Leftrightarrow]{r}{} \arrow[Rightarrow]{d}{} & \mathrm{IS} \\
+  & \mathrm{IA}
+\end{tikzcd} \] What's more, the implication
+$\mathrm{ID}\Rightarrow\mathrm{IA}$ cannot be reversed.
+
+We now sketch the proof that the stronger notion of implicit
+definability (IE,ID,IS) implies explicit definability.
+
+\begin{thm}[Beth's Theorem] If $T$ implicitly defines $r$ in terms of
+  $\Sigma$, then $T$ explicitly defines $r$ in terms of
+  $\Sigma$. \end{thm}
+
+\begin{proof} We follow the outlines of the proof by
+  \citet[185]{poizat}.  Assume that $T$ implicitly defines $r$ in
+  terms of $\Sigma$.  Since $\mathrm{IS}\Rightarrow\mathrm{IA}$,
+  Svenonius' theorem implies that there are $\Sigma$-formulas
+  $\phi _1,\dots ,\phi _n$ such that
+  \[ T\:\vdash\: \forall x(r(x)\lra \phi _1(x))\vee\cdots\vee \forall
+    x(r(x)\lra \phi _n(x)) .\] If $T$ were inconsistent, or consistent
+  with only a single one of these disjuncts, then $T$ would explicitly
+  define $r$ in terms of $\Sigma$.  So suppose that $n>1$, and that
+  $T$ is consistent with all $n$ disjuncts.  For each disjunct
+  $\forall x(r(x)\lra \phi _i(x))$ let $T_i$ be the theory that
+  results from replacing $r$ in $T$ with $\phi _i$.  Implicit
+  definability then yields
+  $T_i\cup T_j\vdash \forall x(\phi _i(x)\lra \phi _j(x))$.  Notice
+  that $r$ does not occur in $T_i\cup T_j$.  Using the compactness
+  theorem, we can then use $\Sigma$-formulas
+  $\theta _1,\dots ,\theta _m$ to divide the space of models of $T$
+  into cells with the feature that for each $k$, we have
+  $T,\theta _k\vdash \forall x(r(x)\lra \phi _{i(k)})$ for some
+  $i(k)$.  One can then use the formulas $\theta _1,\dots ,\theta _m$
+  to construct an explicit definition of $r$ in terms of $\Sigma$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+%% possible \section{Ultraproducts}
+
+% [[I'm not sure that I can prove both directions of the following]]
+
+% \begin{prop} $F:T\to T'$ is a homotopy equivalence iff
+%   $F^*:\mathrm{Mod}(T')\to\mathrm{Mod}(T)$ is an equivalence of
+%   categories. \end{prop}
+
+% \begin{proof} Suppose first that $F:T\to T'$ is a homotopy
+%   equivalence, and let $G:T'\to T$ be the quasi-inverse of $F$.  Since
+%   $FG\simeq 1_T$, it follows that $G^*F^*=1_{\mathrm{Mod}(T)}$.
+%   Similarly, $F^*G^*=1_{\mathrm{Mod}(T')}$.  Therefore $F^*$ is an
+%   equivalence of categories.
+
+%   Suppose now that $F^*$ is an equivalence of categories.
+
+
+% \end{proof}
+
+% %% For this it's enough to show that $F\mapsto F^*$ is a contravariant
+% %% functor ... But what about $2$-categorical structure?
+
+% %% TO DO: Show that the converse is not true.
+
+% \begin{note} One must be careful in applying the preceding result.  It
+%   does {\it not} say that if there is an equivalence of categories
+%   $G:\mathrm{Mod}(T')\to \mathrm{Mod}(T)$, then there is a homotopy
+%   equivalence $F:T\to T'$.  That claim is false, as we saw in
+%   \ref{?}.  \end{note}
+
+
+\begin{example} \cite{petrie} argues that global supervenience does
+  not entail reducibility.  We first state his definition verbatum:
+  \begin{quote} Let $\2A$ and $\2B$ be sets of properties.  We say
+    that $\2A$ \emph{globally supervenes} on $\2B$ just in case worlds
+    which are indiscernible wih regard to $\2B$ are also indiscernible
+    with regard to $\2A$.  \end{quote} Switching to the formal mode
+  --- i.e.\ speaking of predicates rather than properties --- and
+  restricting to the context of first-order logic, it appears that
+  global supervenience is just another name for implicit definability.
+  We will use $\Sigma = \{ p\}$ for the subvenient predicate symbol,
+  and we let $\Sigma ^+=\Sigma \cup \{ r\}$.  Petrie describes his
+  example as follows [with notation adapted]:
+  \begin{quote}
+    There are two structures $M$ and $N$, both of which have domain
+    $\{ a,b\}$.  In $M$, the extension of $p$ is $\{ a,b\}$ and the
+    extension of $r$ is $\{ a\}$.  In $N$, the extension of $p$ is
+    $\{ a\}$ and the extension of $r$ is empty.  \end{quote} Petrie
+  points out that this example does not satisfy strong supervenience.
+  However, since $M|_\Sigma\neq N|_\Sigma$, it trivially satisfies
+  global supervenience --- i.e.\ $r$ is implicitly defined in terms of
+  $p$.
+
+  But here we need to slow down: implicit definability is defined in
+  terms of some background theory $T$.  But in this case, there is
+  {\it no} theory $T$ such that $M$ and $N$ are models of $T$, and
+  such that $T$ implicitly defines $r$ in terms of $p$.  Indeed, for
+  any theory $T$ in $\Sigma ^+$, if $M$ is a model of $T$, then so is
+  $M'$ where $M'(p)=\{ a,b\}$ and $M'(r)=\{ b\}$.  But then
+  $M|_\Sigma =M'|_\Sigma$ whereas $M(r)\neq M'(r)$.  Therefore, $T$
+  does not implicitly define $r$ in terms of $\Sigma$.
+
+  What's really going here, then, is that Petrie permits himself to
+  construct not just possible worlds, but entire universes of possible
+  worlds, without respecting the normal constraints imposed by
+  first-order logic.  In particular, Petrie assumes that some
+  configurations of individuals are impossible --- even though
+  isomorphic configurations of individuals are possible.  However, one
+  of the assumptions of {\it any} formal logic is that possibilities
+  are only specified up to isomorphism. i.e.\ if $M$ is possible, and
+  $M'$ is mathematically indistinguishable from $M$, then $M'$ is also
+  possible.  In general, if $M$ is a $\Sigma ^+$-structure with domain
+  set $X$, then for any bijection $h:X\to X$, we can define another
+  $\Sigma ^+$-structure $M'$ with domain set $X$ by letting
+  $M'(q)=h[M(q)]$, for every relation symbol $q\in \Sigma ^+$.  From a
+  mathematical point of view, $M$ and $M'$ are interchangeable --- if
+  one is possible, then so is the other.  The burden of proof, then,
+  is on the defender of non-reductive physicalism to explain why $M'$
+  is not possible.  Until this burden is met, Beth's theorem can be
+  taken as showing that supervenience implies reduction.
+\end{example}
+
+
+
+\section{Notes}
+
+\begin{itemize}
+
+\item Within mathematics, the study of logical semantics is called
+  \emph{model theory}, and there are several excellent textbooks.
+  Some of our favorites: \cite{hodges,marker,poizat}.
+\item The classic sources on the semantic view of theories are
+  \cite{suppe1977,suppe1989}.
+\item The completeness of the predicate calculus was first proven by
+  Kurt G{\"o}del in his PhD Thesis \citep{goedel}.
+
+  The typical textbook proof of the theorem proceeds as follows:
+  supposing that $\Gamma$ is proof-theoretically consistent, show that
+  $\Gamma$ can be expanded to a maximally consistent set $\Gamma ^*$.
+  This expansion invokes Zorn's lemma, which is a variant of the axiom
+  of choice.  The resulting set $\Gamma ^*$ is then used to construct
+  a model of $\Gamma$.
+
+  The topological proof in this chapter has several advantages over
+  the typical textbook proof.  For example, the topological theorem
+  makes it clear that completeness doesn't require the full axiom of
+  choice.  It is known that the Baire category theorem is strictly
+  weaker than AC \citep[see][]{herrlich2000,herrlich2006}.  The
+  topological completeness proof was first given by
+  \cite{rasiowa}. See also \citep{rasiowa-book}.
+
+  An even more elegant proof of completeness is provided by Deligne's
+  embedding theorem for coherent categories \cite[see][]{makkai}.  If
+  $T\not\vdash\bot$, then $T$ corresponds to a (Boolean) coherent
+  category $C_T$.  By Deligne's theorem, there is an embedding
+  $F:C_T\to \cat{Sets}$, which yields a model of $T$.
+\item The category $\cat{Sets}$ has tons of structure (limits,
+  colimits, exponentials, etc.), and so is adequate to represent all
+  syntactic structures of a first-order theory.  If we're only
+  interested in a fragment of first-order logic, it can also be
+  interesting to look at representations in less structured
+  categories.  For example, Cartesian categories have enough structure
+  to represent algebraic theories (such as the theory of groups).  For
+  more details, see \cite{johnstone}.
+\item In Section \ref{ultrap} we re-described topological structure on
+  $X$ as a family of operations $X^{\infty}\to X$, i.e.\ functions
+  from infinite sequences to points of $X$.  This description is not
+  merely heuristic: the category $\cat{CHaus}$ of compact Hausdorff
+  spaces is equivalent to the category of algebras for the ultrafilter
+  monad on $\cat{Sets}$.  Thus, $\cat{CHaus}$ is the category of
+  models of an (infinitary) algebraic theory.  For more details, see
+  \cite[VI.9]{cwm} and \cite[1.5.24]{manes}.
+\item For an interesting analysis of supervenience and reduction in
+  terms of ultraproducts, see \cite{dewar-sup}.
+\item Beth's theorem first appeared in \citeyearpar{beth}, and
+  Svenonius' in \citeyearpar{svenonius}.  In recent work,
+  \cite{makkai-duality,zawadowski,moerdijk1999} show that Beth's
+  theorem is equivalent to a result about {\it effective descent
+    morphisms}, a notion of central importance in mainstream
+  mathematics.  This kind of unifying result shows that there is no
+  clear boundary between mathematics and metamathematics.
+\item Our discussion of Beth's theorem draws from \cite{barrett-beth}.
+  The relevance of Beth's theorem to the prospects of non-reductive
+  physicalism was first pointed out by \cite{hellman}, and has been
+  subsequently discussed by
+  \cite{bealer,hellman1985,tennant,tennant-book}.  According to
+  Hellman (personal communication), the issue was first brought up by
+  Hilary Putnam in a graduate seminar at Harvard.  For more on
+  supervenience and its history in analytic philosophy, see
+  \cite{superv}.
+\end{itemize}
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

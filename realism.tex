@@ -1,0 +1,2351 @@
+\chapter{Metalogic in Analytic Philosophy} \label{chap-realism}
+
+%% TO DO: people like Psillos complain that it is no longer clear what
+%% the scientific realism debate is even about.  Yes, I agree with
+%% this.  But we can now see that it has a lot to do with how finely
+%% one draws the net of "equivalence".  
+
+Much of 20th century analytic philosophy was concerned --- when not
+explicitly, then implicitly --- with theories, and with the
+relationships between them.  For example, is every spacetime theory
+equivalent to one with Euclidean background geometry?  Or, is folk
+psychology reducible to neuroscience?  Or, can there be a good reason
+to choose a theory over an empirically equivalent rival theory?
+
+But what is a theory?  And what does it mean to say that two theories
+are equivalent, or that one theory is reducible to another?  Carnap
+had the audacious idea that philosophy can follow mathematics' method
+of explication: to take an intuitive notion, and to find a nearby
+neighbor in the realm of precisely defined mathematical concepts.  In
+this book, we've tried to follow Carnap's lead; and indeed, we've
+hoped that we could do a bit better than Carnap, because mathematics
+has come a long way in the past 75 years.  We now have mathematical
+concepts --- such as adjoint functors, or categorical equivalence ---
+the likes of which Carnap could not even have dreamed about.
+
+In this book, we've attempted to explicate the concept of a theory, as
+well as some of the relations between theories that scientists and
+philosophers find it useful to discuss.  With these explications in
+the background, we can now return to some of the big questions of
+philosophy of science, such as, ``what is the proper attitude to take
+toward a successful scientific theory?''
+
+
+
+\section{Ramsey sentences} \label{ramsey}
+
+%% van fraassen = Beth shows that there is no mysterious notion of
+%% implicit definition
+
+%% Lewis on theoretical terms
+
+%% Functionalism (Bealer)
+
+%% Dewar on Ramsey equivalence
+
+No analytic philosopher's education is complete until she learns the
+magic of the Ramsey sentence.  The idea was proposed by Frank
+\cite{ramsey}, and was reinvented by Carnap in the 1950s --- or, more
+accurately, Carnap forgot that he learned about it from Herbert
+Bohnert \cite[see][]{psillos2000}.  Most contemporary philosophers
+know of the idea because David \cite{lewis-terms} argued that it
+solves the \emph{problem of theoretical terms}.  In the years since
+Lewis' seminal paper, Ramsey sentences have become a sort of {\it deus
+  ex machina} of analytic philosophy.
+
+Let's start with a simple example.  Suppose that $P$ is a theoretical
+predicate, and that $O$ is an observational predicate.  (Or in Lewis'
+preferred terminology, $O$ is antecedently understood vocabulary, and
+$P$ is new vocabulary.)  Now suppose that our theory $T$ consists of a
+single sentence $P(c)\to O(c)$, which might be paraphrased as saying
+that $O(c)$ is an empirical sign that $P(c)$.  (Here $c$ is a constant
+symbol.  We omit first-order quantifiers to keep things simple.)  To
+form the Ramsey sentence of $T$, we simply perform an instance of
+second-order existential generalization:
+\[ \begin{array}{c c} P(c)\to O(c) \\ \hline \exists X(X(c)\to
+    O(c)) \end{array} \] The sentence below the line is called the
+Ramsey sentence $T^R$ of the theory $T$.  Thus, while the original
+theoretical statement $T$ mentions some particular property $P$, the
+Ramsey sentence $T^R$ simply says that there is some or other property
+that plays the appropriate role.  It may feel --- and has felt to many
+philosophers --- that the truth of $T^R$ somehow magically endows the
+term $P$ with meaning.  In particular, philosophers are wont to say
+things like, ``$P$ is whatever it is that plays the role described by
+$T^R$.''
+
+Since Ramsey sentences draw upon the resources of second-order logic,
+the neophyte is left to wonder: does the philosophical magic here
+depend on something special that happens in second-order logic,
+something that only the most technically sophisticated philosophers
+can understand?  We think that the answer to this question is No.  In
+fact, Ramsifying a theory simply weakens that theory in the same way
+that existentially quantifying a first-order sentence weakens that
+sentence.  Consider the following pedestrian example.
+
+\begin{example} Let $\Sigma =\{ m\}$, where the name $m$ is a
+  theoretical term.  Let $T$ be the theory $\exists x(x=m)$ in
+  $\Sigma$.  Then the Ramsey sentence $T^R$ of $T$ is the sentence
+  $\exists x(x=x)$, which is just a tautology.  That is, $T^R$ is the
+  empty theory in the empty signature.  It is easy to see that the
+  inclusion $I:T^R\to T$ is conservative, but is not essentially
+  surjective.  In particular, there is no formula $\phi$ of $\Sigma$
+  such that $(I\phi )(x)\equiv (x=m)$.  The fact that $I$ is not
+  essentially surjective corresponds to the fact that
+  $I^*:\mathrm{Mod}(T)\to \mathrm{Mod}(T^R)$ is not full.  Here $I^*$
+  is the functor that takes a model of $T$, and forgets the extension
+  of $m$.  In general, then, $I^*M$ has more symmetries than $M$.
+
+  We can be yet more precise about the differences between
+  $\mathrm{Mod}(T)$ and $\mathrm{Mod}(T^R)$.  In short, a model of
+  $T^R$ is simply a nonempty set $X$ (and two such models are
+  isomorphic if they have the same cardinality).  For each $p\in X$,
+  there is a corresponding model $X_p$ of $T$ where $X_p(m)=p$.  For a
+  fixed $X$, and $p,q\in X$, there is an isomorphism $h:X_p\to X_q$
+  that maps $p$ to $q$.  However, the automorphism group of $X_p$ is
+  smaller than the automorphism group of $X$.  Indeed,
+  $\mathrm{Aut} (X_p)$ consists of all permutations of $X$ that fix
+  $p$, hence is isomorphic to $\mathrm{Aut}(X\backslash \{
+  p\})$.
+
+  We can see then that $T$ and $T^R$ are not intertranslatable (or
+  definitionally equivalent).  Nonetheless, there is a sense in which
+  mathematicians would have no qualms about passing from $T^R$ to the
+  more structured theory $T$.  Indeed, once we've established that the
+  domain $X$ is non-empty (which, of course, is a presupposition of
+  first-order logic), we could say, ``let $m$ be one of the elements
+  of $X$.'' This latter statement does not involve any further
+  theoretical commitment over what $T^R$ asserts.  \end{example}
+
+Our advice then to the neophyte is not to allow herself to be
+intimidated by second-order quantification.  In fact, we will argue
+that passage from a theory $T$ to its Ramsified version $T^R$ either
+forgets too much of what the original theory said, or says {\it more}
+than what the original theory said --- depending on which notion of
+second-order logical equivalence one adopts.  Before we do this, let's
+pause to recall just how much philosophical work Ramsey sentences have
+been asked to do.  We will look at three applications.  First, Carnap
+claims that Ramsey sentences solve the problem of dividing the
+analytic and synthetic parts of a scientific theory.  Second, Lewis
+claims that Ramsey sentences solve the problem of theoretical terms,
+and in particular the problem of giving meaning to ``mentalese'' in a
+physical world.  Third, contemporary structural realists claim that
+Ramsey sentences give a way of isolating the structural claims of a
+scientific theory.
+
+\subsubsection*{Carnap's irenic realism}
+
+One theme running throughout Carnap's work is a rejection of what he
+sees as false dilemmas.  In one sense, Carnap is one of the most
+pragmatic philosophers ever in the western tradition, as he places
+extreme emphasis on questions such as: {\it what questions are worth
+  asking, and what problems are worth working on?}  Now, one can
+imagine a philosophy graduate student asking herself: what question
+should I try to answer in my dissertation?  If she's a particularly
+ambitious (or perhaps overconfident) student, she might decide to
+determine whether materialism or dualism is true.  Or she might decide
+to determine whether scientific realism or instrumentalism is true.
+Carnap's advice to her would be: to work on such questions is not a
+good use of your time.
+
+In the early 20th century, the debate between scientific realism and
+instrumentalism centered around the question: do theoretical entities
+--- i.e.\ the things named by scientific theories, but which are not
+evident in our everyday experience --- exist?  Or, shifting to a more
+explicitly normative manner of speech: are we entitled to believe in
+the existence of these entities, and perhaps even obliged to do so?
+Carnap thinks that these questions are ill-posed.
+
+Toward the end of his career, Carnap hoped that Ramsey sentences could
+help show why there is no real argument between realism and
+instrumentalism.  In particular, if $T$ is a scientific theory
+containing some theoretical terms $r_1,\dots ,r_n$, then Carnap parses
+$T$ into two parts: the Ramsey sentence $T^R$, and the sentence
+$T^R\to T$ that has since been dubbed the ``Carnap sentence''.  Carnap
+claims that the Ramsey sentence $T^R$ gives the empirical (synthetic)
+content of $T$, whereas $T^R\to T$ gives the definitional (analytic)
+part of $T$.  The latter claim can be made plausible by realizing that
+$T^R\to T$ is trivially satisfiable, simply by stipulating appropriate
+extensions for $r_1,\dots ,r_n$.
+
+\cite{psillos2000} argues that Carnap's equation of synthetic content
+with the Ramsey sentence makes him a structural realist --- in which
+case he is subject to Newman's objection, which impales him on the
+horns of the realism-instrumentalism dilemma.  \cite{friedman2011}
+disagrees, arguing that Carnap's invocation of the Ramsey sentence
+successfully implements his neutralist stance.  Debate on this issue
+continues in the literature --- see e.g.\ \cite{uebel2011,beni}.
+
+
+\subsubsection*{Ramsey sentence functionalism}
+
+In the philosophy of mind, Ramsey sentences came to play a central
+role through the work of \cite{lewis-id,lewis-psy,lewis1994}, and more
+generally in a point of view known as \emph{functionalism}.  To be
+sure, Lewis claims not to know whether or not he is a functionalist;
+and most functionalists don't talk explicitly about Ramsey sentences.
+However, by the 1980s, the connection between functionalism and Ramsey
+had been firmly established \cite[see][]{shoemaker}.
+
+Around 1970, materialist reductionism had gone out of style.
+Philosophers concluded that folk psychology cannot, and should not, be
+reduced --- neither to descriptions of behavior, nor to physiological
+descriptions.  However, philosophers weren't ready to give up the
+physicalist project, and in particular, they didn't want to entertain
+the possibility that there is an autonomous realm of mental objects or
+properties.  The goal then is to explain how mental properties are
+anchored in physical properties, even if the former cannot be
+explicitly defined in terms of the latter.
+
+Functionalism, and functional definitions, are supposed to provide a
+solution to this problem.  According to functionalism, mental
+properties are defined by the role that they play in our total theory
+$T$, which involves both mental concepts (such as ``belief'' and
+``desire'') and physical concepts (such as ``smiling'' or ``synapse
+firing'').  How then are we supposed to cash out this notion of being
+``defined by role''?  It's here that Ramsey sentences are invoked as
+providing the best formal explication of functional definitions.
+
+Contemporary analytic philosophers routinely mention Ramsey sentences
+in this connection.  Nonetheless, long ago, \cite{bealer} argued that
+this attempt to define mental properties --- call it ``Ramsey sentence
+functionalism'' --- is inconsistent.  According to Bealer,
+functionalism has both a negative and a positive theses.  On the
+negative side, functionalism is committed to the non-reductionist
+thesis: mental properties (m-properties) cannot be explicitly defined
+in terms of physical properties (p-properties).  On the positive side,
+m-properties {\it are} defined in terms of the role they play
+vis-a-vis each other and the p-properties.
+
+Let $T$ be a theory in signature $\Sigma \cup \{r_1,\dots ,r_n \}$,
+where we think of $\Sigma$ as p-vocabulary, and of $r_1,\dots ,r_n$ as
+m-vocabulary.  We then adopt the following proposal (which defenders
+of functionalism are welcome to reject or modify):
+\begin{quote} $T$ provides functional definitions of $r_1,\dots ,r_n$
+  in terms of $\Sigma$ just in case in each model $M$ of the Ramsey
+  sentence $T^R$, there are unique realizing properties
+  $M(r_1),\dots ,M(r_n)$. \end{quote} It's easy to see then that $T$
+provides functional definitions of $r_1,\dots ,r_n$ in terms of
+$\Sigma$ only if $T$ implicitly defines $r_1,\dots ,r_n$ in terms of
+$\Sigma$.  Indeed, if $M$ and $N$ are models of $T$, then
+$M|_{\Sigma}$ and $N|_{\Sigma}$ are models of $T^R$, and it follows
+from the uniqueness clause that $M(r_i)=N(r_i)$.  It then follows from
+Beth's theorem that $T$ explicitly defines $r_1,\dots ,r_n$ in terms
+of $\Sigma$.
+
+Bealer's argument, if successful, shows that functionalism is
+inconsistent: the positive thesis of functionalism entails the
+negation of the negative thesis.  Surprisingly, however, functionalism
+lives on, apparently oblivious of this little problem of
+inconsistency.  In fact, functionalism hasn't just survived, it is
+flourishing and spreading its tendrils --- indeed, it has become an
+overarching philosophical ideology: \emph{the Canberra plan}.  The
+goal of the Canberra plan is to find a place in the causal nexus of
+physical properties for all the stuff that makes up our daily lives
+--- things like moral and aesthetic values, laws, society, love, etc..
+(For further discussion, see \cite{menzies}.)  One has to wonder: how
+attractive would the Canberra program be if it were clearly recognized
+that what it seeks is nothing more or less than the kind of full-blown
+physicalistic reduction that Carnap tried to achieve in his {\it
+  Aufbau} program?
+
+
+
+\subsubsection*{Structural realism}
+
+In more recent times, Ramsey sentences have been invoked in support of
+a trendy view in philosophy of science: \emph{structural realism}.  In
+the early 1990s, structural realism was the new kid on the block in
+discussions of scientific realism and antirealism.  As forcefully
+recounted by \cite{worrall}, there are good arguments against both
+scientific realism, and against scientific antirealism.  Against
+scientific realism, there is the {\it pessimistic metainduction},
+which points to the long history of failed scientific theories as
+evidence that our current favorite scientific theories will probably
+also fail.  Against scientific antirealism, there is the {\it no
+  miracles argument}, which points to the success of scientific
+theories as something crying out for an explanation.  In good Hegelian
+fashion, Worrall seeks a synthesis of the extremes of realism and
+antirealism --- a position which offers the best of both worlds.  His
+proposal is \emph{structural realism}, according to which the part of
+a theory to take seriously is it's pronouncements on issues of {\it
+  structure}.
+
+Worrall illustrates the idea of ``preserved structure'' with a
+specific example.  In particular, before Einstein's special theory of
+relativity, it was thought that there was a substance, the ``aether,''
+in which electric and magentic waves propagated.  After the
+Michelson-Morley experiment, and the success of special relativity,
+there was no longer any use for the aether.  Thus, the transition to
+special relativity might be taken to be a particularly clear example
+of failed reference --- showing, in particular, that pre-Einsteinian
+physicists ought not to have taken their theory so seriously.
+
+Nonetheless, says Worrall, it would have been a mistake for
+pre-Einsteinian physicists to treat their theory instrumentally,
+i.e.\ merely as a tool for making predictions.  For the form of the
+equations of motion was preserved through the transition to special
+relativity --- hence, they would have done well to trust their
+equations.  The general lesson, says Worrall, is to trust your
+theory's structure, but not the underlying stuff it purports to be
+talking about.
+
+Worrall's example is highly suggestive, and we might like to apply it
+in a forward-looking direction.  In particular, take one of our
+current-day successful scientific theories $T$, such as quantum
+mechanics.  The pessimistic metainduction suggests that $T$ will be
+wrong about something.  But can we already make an educated guess
+about which parts of $T$ will be preserved, and which part will go on
+the scrap heap with other rejected theories?
+
+\cite{zahar2001,cruse,zahar2004} provide a specific proposal for
+picking out the structural commitments of a theory $T$: they are given
+by its Ramsey sentence $T^R$.  This idea certainly has some intuitive
+appeal --- trading on an analogy to ``coordinate free'' descriptions
+of space.  For a naive or straightforward description of physical
+space, we might use triples of real numbers, i.e.\ the mathematical
+space $\7R ^3$.  But now our description of space has superfluous
+structure.  In particular, we assigned the origin $0\in\7R ^3$ to some
+particular point in space --- but we didn't mean to indicate that the
+denoted point is any different than any other point in space.  Thus,
+our description breaks the natural symmetry of space, and it would be
+natural to look for another description that respects these
+symmetries.  Indeed, that's precisely the idea behind the move from
+using vector spaces to using affine spaces to describe space.
+
+Now, just as a vector-space description of space breaks its symmetry,
+so our theoretical descriptions in general might fail to respect the
+symmetry between properties.  For example, we didn't need to use the
+word ``electron'' to describe those things that are found in the
+energy shells around an atom's nucleus --- we could simply say that
+something or other plays the relevant role.  And that's exactly what
+the Ramsified theory says.  Thus, it might seem that $T^R$ provides a
+more intrinsic description than the original theory $T$.
+
+Nonetheless, the intuitive appeal of Ramsey sentences fades quickly in
+the light of critical scrutiny.  Most famously, already in 1928,
+Newman argued that Bertrand Russell's structuralism trivializes, for
+these structural claims are true whenever their observational
+consequences are true \cite[see][]{newman1928}.  The so-called Newman
+objection to structural realism has been the center piece of recent
+debates about Ramsey-sentence structuralism.  But even before we get
+to that level of scrutiny, there is something quite strange in the
+idea of passing to the Ramsified theory $T^R$ to get rid of
+redundancy.  Let's recall that a formal theory $T$ doesn't actually
+refer to thinks like electrons or protons --- it's formulated in an
+uninterpreted calculus.  Hence, $T$ doesn't actually have any
+referring terms.
+
+It seems that the impulse to Ramsify is no other than the original
+impulse to use uninterpreted mathematical symbols to represent
+physical reality.  You'll recall that one of the key maneuvers in the
+development of non-euclidean geometries was de-interpreting words like
+``line'', thereby liberating mathematicians to focus attention solely
+on the relation that ``line'' plays relative to other (uninterpreted)
+terms in their formal calculus.
+
+In any case, what's really at stake here is the question of what
+attitude we should take toward the best scientific theories of our day
+and age.  At one extreme, radical scientific realists assert that we
+should give nothing less than {\it full} assent to these theories,
+interpreted literally.  To draw an analogy (that scientific realists
+will surely eschew), the extreme scientific realist is akin to the
+radical religious fundamentalist, and in particular to those
+fundamentalists who say that one must interpret scriptures literally.
+The point of that injunction, we all know, is to enable religious
+leaders to foist their opinions on others.  At the opposite extreme,
+an extreme scientific antirealist sees science as having no epistemic
+authority whatsoever --- i.e.\ a successful scientific theory doesn't
+call for any more epistemic attention on my part than, say,
+Zoroastrianism.
+
+In the light of this somewhat hyperbolic characterization of the
+anti/realism debate, we can see various alternative positions as
+granting a selective epistemic authority to successful scientific
+theories.  Consider an analogy: suppose that you know a highly skilled
+car mechanic Jacob.  You completely trust Jacob when it comes to his
+opinions on automobile-related issues.  For example, if he says that
+you need a new alternator, then you won't doubt him, even if it costs
+you a lot of money.  Nonetheless, if Jacob tells you that you need a
+new kidney, or that you should vote for a certain candidate, you might
+well ignore his opinion --- since he's speaking on a topic that lies
+outside his proper expertise.
+
+Now, selective scientific realists consider successful scientific
+theories to be epistemically authoritative, but only when they speak
+on topics within their expertise.  The different brands of selective
+realism are distinguished by how they understand the expertise of
+science.  For example, a constructive empiricist (such as van
+Fraassen) trusts a successful scientific theory $T$ when it makes
+predictions about empirical phenomena (presupposing, as he does, that
+it makes sense to speak of predictions and empirical phenomena ---
+precisely the point to which Boyd and Putnam object).  Similarly, a
+structural realist (such as Worrall) trusts a successful scientific
+theory $T$ on its structural pronouncements.  But if $T$ says
+something about things in themselves (or whatever is {\it not}
+structure), then the structural realist treats it as no more of an
+authority than your auto mechanic is on politics.
+
+The previous considerations suggest that varieties of selective
+scientific realism can be classified by means of different notions of
+theoretical equivalence.  For example, the strict empiricist thinks
+that the important part of a theory is its empirical content; and
+hence, if two theories $T_1$ and $T_2$ agree on empirical content,
+then there is no epistemically relevant difference between them.
+Similarly, a structural realist thinks that the important part of a
+theory is its pronouncements about structure; and hence, if two
+theories $T_1$ and $T_2$ agree on structure, then there is no
+epistemically relevant difference between them.  In the particular
+case of Ramsey-sentence structuralism, the structural pronouncement's
+of a theory $T_i$ are captured by its Ramsey sentence $T_i^R$.  Hence,
+if $T_1^R\equiv T_2^R$, then there is no epistemically relevant
+difference between $T_1$ and $T_2$.
+
+Unfortunately, the statement ``$T_1^R\equiv T_2^R\,$'' doesn't have an
+obvious meaning, since there is no single, obviously correct notion of
+second-order logical consequence.  What this means is that we get
+different notions of ``same structure'' depending on which notion of
+second-order consequence we adopt.  Let's review, then, some salient
+notions of second-order logical consequence.
+
+Second-order logic is a complicated subject in its own right, and has
+been the source of much dispute among analytic philosophers.  We refer
+the reader to studies such as \citep{shapiro,bueno} for more details.
+For present purposes, it will suffice to make some minor modifications
+of first-order logical grammar: first, we add a list of second-order
+variables $X,Y,\dots $.  Each second-order variable has a specific
+arity $n\in\7N$, which means that it can stand in the place of an
+$n$-ary relation symbol.  We then permit formulas such as
+$X(x_1,\dots ,x_n)$, with a second-order variable of arity $n$ applied
+to $n$ first order variables.  We also add an existential quantifier
+$\exists X$ that can be applied to quantify over second-order
+variables.
+
+Now there are two important facts to keep in mind about second-order
+logic.  The first fact to keep in mind is that second-order logic has
+is intrinsically incomplete --- hence there is no tractable syntactic
+relation ``$\vdash$'' of second-order provability.  The second fact to
+keep in mind is that there are several candidates for the semantic
+relation ``$\vDash$'' of entailment.  Depending on which choice we
+make for this relation, we will get a different notion of logical
+equivalence.
+
+\begin{defn} A second-order $\Sigma$-frame $\2F=(M,(\2E )_{n\in\7N })$
+  consists of a first order $\Sigma$-structure $M$, and for each
+  $n\in \7N$, a subset $\2E _n$ of $\2P(M^n)$.  We let
+  $\2E ^{\2F}=\bigcup _{n\in\7N}\2E _n$.  Here the sets in
+  $\2E ^{\2F}$ will give the domain of the second-order quantifiers in
+  frame $\2F$. \end{defn}
+
+In order to define the relation $\vDash$, we will also make use of the
+notion of a variable assignment.  Given a $\Sigma$-frame $\2F$, a
+first-order variable assignment $g$ assigns each variable $x$ to an
+element $g(x)\in M$.  A second-order variable assignment $G$ assigns
+each variable $X$ of arity $n$ an element $G(X)\in \2E _n$.  We then
+define:
+\begin{quote} $M[G,g] \vDash \exists X\phi$ iff for some $E\in \2E_n$,
+  $M[G^E_X,g]\vDash \phi$, where $G^E_X$ is the second-order variable
+  assignment that agrees with $G$ on everything besides $X$, which it
+  assigns to $E$.  \end{quote} Now to define the relation $\vDash$
+between sentences, we have to decide which second-order
+$\Sigma$-frames to quantify over.  We get three different notions,
+depending on the family we choose:
+\begin{enumerate}
+\item For \emph{full semantics}, we permit only those $\Sigma$-frames
+  in which $\2E _n=\2P(M^n)$.
+\item For \emph{Henkin semantics}, we permit all $\Sigma$-frames in
+  which $\2E _n$ is closed under first-order definability.
+\item For \emph{frame semantics}, we permit all $\Sigma$-frames.
+  \end{enumerate}
+  Recall that the more structures, the more counterexamples, and hence
+  the fewer implications.  Accordingly, full semantics has more
+  entailments than Henkin semantics, and Henkin semantics has more
+  entailments than frame semantics; hence, full semantics yields a
+  more liberal notion of equivalence than Henkin semantics, which
+  yields a more liberal notion of equivalence than frame semantics.
+
+  In the following discussion, we will take $T_i$, for $i=1,2$, as a
+  theory in signature $\Sigma\cup \Sigma _i$, where $\Sigma _i$ is
+  disjoint from $\Sigma$.  We let $T_i^*$ be the result of replacing
+  terms in $\Sigma _i$ with (possibly second-order) variables, and we
+  let $T_i^R$ be the corresponding Ramsey sentence of $T_i$.  We now
+  give a general schema for Ramsey equivalence of theories:
+  \begin{defn} Two theories $T_1$ and $T_2$ are \emph{Ramsey
+      equivalent} if $T_1^R$ is logically equivalent to
+    $T_2^R$. \end{defn} \noindent The three choices of frames above
+  give rise to three notions of Ramsey equivalence.
+\begin{itemize}
+\item RE$_1$ = loose Ramsey equivalence = Ramsey sentences are
+  equivalent relative to full semantics.
+\item RE$_2$ = moderate Ramsey equivalence = Ramsey sentences are
+equivalent relative to Henkin semantics.
+\item RE$_3$ = strict Ramsey equivalence = Ramsey sentences are
+  equivalent relative to frame semantics.
+\end{itemize}
+Obviously then we have RE$_3$ $\Rightarrow$ RE$_2$ $\Rightarrow$
+RE$_1$.
+
+We can now give a sharpened formulation of the Newman problem --- in
+the spirit of \cite{ketland} and \cite{dew-ram}.  Recall that on the
+old-fashioned syntactic view of theories, two theories $T_1$ and $T_2$
+are considered to be empirically equivalent if they have the same
+consequences in the observation language.  If we now think of $\Sigma$
+as the observation vocabulary, then we could formulate this criterion
+as saying that $\cn{T_1}|_\Sigma=\cn{T_2}|_\Sigma$, where
+$\cn{T_i}|_\Sigma$ indicates the restriction of the set of
+consequences to those that contain only observation terms.
+
+One might also wish to formulate a more semantically oriented notion
+of empirical equivalence.  For example, we might say that two theories
+$T_1$ and $T_2$ are empirically equivalent if their models agree on
+$\Sigma$-structure.
+
+\begin{defn} We say that $T_1$ and $T_2$ are $\Sigma$-equivalent just
+  in case for each model $M$ of $T_1$, there is a model $N$ of $T_2$
+  and an isomorphism $h:M|_\Sigma\to N|_\Sigma$, and vice
+  versa. \end{defn}
+
+The following result shows that this semantic notion of empirical
+equivalence implies the syntactic notion.
+
+\begin{prop} If $T_1$ and $T_2$ are $\Sigma$-equivalent then
+  $\cn{T_1}|_\Sigma=\cn{T_2}|_\Sigma$. \end{prop}
+
+\begin{proof} Suppose that $T_1$ and $T_2$ are $\Sigma$-equivalent.
+  Let $\phi$ be a $\Sigma$-sentence such that $\phi\not\in\cn{T_2}$.
+  By completeness, there is a model $M$ of $T_2$ such that
+  $M\not\vDash\phi$.  Since $T_1$ and $T_2$ are $\Sigma$-equivalent,
+  there is a model $N$ of $T_1$ and an isomorphism
+  $h:M|_\Sigma\to N|_\Sigma$.  But then $N\not\vDash\phi$, hence
+  $\phi\not\in \cn{T_1}$.  It follows that
+  $\cn{T_1}|_\Sigma\subseteq \cn{T_2}|_{\Sigma}$.  The result follows
+  by symmetry.
+\end{proof}
+
+However, this implication cannot be reversed, i.e.\ the syntactic
+notion of empirical equivalence doesn't imply the semantic notion.
+
+\begin{example} Let $\Sigma$ be the empty signature (with equality).
+  Let $\Sigma _1 = \{ c_r\mid r\in \7R \}$, and let $T _1$ be the
+  theory in $\Sigma\cup\Sigma _1$ with axioms $c_r\neq c_s$, for all
+  $r\neq s$.  Let $T_2$ be the theory in $\Sigma$ that says there are
+  infinitely many things.  Then $\cn{T_1}|_\Sigma=\cn{T_2}|_\Sigma$.
+  However, $T_2$ has a countable model $M$, and $T_1$ has no countable
+  model.  Therefore, $T_1$ and $T_2$ are not $\Sigma$-equivalent.
+\end{example}
+
+The Newman problem for structural realism is usually phrased as saying
+that it's too easy for a theory's Ramsey sentence to be true --- that
+the Ramsey sentence is ``trivially realizable''.  We can make precise
+what is meant here by ``too easy'' in terms of the notion of
+theoretical equivalence.  In short, Ramsey equivalence --- i.e.\
+having logically equivalent Ramsey sentences --- is too liberal a
+notion of equivalence.  In particular, empirically equivalent theories
+are Ramsey equivalent.
+
+\begin{prop}[Dewar] If $T_1$ and $T_2$ are $\Sigma$-equivalent, then
+  $T_1^R$ and $T_2^R$ are logically equivalent relative to full
+  semantics. \end{prop}
+
+\begin{proof} Suppose that $T_1$ and $T_2$ are $\Sigma$-equivalent.
+  Now let $\2F$ be a full $\Sigma$-frame such that $\2F\vDash T_1^R$.
+  Thus, there is a second-order variable assignment $G$ such that
+  $\2F [G]\vDash T_1^*$.  Let $M$ be the $\Sigma\cup\Sigma _1$
+  structure obtained by assigning $M(R)=G(X)$, where $X$ is the
+  variable in $T_1^*$ that replaces $R$ in $T_1$.  Clearly $M$ is a
+  model of $T_1$.  Since $T_1$ and $T_2$ are $\Sigma$-equivalent, $M$
+  is $\Sigma$-isomorphic to a model $N$ of $T_2$.  This model $N$ of
+  $T_2$ defines a second order variable assignment $G'$ such that
+  $\2F [G']\vDash T_2^*$, and hence $\2F\vDash T_2^R$.  \end{proof}
+
+The notion of empirical equivalence imposes no constraints whatsoever
+on what the theories $T_1$ and $T_2$ say in their theoretical
+vocabulary --- and for this reason, nobody but the most extreme
+empiricist should adopt weak Ramsey equivalence as their standard.
+
+Moving back toward the right wing side of the spectrum of theoretical
+equivalence, one might hope that moderate Ramsey equivalence would
+provide a more reasonable standard.  But the following result shows
+that any two mutually interpretable theories satisfy RE$_2$.
+
+\begin{prop}[Dewar] If $T_1$ and $T_2$ are $\Sigma$-equivalent and
+  mutually interpretable, then $T_1^R$ and $T_2^R$ are logically
+  equivalent relative to Henkin semantics.  \end{prop}
+
+\begin{proof} Suppose that $T_i$ is a theory in
+  $\Sigma\cup \Sigma _i$.  We will show that if $F:T_1\to T_2$ is a
+  translation (which is the identity on $\Sigma$), then
+  $T_2^R\vDash T_1^R$, where the $\vDash$ symbol is entailment
+  relative to Henkin semantics, and $T_i^R$ is the result of
+  Ramsefying out $\Sigma _i$.  Suppose then that $F:T_1\to T_2$ is a
+  translation, and that $\2H$ is a Henkin structure (of signature
+  $\Sigma$) such that $\2H\vDash T_2^R$.  Thus, $\2H [G]\vDash T_2^*$
+  relative to some second-order variable assignment $G$.  Consider
+  then the first-order structure $M$ for signature
+  $\Sigma\cup \Sigma _1$ that agrees with $\2H$ on $\Sigma$, and such
+  that $M(P)=G(X_P)$, for each $P\in \Sigma _2$, where $X_P$ is the
+  second-order variable that replaces $P$ in $T_1^*$.  It is clear
+  then that $M\vDash T_2$.  Now we will use the fact that the
+  translation $F:T_1\to T_2$ gives rise to a functor
+  $F^*:\mathrm{Mod}(T_2)\to \mathrm{Mod}(T_1)$ (\ref{mfunc}).  In
+  particular, $(F^*M)(Q)=M(F(Q))$ for each relation symbol
+  $Q\in\Sigma\cup\Sigma _1$.  Now define a second-order variable
+  assignment $G'$ by setting
+    \[ G'(X_Q) \: = \: (F^*M)(Q) \: = \: M(F(Q)) ,\] for each variable
+    $X_Q$ that occurs in $T_1^*$.  (Again we use $X_Q$ to denote the
+    variable that replaces a relation symbol $Q$ that occurs in
+    $T_1$.)  To see that $G'$ is a Henkin-admissible assignment, note
+    that $F(Q)$ is a $\Sigma _2$-formula, and so $M(F(Q))$ is a
+    first-order definable subset of $M$.  By construction, each
+    first-order definable subset of $M$ is an element of $\2E ^{\2H}$.
+    Now, it's clear that $\2H [G']\vDash T_1^*$, and hence that
+    $\2H\vDash T_1^R$.  Since $\2H$ was an arbitrary Henkin frame, it
+    follows that $T_2^R\vDash T_1^R$.  By symmetry, if there is a
+    translation $G:T_2\to T_1$, then $T_1^R\vDash T_2^R$.  Therefore,
+    if $T_1$ and $T_2$ are mutually interpretable, then $T_1^R$ and
+    $T_2^R$ are Henkin equivalent. \end{proof}
+
+  There is one last hope for the Ramsifier: that strict Ramsey
+  equivalence (RE$_3$) will provide the right notion of structural
+  equivalence.  Unfortunately, RE$_3$ proves to be the worst candidate
+  for structuralism, since intertranslatable theories need not satisfy
+  RE$_3$.
+  
+  \begin{example} Let $\Sigma _1 = \{ r\}$, and let
+    $\Sigma _2=\{ r'\}$, where both $r$ and $r'$ are unary predicates.
+    Let $T_1=\{ \exists xr(x) \}$, and let
+    $T_2=\{ \exists x \neg r'(x)\}$.  The reconstrual
+    $F(r)=\neg r'(x)$ induces a homotopy equivalence between $T_1$ and
+    $T_2$, i.e.\ $T_1$ and $T_2$ are intertranslatable.  However, the
+    Ramsey sentences of $T_1$ and $T_2$ are not frame equivalent.  In
+    particular, consider any frame $\2F$ with first-order domain $M$,
+    and $\2E ^{\2F}_1=\{ M\}$, i.e.\ $M$ is the only admissible subset
+    of $M$.  Then $\2F \vDash T_1^R$ but $\2F \not\vDash
+    T_2^R$.  \end{example}
+  
+  Since strict Ramsey equivalence (RE$_3$) is more conservative
+  (``right wing'') than definitional equivalence, we don't expect
+  structural realists to find it congenial.  But what about those
+  hard-core realists --- like David Lewis or Ted Sider --- who pin
+  their theoretical hopes on natural properties and reference
+  magnetism?  Might they actually want a criterion of equivalence that
+  is even more conservative than definitional equivalence?  In fact,
+  it seems that frame semantics might be a good way to capture the
+  idea that to describe a possible world, you need to say not only
+  what things exist, but also what the natural properties are.  We
+  should note, however, that adopting a first-order signature $\Sigma$
+  already goes some way to picking out natural properties.  When we
+  specify a $\Sigma$-structure $M$, we get a natural property
+  $M(\phi )$ for each formula $\phi$ of $\Sigma$.  It's not clear then
+  why a theorist who has adopted a first-order signature $\Sigma$
+  would need to additionally specify a notion of natural properties.
+
+The previous results can be summarized in the following diagram:
+\[ \begin{tikzcd}
+    \text{EE}   \arrow[Rightarrow]{d} &  \text{MI} \arrow[Rightarrow]{l}{}  \arrow[Rightarrow]{d} & \text{IT} \arrow[Rightarrow]{l}{}  \arrow[strike through,Rightarrow]{dr}{} \\
+    \mathrm{RE_1} & \mathrm{RE_2} \arrow[Rightarrow]{l}{} & &
+    \mathrm{RE_3} \arrow[Rightarrow]{ll}{} \end{tikzcd} \] Here ``EE''
+is empirical equivalence (explicated semantically), ``MI'' is mutual
+interpretability over $\Sigma$, and ``IT'' is intertranslatability
+over $\Sigma$, which is equivalent to definitional equivalence.  It
+appears then that none of the notions of Ramsey equivalence gets us
+near the promising area in the neighborhood of intertranslatability.
+Most philosophers, we think, would agree that intertranslatability is
+a reasonable --- if somewhat strict --- explication of the idea that
+two theories have the same logical structure.
+
+
+\section{Counting possibilities}
+
+
+%% counting the number of possibilities
+
+%% are they the same or different?  A question that doesn't really
+%% have a good answer
+
+%% need to account for relations between worlds
+
+If you page through an analytic philosophy journal, it won't be long
+before you see the phrase ``possible world''.  Many philosophical
+discussions focus on this concept, and it is frequently used as a
+basis from which to explicate other concepts --- Humean supervenience,
+counterfactuals, laws of nature, determinism, physicalism, content,
+knowledge, etc..  When the logically cautious philosopher encounters
+this concept, she will want to know what rules govern its use.  Where
+things get really tricky is when philosophers start invoking facts
+about the structure of the space of possible worlds --- e.g.\ how
+many worlds there are, which worlds are similar, and which worlds are
+identical.  These sorts of assumptions play a significant role in
+discussions of fundamental ontology.  To take a paradigm example,
+\cite{baker2010} argues that if two models are isomorphic, then they
+represent the same possible world.
+
+Analytic philosophers might be the primary users of the phrase
+``possible world'', but they aren't the only ones using the concept.
+Scientists talk about possible worlds all the time.  However, at least
+in the exact sciences, there are explicit rules governing the use of
+possible worlds talk.  Indeed, these rules are built into the
+structure of their theories, and more particularly, in the structure
+of those theories' spaces of models.  Following \cite{elvis}, we think
+that philosophers ought to try to understand the way that scientists'
+theories guide their use of modal concepts.
+
+Nonetheless, it's not hard to find philosophers scratching their
+heads, and asking themselves questions like the following:
+\begin{quote} ($\star$) Consider two general relativistic spacetimes,
+  $M$ and $N$, and suppose that $h:M\to N$ is an isomorphism (e.g.\ a
+  metric preserving diffeomorphism).  Do $M$ and $N$ represent the
+  same possible world? \end{quote}
+\begin{quote} ($\ast$) Consider two Newtonian spacetimes, $M$ and $N$,
+  and suppose that $h:M\to N$ is an isomorphism (e.g.\ a shift).  Do
+  $M$ and $N$ represent the same possible world?  \end{quote}
+\cite{elvis} helpfully classifies philosophers into two groups
+according to how they answer these questions: the {\it shiftless}
+claim that isomorphisms do not generate new possibilities, and the
+{\it shifty} claim that isomorphisms do generate new possibilities.
+In particular, the shiftless philosopher says that if $h:M\to N$ is an
+isomorphism, then $M$ and $N$ represent the same possibility.  In
+contrast, the shifty philosopher allows that $M$ and $N$ might
+represent different possibilities, even though they are isomorphic.
+While the majority of philosophers of physics and metaphysicians have
+become shiftless, Belot champions the heterodox, shifty point of view.
+As we will now argue, all parties to the dispute have adopted a
+questionable presupposition, viz.\ that it makes sense to count
+possibilia.
+
+But first, what hangs on this dispute between the shifty and the
+shiftless?  In the first place, shiftless philosophers believe that
+they are on the right side of history, ontologically speaking.  In
+particular, they believe that it would be wrong to countenance the
+existence of two possibilities, represented by $M$ and $N$, when a
+single one will do the job.  This way of thinking trades on vague
+associations with Leibniz's principle of the identity of
+indiscernibles: since $M$ and $N$ are indiscernible, there is no
+reason to regard them as different.  Belot points out, however, that
+shiftless philosophers have trouble making sense of how theories can
+guide the use of modal concepts.  In particular, he argues that the
+shiftless view necessarily collapses the distinction between
+deterministic and indeterministic theories.
+
+The mind boggles at the existence of shiftless philosophers ---
+because the view so patently conflicts with the standard reading of
+physical theories, not to speak of plain common sense.  Take, for
+example, a Galilean spacetime $M$, and let $\gamma :\7R\to M$ be an
+inertial worldline in $M$.  Now, a boost $x\mapsto x+vt$ for some
+fixed $v>0$ is represented by an isomorphism $h:M\to M$.  Does this
+boost generate a new possibility?  The question might seem confusing
+because the model on the right side of $h:M\to M$ is the same as the
+model on the left side.  It might seem to be trivially true, then,
+that $h:M\to M$ does {\it not} generate a new possibility.  But let's
+see what happens if we adopt the shiftless view.  If $h$ does {\it
+  not} generate a new possibility, then we ought to say, of a particle
+in inertial motion that it could {\it not} be in some other state of
+inertial motion (because there is no other such state of inertial
+motion).  But that claim is completely contrary to the way that
+physicists use this theory to guide their modal reasoning.  When a
+physicist adopts Galilean relativity, she commits to the claim that
+there are many distinct possible states of inertial motion, and that a
+thing which is in one state of inertial motion {\it could be} in some
+other state of inertial motion.  In other words, it matters to
+physicists that the isomorphism $h:M\to M$ is not the identity
+isomorphism, and in particular, that the worldline $h\circ \gamma$ is
+not the same as the worldline $\gamma$.  Nonetheless, shiftless
+philosophers can't make sense of these modal claims, because they
+insist that isomorphisms don't generate new possibilities.
+
+Despite the implausibility of the shiftless view, there are some very
+serious and smart philosophers who defend it.  What is it, then, that
+really drives their insistence on saying that isomorphism (at the
+level of representations) implies identity (at the level of the
+represented)?  We suspect that the shiftless are fumbling their way
+toward an insight --- but an insight that is difficult to articulate
+when one is operating with mistaken views about mathematical objects,
+and in particular about the relation between abstract and concrete
+objects.  Of course, we blame a lot of this confusion on Quine and his
+followers, who decided that we have no need of the abstract-concrete
+distinction --- in particular, that belief in the existence of
+abstracta is no different in principle from belief in the existence of
+concreta.  But without that distinction, we are bound to say some
+silly things about the representation relation.
+
+At risk of oversimplifying, we will first give a simple formulation of
+the basic insight toward which we think the shiftless philosophers are
+fumbling:
+\begin{quote} ($\dagger$) A theory $T$ is indifferent to the question
+  of the identity of its models.  In other words, if $M$ and $N$ are
+  models of $T$, then $T$ neither says that $M=N$, nor that $M\neq N$.
+  The only question $T$ understands is: are these models isomorphic,
+  or not?
+\end{quote}
+Now please don't get us wrong: ($\dagger$) does not say that
+isomorphic models are identical, nor does it say that the theory $T$
+treats isomorphic models as if they were identical.  No, from the
+point of view of $T$, the question, ``are they identical?'' simply
+does not make sense.  And claims of identity, or non-identity of
+models, play {\it no} explanatory role in the theory.
+
+We realize that this claim is controversial, and that it might take
+some time for philosophers to become comfortable with it.  The problem
+is that we learned a little bit of set theory in our young years, and
+we seem to assume that everything lives in a world of sets --- where
+questions of the form ``is $M$ equal to $N$'' always have a definite
+answer.  Indeed, the rigid grip of set theory makes philosophers
+profoundly uncomfortable with contemporary mathematics, which likes to
+play a fast and loose game with identity conditions.  Consider a
+simple example (due to John Burgess): suppose that we ask two
+different mathematicians two different questions:
+\begin{quote} (Q1) How many groups are there with two
+  elements? \end{quote}
+\begin{quote} (Q2) Inside the group $\7Z _2\oplus \7Z _2$, how many
+  subgroups are there with two elements? \end{quote} What we are
+likely to find is that mathematicians will give apparently conflicting
+answers.  On the one hand, they will tell us that there is only one
+group with two elements.  On the other hand, they will tell us that
+$\7Z _2\oplus \7Z _2$ has two distinct subgroups with two elements.
+Obviously, if taken literally, these two answers contradict each
+other.  But of course, there is no genuine conflict, and
+mathematicians are not in crisis about the number of groups with two
+elements.  No, the fact is, mathematicians use words and symbols in a
+different way than we use them in everyday life --- e.g.\ when we
+count the number of apples in a basket.
+
+To reinforce this point, recall that categorical equivalence doesn't
+respect the number of objects in a category.  Consider for example the
+following two categories: let $\cat{C}$ be the category with one
+object, and one identity morphism.  Let $\cat{D}$ be the category with
+two objects $a,b$, one identity morphism from each object to itself,
+and a pair of morphisms $f:a\to b$ and $g:b\to a$ that are inverse to
+each other.  Then $\cat{C}$ and $\cat{D}$ are equivalent categories
+--- which entails that ``this category'' doesn't really have a
+definite number of objects.  It is not correct to say that it has one
+object, and it's not correct to say that it has two.  Or perhaps
+better: it is just as correct to say that it has one object as it is
+to say that it has two.
+
+Here then is our positive proposal:
+\begin{quote} For the purposes of interpreting a theory $T$, the
+  collection $\mathrm{Mod}(T)$ of its set-theoretic models should be
+  treated as nothing more nor less than a {\it category}.  In
+  particular, the philosopher of science shouldn't say things about
+  $\mathrm{Mod}(T)$ that are not invariant under categorical
+  equivalence, nor should they argue over questions --- such as ``how
+  many models does $T$ have?'' --- whose answer is not invariant under
+  categorical equivalence.  \end{quote} If this proposal is adopted
+then there is no debate to be had between the shifty and the
+shiftless.  The question they are asking --- do isomorphisms generate
+new possibilities? --- depends on a notion (the number of isomorphic
+possibilities) that is not invariant under categorical equivalence.
+
+The rationale for this proposal is our belief that models of a theory
+$T$ in $\cat{Sets}$ are {\it representations} of that theory; the
+set-theoretic description of these models is not {\it not} itself a
+further theory that attempts to describe the world at an even finer
+grained level of detail than was done by $T$.  We can further clarify
+these points by means of a simple example.
+
+\begin{example} Suppose that Berit is a scientist with a very simple
+  theory.  Her language $\Sigma$ has a single predicate symbol $P$,
+  and her theory $T$ says that there are exactly two things, one of
+  which is a $P$:
+  \[ \exists x\exists y(P(x)\wedge \neg P(y)\wedge \forall z((z=x)\vee
+    (z=y))) .\] Now we metatheorists know that a set-theoretic model
+  $M$ of $T$ consists of a two-element set, say $X=\{ a,b\}$, with a
+  singleton set $M(P)$.  Let $M$ be the model such that $M(P)=\{ a\}$,
+  and let $N$ be the model such that $N(P)=\{ b\}$.  Then the
+  permutation $h(a)=b,h(b)=a$ gives a $\Sigma$-isomorphism $h:M\to N$.
+  (But the permutation $h$ is not an automorphism of $M$.)
+
+  Let's consider the shifty-shiftless dilemma with regard to the
+  models $M$ and $N$, with the isomorphism $h:M\to N$.  The shifty
+  philosopher (e.g.\ Belot) says that $M$ and $N$ represent distinct
+  possibilities.  The shiftless philosopher (e.g.\ Baker) says that
+  $M$ and $N$ represent the same possibility.  Who is on the side of
+  truth?
+
+  In our opinion, both the shifty and the shiftless say misleading
+  things about this example.  On the one hand, the shifty claim is
+  misleading, because the user of $T$ doesn't have the language to say
+  what would be different between $M$ and $N$.  She cannot say, ``in
+  $M$, $a$ is $P$, and in $N$, $a$ is not $P$,'' because she herself
+  doesn't have the name ``$a$''.  The shiftless wants us to start
+  counting how many models there are, but the theory $T$ doesn't
+  answer that question.
+
+  On the other hand, the shiftless would insist that there is only one
+  possibility, represented redundantly by $M$ and $N$.  But that claim
+  is misleading for the following reason.  Berit's theory $T$ is an
+  extension of the theory $T_0$, in empty signature, that says there
+  are exactly two things.  Let $I:T_0\to T$ be the translation of
+  $T_0$ into $T$, and let $I^*:\mathrm{Mod}(T)\to\mathrm{Mod}(T_0)$ be
+  the functor that forgets the assignment of $P$.  Here $I^*M$ and
+  $I^*M$ are both the bare two-point set $X$, and the isomorphism
+  $I^*h=h:X\to X$ is the non-trivial permutation.  Recall, though,
+  that functors map identity morphisms to identity morphisms.  Hence,
+  if the isomorphism $h:M\to N$ is considered to be an identity (as
+  the shiftless seem to do), then it would follow that $I^*h$ is the
+  identity morphism.  Thus, contra the shiftless, we cannot identify
+  $M$ and $N$, and forget that there was a non-identity isomorphism
+  $h:M\to N$.  If we do that, then we won't be able to see how the
+  theory $T$ is related to the theory $T_0$.
+
+  The confusion here is somewhat similar to Sk{\o}lem's paradox (about
+  the existence of uncountable sets in models of ZF set theory), where
+  we run into trouble if we don't distinguish between claims made in
+  the object language and claims made in the metalanguage.  In the
+  present case, one might be tempted to think of the theory $T$ as
+  saying things such as:
+  \begin{quote} In model $M$, $a$ is a $P$. \end{quote} Of course, $T$
+  says no such thing, since it doesn't have names for models or for
+  elements in models.
+
+  The other problem here is in the way that we've set up the problem
+  --- by speaking as if the representation relation holds between $M$
+  (or $N$) and the world.  To the contrary, the representation
+  relation holds between Berit's language and the world, and we (the
+  metatheorists) are representing Berit's theorizing using our own
+  little toy theory (which presumably includes some fragment of set
+  theory, because that's a convenient way to talk about collections of
+  formulas etc.).  Berit herself doesn't claim that $M$ (or $N$)
+  represents the world --- rather, the metatheorist claims that $M$
+  and $N$ represent ways that Berit's language could represent the
+  world.  Accordingly, Berit doesn't claim that $M=N$, or that
+  $M\neq N$; those are metatheoretical assertions --- and do not add
+  to the stock of knowledge about the world.  \end{example}
+
+Before proceeding, we should deal with an obvious objection to the
+view we've put forward.  Some philosophers will point out that it is
+simply false to say that physicists don't count the number of
+possibilities.  Indeed, it's precisely by counting the number of
+possibilities that physicists derive notions such as entropy.
+
+We do not disagree with this point, but it doesn't conflict at all
+with our positive proposal (to talk about models of a theory as a
+category).  Just remember that category theory is a framework that is
+almost infinitely flexible: what we can talk about in a
+categorically-invariant way depends on how we --- or physicists ---
+define the relevant category.  For the case at hand, if $X$ is a
+classical phase space, then it is assumed that $X$ is a discrete
+category --- i.e.\ that there are no non-trivial isomorphisms between
+elements of $X$.  Thus, in this case, there is no question about
+whether to count two isomorphic possibilities as the same; because we
+(or better, the physicists) have chosen not to admit isomorphic
+possibilities.
+
+To be clear, we explicitly reject the idea that there is a single
+relation ``being isomorphic'' that either holds or does not hold
+between concrete objects.  On the contrary, the notion of isomorphism
+applies to abstractions, and different notions of isomorphism are
+valid for different levels of abstraction.  It's up to us to decide
+which level of abstraction serves our purposes in reasoning about
+concrete, physical reality.  (In particular, models of a theory are
+not concrete realities, and that's why they cannot either be identical
+or non-identical.)
+
+For all of its other virtues, one of the defects of the semantic view
+of theories is that it obscures the object/meta-language distinction,
+a distinction that is absolutely necessary to make sense of the notion
+of symmetry of representations.  To be more accurate, the target of
+this criticism are advocates of the ``language-free'' or
+``semantic-L'' view \cite[see][]{halvorson2013}. The picture we get
+from the language-free semantic view is that mathematical structures
+are out there in the world, and that they are either isomorphic to
+each other, or they are not.  Of course, that picture completely
+ignores the fact that isomorphisms are defined in terms of language;
+or, to put it more accurately, that isomorphisms relate mappings
+$M:\Sigma\to\cat{Sets}$ and $N:\Sigma\to\cat{Sets}$, which have a
+common domain $\Sigma$.  Thus, in particular, arbitrary mathematical
+structures are neither isomorphic nor non-isomorphic.
+
+The object language $\Sigma$ serves as the reference point in defining
+a notion of symmetry.  The object language tells us what must be held
+fixed, and the metalanguage tells us what can be varied.  In
+particular, a model $M$ of a theory $T$ can have a non-trivial
+automorphism group because of two features of the formal setup:
+\begin{enumerate}
+\item The metalanguage describes the world in finer-grained language
+  than the object language.
+\item Distinctions that are not made by the object language are not
+  significant for the kinds of explanations that the theory $T$ gives.
+\end{enumerate}
+If we drop either one of those components, then we will most likely
+make a hash of the notion of symmetry.  Without the metalanguage,
+there is no way to see any difference between $a$ and $b$, and so no
+way to express the change the occurs in the permutation $a\mapsto b$.
+But if we think of the metalanguage as a better object language, then
+we shouldn't count $a\mapsto b$ as a symmetry, since these two things
+are distinguishable in the metalanguage.  Thus, it's precisely the
+mismatch between object language and metalanguage that provides us
+with a rich notion of symmetry; and conversely, the importance of the
+notion of symmetry gives us reason to maintain a distinction between
+object language and metalanguage.
+
+The distinction between object- and meta-language is one of the most
+interesting ideas in 20th century logic and philosophy --- and it
+remains one of the least well understood.  Obviously, Carnap made a
+lot of this distinction, and in fact, he seems to use it as his
+primary analogy in formulating the distinction between internal and
+external questions, and more generally in understanding the
+relationship between theories in the exact sciences and our other,
+non-scientific beliefs and attitudes.  In contrast, Quine seems to
+reject the idea that there is an important difference of status
+between object and metalanguage.  He seems to propose, instead, that
+the ascent to metalanguage should be seen as an extension of one's
+object language --- and so assertions in the metalanguage have exactly
+the same force as assertions in the object language.\footnote{I fear
+  that I may be missing the nuance in Quine's position.  I would
+  encourage the interested reader to consult more careful historical
+  studies such as \cite[][pp 182ff]{becker} and \cite{hintikka}.}
+
+\section{Putnam's paradox} \label{putnam}
+
+Perhaps the most notorious argument from logical metatheory to
+philosophy is Putnam's model-theoretic argument against realism
+\citep{putnam1977,putnam-models}.  Here is how the argument goes.
+\begin{quote}
+  Suppose that theory $T$ is consistent, i.e.\ $T$ does not imply
+  $\bot$, or equivalently, $T$ has a model.  Now let $W$ represent the
+  collection of all actually existing objects, i.e.\ $W$ represents
+  ``the world''.  Besides consistency, we will make two other minimal
+  mathematical assumptions about $T$: First, the cardinality of the
+  language is not so large as to force belief in the existence of too
+  many objects.  In short, we require that $|\Sigma |\leq |W|$.
+  Second, the theory $T$ doesn't entail that there are at most $n$
+  things, for $n\in\7N$.
+
+  We then proceed as follows: by the L{\"o}wenheim-Sk{\o}lem theorem,
+  there is a model $M$ of $T$ such that $|M|=|W|$.  This means, of
+  course, that there is a bijection $f:M\to W$.  Now we define another
+  model of $T$, still called $W$, by setting $W(p)=f(M(p))$ for each
+  relation symbol $p$ in the theory $T$.  But then the the world is a
+  model of $T$.  That is, $T$ is true. \end{quote}
+The above argument is intended to show that if $T$ is consistent, then
+$T$ is true --- actually true, in the real world.  There is one
+obvious way to try to block this argument, and that's to say that the
+model $W$ may not be the ``intended'' assignment of relation,
+function, and constant symbols to things in the real world.  However,
+Putnam tries to block that response essentially by calling upon your
+charity.  Imagine that $T$ is the theory held by some other person,
+and that you're going to try your best to believe that what that
+person says is true.  In other words, you are going to give her the
+benefit of the doubt whenever possible.  Then what Putnam has shown is
+essentially that there is a way of giving her the benefit of the
+doubt.
+
+This simple-looking argument is so subtle, and there are many ways we
+might respond to it.  But let me be completely clear about my view of
+this argument: it is absurd.  This version of Putnam's argument is not
+merely an argument for antirealism, or internal realism, or something
+like that.  This version of the argument would prove that all
+consistent theories should be treated as equivalent: there is no
+reason to choose one over the other.  Thus, Putnam's paradox is
+essentially an argument for one of the most radically liberal views of
+theoretical equivalence imaginable.  The only more radical view is the
+Zenonian view, according to which all theories are equivalent.
+
+To keep things concrete, let's suppose that $T$ is Mette's theory.
+The goal of Putnam's argument is to show that Mette's theory is true.
+In my view, the problematic assumption in the argument is the
+following:
+\begin{quote}
+  (S) The world can be described as an object $W$ in the universe of
+  $\cat{Sets}$.  \end{quote} The question to be raised here is: {\it
+  who} is using the theory of sets to describe the world?  Putnam's
+presentation makes it seem that either: (1) it's unproblematic and
+theory-neutral to describe the world as a set, or (2) a realist must
+describe the world as a set.  I don't agree with either claim.
+
+Let's remember that nobody here --- including Putnam --- is free from
+language and theory.  When Putnam describes the world as a set, it
+might seem that he is making minimal assumptions about it.  But the
+opposite is true.  When you have a set, you have all of its subsets;
+and when you have two sets, you have all of the functions between
+them.  To even say these things, we need the rich and expressive
+language of set theory.
+
+Thus, Putnam has set things up in a misleading way by (1) describing
+the world as a set, but (2) failing to note who is responsible for
+this description of the world as a set.  Suddenly it becomes clear why
+Putnam's argument goes through, and why it's completely trivial.
+Putnam assumes that Mette's theory $T$ is set-theoretically
+consistent, which simply means that Mette's theory can be translated
+into the background theory $T_0$ that was used to describe the world.
+That is, there is a translation $F:T\to T_0$.  Putnam rightly
+concludes that the $T_0$-theorist could take Mette's theory $T$ to be
+true.  What Putnam does not show is that {\it anybody}, regardless of
+their background theory, could take Mette's theory to be true.
+
+%% putnam1
+
+Putnam's argument should actually not make any assumption about $W$,
+i.e.\ it should be like a black box.  However, Putnam begins by
+assuming that there is already a fixed interpretation of ZF into the
+world, i.e.\ we know what objects are, and collections of objects, and
+functions between objects, etc.  He then asks whether $T$ has one (or
+perhaps even many) interpretations into this already understood
+domain.  And of course, the answer is Yes.
+
+Thus, Putnam assumes that he is permitted a trans-theoretical language
+to speak of the domains $M$ and $W$.  By ``trans-theoretical'' here, I
+mean simply that the language of $T_0$ (in this case, ZF) is not the
+same as the language of the theory $T$.  In particular, for Putnam's
+argument to go through, he needs to be able to make distinctions in
+$W$ that simply cannot be made by users of the theory $T$.
+
+To make these ideas more concrete, let's consider an example: Let
+$\Sigma = \{ c,d\}$, where $c$ and $d$ are constant symbols.  Let $T$
+be the theory in $\Sigma$ that says $c\neq d$, and
+$\forall x((x=c)\vee (c=d))$.  (This example violates the strictures
+of Putnam's L{\"o}wenheim-Sk{\o}lem based argument, but the point will
+not depend on those details.)  Of course, there is only one model of
+$T$ up to isomorphism.  And yet, a skeptical worry arises!  Imagine
+two people, Mette and Niels, both of whom accept $T$, and both of whom
+think that the world is the set $\{ a,b\}$.  And yet, Mette says that
+$c$ denotes $a$, whereas Niels says that $c$ denotes $b$.  Do Mette
+and Niels disagree?  The answer is Yes and No.
+
+Note, first of all, that we have already misdescribed the situation.
+Mette cannot say that ``$c$ denotes $a$'', because $a$ is not a name
+in her language.  Similarly, Niels cannot say that ``$c$ denotes
+$b$''.  Thus, it is actually Putnam sitting in his ivory tower and
+saying: ``Mette uses $c$ to denote $a$'' and ``Niels uses $d$ to
+denote $b$.''  But how does Putnam's language here get a grip on the
+world?  How can he tell what Mette and Niels are denoting, and that
+they are different things?  Now, Putnam might claim that it is not he,
+but the realist, who thinks that the world is made of things, and that
+when our language-use is successful, our names denote these things.  So
+far I agree.  The realist does think that.  But the realist can freely
+admit that even he, the great philosopher, has just another theory,
+and that his theory cannot be used to detect differences in how other
+people's theories connect up with the world.  All of us, Mette, Niels,
+Hilary, you, and I, are on the same level when it comes to language
+use.  None of us has the metalinguistic point of view that would
+permit us to see a mismatch between language and world.
+
+Now, I suspect that some people might think that I've simply affirmed
+Putnam's conclusion --- i.e.\ that I have embraced internal realism.
+Given that I don't know what ``internal realism'' means, I can't
+either affirm or deny that claim.  But I do insist that Putnam's
+argument doesn't work; for if it works, then we have no reason to
+discriminate between (ideal) consistent theories, and we are forced to
+adopt an absurdly liberal account of theoretical equivalence.
+
+Consider another scenario, where now I, rather than Putnam, get to
+choose the rules of the game.  In other words, I have my own theory
+$T_0$ of which I believe the world $W$ is a model.  Then along comes
+Putnam and says that any consistent theory can be interpreted into the
+world $W$.  But if my background theory $T_0$ is not ZF, then I don't
+see $W$ as a set, and Putnam's argument cannot even get started.  In
+particular, I don't necessarily grant that there is an isomorphism
+$f:M\to W$ between a model $M$ of $T$ and this model $W$ of my theory
+$T_0$.  For one, what would I even mean by the word ``isomorphism''?
+I, the user of the theory $T_0$, know about isomorphisms between
+models of my theory.  However, $M$ is a model of a different theory
+$T$, written in a different signature $\Sigma$, and so there may be no
+standard of comparison between models of $T$ and models of $T_0$.
+
+There is still another more severe problem for Putnam's argument.  For
+a scientific theory to be ``ideal'' it's really not enough for it to
+correctly report every actual fact.  In must do more!  There are a few
+ways to get a handle on what more a good scientific theory must do.
+David Lewis recognized that the ``best theory'' is not simply one that
+gets every fact correct.  Instead, the ``best'' achieves an ideal
+balance of strength and simplicity.  Here ``strength'' means reporting
+the facts, and simplicity means \dots well, we all know it when we see
+it, right?  Whether or not we philosophers have a good account of
+simplicity, the fact is that Lewis was right that there is (at least)
+a second component to theory evaluation, and it has something to do
+with systematicity, or choosing the right language, or cutting nature
+at the joints.
+
+Thus, when I'm looking at a scientific theory, I'm not just interested
+in whether it's true.  You could write down every truth in a massive
+encyclopedia, and I wouldn't consider it to be the best scientific
+theory.  There are better and worse ways to say the truth.  And what
+this means for our considerations here is that not all true theories
+are created equal; thus, certainly not all ideal consistent theories
+are equal.
+
+We might want to go to the trouble of explaining when I, user of
+theory $T_0$, would grant that $T$ can be interpreted into a model $M$
+of my theory.  In the simplest sort of case, I would require that for
+each relation symbol $p$ of $T$, there is a formula $Fp$ of the
+appropriate arity of my language $\Sigma _0$ such that $p$ can be
+interpreted as $M(Fp)$.  As a user of theory $T_0$, I only recognize
+those subsets of $M$ that can be described via the predicates of my
+theory.  In particular, I don't necessarily have the resources to name
+the elements of the domain $M$, and I don't necessarily have the
+resources to collect arbitrary elements of $M$ and form subsets out of
+them.  I can only talk about ``things that satisfy $\phi$'', where
+$\phi$ is one of the predicates of my language.
+
+So, suppose then that $T$ is consistent relative to my theory $T_0$:
+for each model $M$ of my theory, there is a model $M^*$ of $T$ with
+the same domain as $M$, and such that for each relation symbol $p$ of
+$\Sigma$, $M^*p = M(Fp)$ for some formula $Fp$ of my language
+$\Sigma _0$.  However, even in this scenario, I wouldn't necessarily
+consider the theory $T$ to be adequate, for it may fail to pick up the
+relationships between various models of my theory.  I'd want to know
+that the user of $T$ recognizes the same connections between models
+that I do.  In particular, where I see an elementary embedding
+$h:M\to N$, I would require the user of $T$ to see a corresponding
+elementary embedding $h^*:M^*\to N^*$ between models of his theory
+$T$.  And that just means that $h\mapsto h^*$ completes the definition
+of a functor from $\mathrm{Mod}(T_0)$ to $\mathrm{Mod}(T)$, where the
+object part is given by $M\mapsto M^*$.  We then have the following
+result.
+
+\begin{prop} Let $F$ be a map of $\Sigma$-formulas to
+  $\Sigma _0$-formulas such that the map $M(\phi )\mapsto M(F\phi )$
+  defines a functor from $\mathrm{Mod}(T_0)$ to $\mathrm{Mod}(T)$.
+  Then $F:T\to T_0$ is a translation. \end{prop}
+
+\begin{proof} Define a reconstrual $G:\Sigma\to\Sigma _0$ by setting
+  $Gp=Fp$.  We claim that $T_0\vdash G\phi\lra F\phi$ for all formulas
+  $\phi$ of $\Sigma$.  For this, it suffices to run through the
+  clauses in the definition of $F$.  For example, we need to check
+  that $F(\phi _1\wedge \phi _2)\equiv F(\phi _1)\wedge F(\phi _2)$,
+  where $\equiv$ means provable equivalence modulo $T_0$.  But this is
+  easy to check: let $M$ be an arbitrary model of $T_0$.  Then
+  \[ \begin{array}{l l l} M(F(\phi _1\wedge \phi _2)) & \equiv & M^*(\phi _1\wedge \phi _2) \\
+    &\equiv & M^*(\phi _1)\cap  M^*(\phi _2) \\
+     & \equiv & M(F(\phi _1))\cap M(F(\phi _2) \\
+     &\equiv & M(F(\phi _1)\wedge F(\phi _2)) .\end{array} \]
+(Here I've ignored for simplicity the fact that $\phi _1$ and $\phi _2$
+might have different free variables.)  The clauses for the other
+connectives and for the quantifiers are similar.  \end{proof}
+
+The upshot of this result for Putnam's argument is as follows: a user
+of a theory $T_0$ should only grant that $T$ can be true if there is a
+translation of $T$ into $T_0$.  This result is not surprising at all.
+In real life, this is the sort of criterion we do actually employ.  If
+I hear someone else speaking, I judge that what they are saying
+``could be true'' if I can reconstrue what they are saying in my
+language.  If there is no way that I can interpret their utterances
+into {\it my} language, then I am forced to regard those utterances as
+false or meaningless --- unless I decide to adopt a new language.
+
+\newcommand{\3}{\cal}
+
+As Otto Neurath pointed out, and as Quine liked to repeat, we cannot
+start the search for knowledge from scratch.  Each of us already has a
+theory, or theories.  And we have a notion of permissible translations
+between theories which regulates (or describes) our attitude about
+which other theories could potentially be correct.  If a theory $T$
+can be conservatively translated into my theory $T_0$, then I will
+think that $T$ might possibly say something true (perhaps if its terms
+are charitably interpreted).  But even then, I would not necessarily
+judge $T$ to be true.  Indeed, if my standard of theoretical
+equivalence is weak intertranslatability, then I will judge $T$ to be
+potentially true (even under the most charitable interpretation) only
+if $T$ and $T_0$ are weakly intertranslatable.  (And do recall that
+weak intertranslatability is a fairly conservative criterion of
+equivalence.)
+
+What Putnam has shown, at best, is that {\it relative} to a background
+theory $T_0$ of bare sets, a theory $T$ that has a model in
+$\cat{Sets}$ could be charitably interpreted as true by a user of
+$T_0$.  The result is really not very interesting --- except insofar
+as it reminds us of the dangers of uncritically accepting set theory
+as our background metatheory.  Indeed, set theory makes non-trivial
+existence claims, e.g.\ the claim that any two points in a model are
+related by a permutation.
+
+The things I've just said might sound quite similar to Lewis'
+\citeyearpar{lewis-putnam} response to Putnam's argument.  You'll
+recall that Lewis attempts to block the argument precisely by denying
+the permissibility of the relevant permutation --- or, what's the
+same, of denying that each subset of \textsc{World} picks out a
+genuine property.  But Lewis' response is not, by itself, sufficient
+to block Putnam's argument.  Suppose indeed that we've identified a
+privileged subclass $\cal{N}$ of natural properties among the subsets
+of \textsc{World}.  We can also require, as Lewis does, that a
+predicate symbol $p$ of the signature $\Sigma$ must be assigned to a
+set $M(p)\in \cal{N}$.  In other words, $M$ cannot assign $p$ to any
+old subset of \textsc{World}.
+
+What Lewis has done here, in effect, is to propose an extension of
+Putnam's background theory $T_0$, by means of adding predicate symbols
+to the signature $\Sigma _0$ in order to designate the subsets in
+$\cal{N}$.  Let $T_1$ be Lewis' strengthened background theory --- the
+theory that describes the world as a set \textsc{World}, with a
+privileged family $\3N$ of subsets of \textsc{World} to represent the
+natural properties.  Then Lewis' requirement that the predicates of
+$T$ be interpreted as elements of $\3N$ is simply Lewis saying that
+for him to count the theory $T$ as true, there would have to be an
+interpretation of $T$ into his background theory $T_1$.  Since Lewis'
+background theory $T_1$ is expressively weaker than Putnam's
+background theory $T_0$, it is more demanding to ask for an
+interpretation of $T$ into $T_1$ than it is to ask for an
+interpretation of $T$ into $T_0$.
+
+It's easy to see that this maneuver does indeed block complete
+trivialization: for some choices of $\3N$, there are theories $T$ that
+are set-theoretically consistent, but that cannot be translated into
+Lewis' background theory $T_1$.  To take one trivial example, suppose
+that $T_1$ has three natural properties: the emptyset, the entire
+world, and some proper subset $A$ of the world.  Suppose that $T$ says
+that
+\[ \exists xPx\wedge \exists yQy\wedge \neg\exists z(Pz\wedge Qz) .\]
+Then $T$ is set-theoretically consistent, but $T$ cannot be translated
+into $T_1$.
+
+Nonetheless, Lewis' demands here are not strong enough.  In general,
+for any sufficiently rich family of natural properties $\3N$, too many
+theories $T$ will be interpretable into Lewis' background theory
+$T_1$.  And hence, if Lewis grants Putnam's call for charitable
+interpretation, then Lewis will have to say that those theories are
+true.  That concedes too much.  It is easy to think of examples that
+would make a realist choke.  For example, suppose that Gargamel has a
+theory that says there are many gods, and there are no electrons.  If
+Lewis countenances just a single natural property with instances, then
+Gargamel's theory can be translated into Lewis' background theory ---
+and, by the principle of charity, should be counted as true.
+
+We will not engage now in further formal investigation of these
+matters, e.g.\ to ask how many natural properties there need to be in
+order for a given theory $T$ to be interpretable into Lewis'
+background theory.  We don't think that question is very interesting
+--- because we've already gone off on a bad track.  There are two
+interrelated problems here.  The first problem is that Lewis'
+background theory $T_1$ has little to recommend it, even if we are
+inclined to accept that there are ``natural properties.''  (And anyone
+who uses first-order logic implicitly does accept the existence of
+natural properties --- they are precisely the properties that are
+definable in her language.)  The second, and deeper, problem is that
+Lewis, like Putnam, seems to be supposing that all parties --- or at
+least all metaphysical realists --- can agree on some particular fixed
+background theory $T_\ast$.  We reject that assumption, and as a
+result, Putnam's paradox simply dissolves.
+
+
+
+
+
+
+
+
+%% I do want to say something now about translations, and about the
+%% idea of interpreting $T$ into a model of $T'$.  The point is that
+%% for a user of $T$, we judge that $T'$ is true if there is an
+%% appropriate interpretation of $T'$ into $T$
+
+
+
+
+
+
+%% bring into question Putnam's idea of "ideal theory".  And this is
+%% important because it brings into question that idea tout court
+
+%% TO DO: Lewis and natural properties
+
+
+\section{Realism and equivalence}
+
+According to the standard stereotype, the logical positivists were
+{\it antirealists} or {\it instrumentalists} about scientific
+theories.  Moreover, this antirealist stance was facilitated by means
+of the syntactic analysis of scientific theories, according to which a
+theory $T$'s language has some purely observational terms $O$, and its
+empirical content can be identified with $T|_O$.  With this formal
+analysis, the positivists could then articulate their particular
+versions of epistemic and semantic empiricism:
+\begin{itemize}
+\item Epistemic empiricism: the reasons we have to believe $T$ derive
+  from reasons we have for believing $T|_O$.
+\item Semantic empiricism: the meaning of terms in
+  $\Sigma\backslash O$ derives exclusively from the meaning of terms
+  in $O$.
+\end{itemize}
+The extreme instrumentalist would say that the terms in
+$\Sigma\backslash O$ have no meaning: there are merely instruments to
+facilitate making predictions.  The attenuated instrumentalist tries
+to find a way for terms in $\Sigma$ to inherit meaning from terms in
+$O$.
+
+In the 1960s and 1970s, the syntactic view of theories was
+discredited, and the tide seemed to have turned decisively against
+antirealism --- or at least against this stereotyped antirealism.
+Without a clear delineation of the empirical part of a theory, it was
+no longer possible to think that warrant or meaning could flow upward
+from the observationally relevant parts of a theory.
+
+Van Fraassen characterized the state of play in 1976: ``After the
+demise of logical positivism, scientific realism has once more
+returned as a major philosophical position'' \citep[623]{bas1976}.  He
+goes on to characterize scientific realism as commitment to the
+following thesis:
+\begin{quote}
+  The aim of science is to give us {\it a literally true story of what
+    the world is like}; and the proper form of acceptance of a theory
+  is to believe that it is true.  \citep[623]{bas1976} \end{quote} As
+is well-known, van Fraassen then gave several strong arguments against
+scientific realism, before going on to develop his positive
+alternative: {\it constructive empiricism}.
+
+In the years that followed, there was much back and forth debate: van
+Fraassen on the side of constructive empiricism --- and dozens of
+other philosophers on the side of scientific realism.  Interestingly,
+however, the terms of this debate had been set by van Fraassen, and
+these terms were rarely (if ever) questioned.  In particular, the
+scientific realists seem to have been happy enough with van Fraassen's
+characterization of their position; their job was merely to bring out
+its merits.
+
+However, if we look more closely, it becomes apparent that the debate
+wasn't so clear cut.  During the 1960s and 1970s, scientific realists
+were fond of saying that the philosophical position of scientific
+realism is itself a scientific hypothesis, and that the reasons for
+believing it are of the same nature as the reasons for believing any
+other scientific theory.  In particular, they claimed that the
+hypothesis of scientific realism is the {\it best explanation} for the
+success of the scientific enterprise.
+
+Now, van Fraassen certainly questioned the latter claim.  But more
+interestingly, he chose not to play by the same game as the scientific
+realists.  For van Fraassen, the reasons for being a constructive
+empiricist are different in kind from the reasons for accepting a
+scientific theory.  For those who were following the debate closely,
+it became clear that the choice between realism and antirealism about
+science was not a simple disagreement about which hypothesis better
+explains a common domain of phenomena.  There was a deeper and more
+elemental disagreement about the goals of philosophical reflection.
+
+For many philosophers of the next generation, the question of
+scientific realism versus scientific antirealism had receded too far
+into the upper reaches of metaphilosophy.  The simple ``pro and con''
+arguments of the 1970s and 1980s were not going to get us anywhere,
+seeing that the opposed parties were using different standards to
+evaluate these arguments.  Thus, the next generation of philosophers
+of science moved downward --- back to the analysis of specific
+scientific theories.  Although they may not openly use these words, I
+suspect that many philosophers of science now feel that ``realism or
+antirealism?'' is a pseudoquestion, or at least not a particularly
+interesting question.
+
+Speaking of pseudoquestions, what makes a question pseudo?  Here is
+one criterion: a question is pseudo if getting an answer to it
+wouldn't change anything you do.  By that standard, it's easy to see
+why the realism-antirealism debate might seem like a pseudodebate.
+Would a scientist do anything differently tomorrow if he converted to
+constructive empiricism?  Wouldn't he go on looking for the elegant
+and powerful theories, and using them to make predictions and give
+explanations?
+
+This last thought suggests a better way to understand what's really at
+stake in the realism-antirealism debate.  I suggest that the debate
+can be fruitfully reconceived as a battle over standards of
+theoretical equivalence.  In particular, a realist is somebody who
+adopts --- or recommends that people adopt --- stricter standards of
+theoretical equivalence.  Conversely, an antirealist is somebody who
+adopts --- or recommends that people adopt --- looser standards of
+theoretical equivalence.  In short, realists are conservatives about
+theoretical equivalence, and antirealists are liberals about
+theoretical equivalence.
+
+This construal of the realism-antirealism debate matches well with
+various well known cases.  Consider, for example, the case of the
+logical positivists.  We tend to think that they were antirealists
+because they said: ``the content of the theory $T$ resides in its
+observable part $T|_O$''.  But there are a lot of unclear words here,
+such as ``content'' and ``residing'' and ``observable'', and so this
+doesn't make for a very sharp statement of a philosophical thesis.
+However, one concrete implication of these positivist words is that if
+$T|_O=T'|_O$, then we should treat $T$ and $T'$ as equivalent.  For
+example, suppose that two scientists, say Werner and Erwin, have
+apparently conflicting theories $T$ and $T'$ with the same empirical
+content, i.e.\ $T|_O=T'|_O$.  Then the positivist would recommend that
+Werner and Erwin reconcile, for there can be no reason to prefer $T$
+over $T'$ or vice versa.  The difference between their theories is no
+more important than the difference between theories written in German
+and French.  In contrast, if $T$ says {\it anything} that conflicts
+with $T'$, then the scientific realist thinks that one of the two must
+be better than the other, and that we should actively pursue inquiries
+to determine which it is.
+
+This picture of the realism debate also makes sense of what structural
+realists were trying to achieve.  In short, structural realists urge
+that not every single detail of a successful scientific theory should
+be taken with equal seriousness.  In particular, they argue that if
+two theories $T$ and $T'$ differ only with respect to content, and not
+with respect to structure, then one can have no reason to prefer $T$
+over $T'$, or vice versa.  The normative core of structural realism,
+then, is to propose a notion of theoretical equivalence that lies
+somewhere to the left of the dangerously right-leaning realist view,
+and the dangerously left-leaning views of the logical positivists and
+the later Putnam.
+
+Scientists and philosophers, and in fact everyone, has implicit
+standards of equivalence that they employ to judge between truth
+claims, especially when those claims seem {\it prima facie} to
+conflict.  If you believe ``God doesn't exist'', and your French
+colleague believes ``{\it Dieu n'existe pas}'', then you know that
+there is no dispute to be settled.  Not only are those two sentences
+compatible with each other, they are equivalent.  Even within a single
+language, we can say the same thing in different ways.  Imagine that
+your friends Anne and Bent disagree about the number of roses in the
+vase on the counter.  Anne says, ``there are six roses'', and Bent
+says, ``there are a half dozen roses''.  In such a case, you would
+surely advise Anne and Bent to kiss and make up, since their dispute
+is merely verbal.
+
+Those cases are easy.  But there are more difficult cases in life ---
+especially as we move into the more abstruse regions of the sciences.
+(And that's not even to speak of cases such as differences in matters
+of politics or religion.)  For example, there is a debate among
+evolutionary biologists about the units of selection: is it the
+individual, or the species?  Many a friendship between scientists has
+been broken because of disagreement on issues like this one.  But what
+if there really was no dispute between them?  What if they were saying
+the same thing in different terms?
+
+You might think such a scenario is unimaginable.  But if the history
+of science can be trusted, then there have been numerous cases where
+{\it prima facie} disagreement has later been judged to be spurious.
+For example, in the mid 1920's, Werner Heisenberg developed a theory
+that made use of non-commutative algebra in order to predict the
+outcomes of measurements.  This theory, called {\it matrix mechanics}
+was hailed by many as a breakthrough, for it unified the {\it ad hoc}
+recipes that plagued the old quantum theory of Bohr and Sommerfeld.
+However, others abjured matrix mechanics, on the grounds that it was
+incomprehensible, unvisualizable, and entailed bizarre claims, most
+notably the existence of ``quantum jumps''.  Thus, a competing theory
+was developed by Erwin Schr{\"o}dinger, a theory based on completely
+different ideas and mathematical techniques.  According to
+Schr{\"o}dinger's theory, there are waves moving through physical
+space (or a higher dimensional configuration space), and particles
+such as electrons are simply harmonic resonances in these waves.
+
+Thus, Heisenberg presented one theory, $T_1$, to account for the
+quantum phenomena, and Schr{\"o}dinger presented another theory,
+$T_2$, to account for the same phenomena.  While both these were
+empirically adequate, the battle between Heisenberg and
+Schr{\"o}dinger was fierce, including name calling, a battle for
+prominence at professional meetings, and competition for funding and
+university positions.  The behavior of Heisenberg and Schr{\"o}dinger
+clearly indicated that they saw this debate as {\it genuine}, and in
+need of resolution.
+
+The conclusion of this story is typically told as follows.  Based on
+some suggestions that Schr{\"o}dinger himself made, a young
+mathematician John von Neumann formulated a conjecture: Heisenberg's
+matrix mechanics $T_1$ is equivalent to Schr{\"o}dinger's wave
+mechanics $T_2$.  Von Neumann then went on to prove this theorem, to
+the great satisfaction of most participants involved, especially those
+like Niels Bohr, who didn't want to choose between Heisenberg and
+Schr{\"o}dinger.  As a result, {\it the debate came to an end}.  Since
+$T_1$ and $T_2$ are equivalent theories, there is no question about
+which one is better, at least not in any epistemically or
+ontologically relevant sense.  There is no decision to be made about
+whether to accept $T_1$ or $T_2$.
+
+Such is the nature of judgments of theoretical equivalence.  When one
+judges that theories $T_1$ and $T_2$ are equivalent, one judges that
+accepting $T_1$ is tantamount to accepting $T_2$.  Conversely, if one
+feels that $T_1$ might be favored over $T_2$, or vice versa, then one
+judges that these theories are {\it not} equivalent.
+
+Are there equivalent theories?  Setting aside the
+Heisenberg-Schr{\"o}dinger theory as controversial, still every sane
+person will admit that at least some theories are equivalent.  For
+example, say that theory $T_1$ is the version of general relativity
+written down in the textbook {\it General Relativity} by Robert Wald
+that is sitting on the shelf in my office.  Let $T_2$ be the version
+of general relativity written down in the textbook {\it General
+  Relativity} by Robert Wald that is sitting on the shelf in Carlo
+Rovelli's office.  Of course, we all judge that $T_1$ and $T_2$ are
+equivalent.  In fact, our initial reaction is to say that these are
+the {\it same} theory, and that's why we use a definite description
+for it: ``{\it the} general theory of relativity''.  But if we boil
+everything down to fundamental physics, then it's hard to see what
+these two theory-tokens have in common.  One consists of ink marks on
+paper in Princeton, NJ, and the other consists of ink marks on paper
+in Marseilles.  The ink marks are different, and hence whatever they
+constitute is different was well.
+
+In my experience, philosophers' immediate reaction to this sort of
+example is to fly to the realm of abstract entities.  They say
+something like this: your book and Rovelli's book contain sentences
+that pick out the same {\it propositions}; hence the sentences in
+these two books both represent the same theory.  Now, I don't disagree
+with their claim, I only doubt its utility.  If you give me two
+languages I don't understand, and theories in the respective
+languages, then I have no idea initially whether those theories pick
+out the same propositions.  And that's precisely the sort of case we
+face with something like matrix and wave mechanics.  Employing new
+formalism that is not yet very well understood, it is unclear whether
+these theories say the same thing.  Thus, we need some criterion for
+equivalence that is {\it checkable}, at least in principle.  In other
+words, we need to know when two sentences pick out the same
+proposition.
+
+There are essentially two ways to proceed from here.  On the one hand,
+we can ask: what features must two theories have in common in order to
+be equivalent?  In philosophical jargon: what are the necessary
+conditions for theoretical equivalence?  This question can also be
+given a mathematical gloss: what are the {\it invariants} of
+theoretical equivalence?  For example, some people would say that for
+two (single sorted) first-order theories $T_1$ and $T_2$ to be
+equivalent, they must agree on the number of existing objects.  There
+are other conditions we might try to impose, but which are a bit more
+difficult to cash out in terms of formal logic.  For example, many
+contemporary philosophers would say that two equivalent theories must
+have the same {\it primitive notions}, i.e.\ those objects,
+properties, etc.\ that ground the other things that the theory
+mentions.  However, it is not obvious, to me at least, what this
+particular idea of primitive notions could be explicated by means of
+the structure of first-order theories.
+
+The second question we could ask has a more top-down flavor: could we
+simply define an equivalence relation on the collection $\mathbf{Th}$
+of all theories.  Disregarding the fact that $\mathbf{Th}$ is a proper
+class and not a set, there will be {\it many} such equivalence
+relations, all of which yield some notion of theoretical equivalence.
+Among these untold number of equivalence relations, there are some
+that have relatively simple mathematical definitions.  For example,
+the notion of {\it intertranslatability} gives rise to one such
+equivalence relation.
+
+An ideal method, I think, is to take both procedures into account.  On
+the one hand, we need not accept a definition of equivalence if it
+violates necessary conditions to which we are committed.  On the other
+hand, some of us might feel compelled to abandon an intuitive
+necessary condition of equivalence --- i.e.\ some intuitive invariant
+of theoretical equivalence --- if it conflicts with what otherwise
+seems the most reasonable formulation of an equivalence relation on
+$\mathbf{Th}$.
+
+We can see these sorts of choices and trade-offs being made all the
+time in philosophy.  On the more conservative side, philosophers such
+as David Lewis and Ted Sider lay heavy stress on choosing the right
+primitives.  At times it seems as if they would go so far as to say
+that there is a {\it privileged language} for metaphysics, so that no
+theory in this language could be equivalent to a theory that is not in
+this language.  (Of course, one wonders then how they individuate
+languages.)
+
+One could imagine an even more conservative stance on theoretical
+equivalence.  For example, suppose that $\Sigma$ is a fixed signature
+(say, the preferred signature for metaphysics), and $T_1$ and $T_2$
+are theories in $\Sigma$ that have the same consequences
+(equivalently, have the same models).  Should we then consider $T_1$
+and $T_2$ to be equivalent.  I suspect that Sider would say Yes.  But
+I also suspect that some philosophers would have said No, for they
+might have thought that there are even preferred ways of axiomatizing
+a theory.  Indeed, if you really believe that some facts are more
+basic than all the others, then shouldn't those facts be the ones
+enunciated in the axioms, so that all other facts are seen as flowing
+from them?  Thus, we get an even finer-grained equivalence relation on
+$\mathbf{Th}$ if we demand that equivalent theories are in the same
+signature, {\it and} have the same axioms.
+
+Even that requirement --- having the same axioms --- is not the most
+conservative imaginable.  We might even require that the theories
+literally have the same notation.  For example, in formulating group
+theory, we could use the symbol $\circ$ for the binary relation, or we
+could use the symbol $\bullet$.  Who knows, perhaps one of these two
+symbols more perspicuously represents the structure of the binary
+function in the world that we are trying to represent.  At the
+farthest end of this spectrum, one could adopt a pure ``Heraclitean''
+account of theoretical equivalence, according to which no two theories
+are the same.  In other words, the criterion of theory identity could
+be made out to be {\it literal identity} --- of symbols, axioms, etc..
+
+Conservative views of theoretical equivalence tend to align with
+``realist'' views about science or metaphysics.  Roughly speaking, if
+you think that the world has real structure, then you'll think that a
+good theory has to represent the structure that is out there.  If two
+theories disagree about that structure, then they cannot be
+equivalent.  Going in the opposite direction, liberal views of
+theoretical equivalent tend to align with ``antirealist'' views about
+science and metaphysics.  We see this tendency with Nelson Goodman in
+the 1960s, and with Hilary Putnam in the 1970s.  Putnam's move toward
+antirealism was augured by his giving many examples of theories which
+he says are equivalent, but which realists regard as being
+inequivalent.  For example, Putnam claims that Euclidean geometry
+based on points is equivalent to Euclidean geometry based on lines ---
+even though the models of these two theories can have different
+cardinalities.
+
+Long before Putnam turned in this direction, the connection between
+antirealism and liberal views of theoretical equivalence had already
+been established.  I'm thinking here of the logical positivists and
+their infamous notion of {\it empirical equivalence}.  The idea here
+is that two theories $T_1$ and $T_2$ are empirically equivalent just
+in case they share the same observable consequences --- and regardless
+of what else these might say.  So, to take an extreme example, if
+$T_2$ is $T_1$ plus the sentence, ``there is a new unobservable
+particle,'' then $T_1$ and $T_2$ are empirically equivalent.
+
+Now, for the logical positivists --- or at least, for some of them ---
+empirical equivalence is equivalence enough.  For they identified the
+content of a proposition with that proposition's empirical
+consequences; and it follows from this that if two propositions $\phi$
+and $\psi$ have the same empirical consequences, then they have the
+same content, i.e.\ they are the same proposition.  Stepping back up
+to theories, as collections of propositions, the positivist view of
+content entails that two theories are equivalent {\it tout court} if
+they are empirically equivalent.
+
+The positivist view of theoretical equivalence is quite liberal, and
+certainly unacceptable to scientific and metaphysical realists.  Most
+of us have the intuition that theories can say different things about
+unobservable things, even if those theories agree in all their
+observational consequences.  But in this case, we have to reject
+empirical equivalence as a sufficient condition for theoretical
+equivalence.
+
+A case can be made that Putnam's view of theoretical equivalence
+eventually became --- at least tacitly and in practice --- even more
+liberal than empirical equivalence.  In putting forward the
+model-theoretic argument, Putnam essentially makes an argument for the
+following claim:
+\begin{quote} If $T$ is consistent (and has other virtues such as
+  completeness), then $T$ ought to be taken as true. \end{quote} Now,
+in application to {\it two} consistent theories $T$ and $T'$, we have
+the following result:
+\begin{quote} If $T$ and $T'$ are consistent (and have other virtues
+  such as completeness), then $T$ and $T'$ ought both to be taken as
+  true.  \end{quote} In other words, consistent, ideal theories are
+true in all conditions, hence in all the same conditions, and so they
+are equivalent.  That is a radically liberal view, almost Zeno-like in
+its implications.  For in this case, there is only one equivalence
+class of consistent theories.
+
+What I've left out from this story so far are all the intermediate
+(and more plausible) views of theoretical equivalence --- views that
+we have been discussing throughout this book, such as definitional
+equivalence or Morita equivalence.  To put everything together,
+consider the diagram below, which places the different views of
+theoretical equivalence on a one-dimensional spectrum from maximally
+liberal (Zenonian) to maximally conservative (Heraclitean).
+\begin{quote} Zeno $\leftarrow$ categorical $\leftarrow$
+  w-intertranslatable $\leftrightarrow$ Morita $\leftarrow$
+  s-intertranslatable $\leftrightarrow$ CDE $\leftarrow$ logical
+  $\leftarrow$ Heraclitus \end{quote} So, given this wide range of
+different notions of equivalence, how are we to choose among them?
+And do we need to choose among them?  I would say that we don't have
+to explicitly choose among them --- but that our attitudes towards
+them mirror our attitudes towards real life cases, or at least to
+cases that come up in other philosophical discussions.  Consider, for
+example, North's \citeyearpar{north2009} argument for the
+inequivalence of Hamiltonian and Lagrangian mechanics.  She says,
+``Hamiltonian and Lagrangian mechanics are not equivalent in terms of
+statespace structure.  This means that they are not equivalent,
+period.''  In other words, she's putting a model of Hamiltonian
+mechanics next to a model of Lagrangian mechanics, and comparing
+structure.  Seeing that these structures are not ``equivalent'', she
+declares that the theories are not equivalent.  We see then that, at
+the very least, North adopts a criterion that is more conservative
+than categorical equivalence, which has no interest in the internal
+structure of individual models.  (In fact, \cite{barrett-hamiltonian}
+shows that Hamiltonian and Lagrangian mechanics are categorically
+equivalent.)  Most likely, North's criterion is further to the right
+than even Hudetz's constructible categorical equivalence, for she
+doesn't consider questions as to whether Lagrangian structure can be
+constructed from Hamiltonian structure, and vice versa.
+
+We can see a similar thought process going on with critics of
+quantifier variance.  Indeed, we can think of debates about quantifier
+variance as debates about which notion of theoretical equivalence to
+adopt.  The opponents of quantifier variance insist that
+equinumerosity of models is a necessary condition for theoretical
+equivalence.  Thus, they draw the line short of Morita equivalence,
+which allows that equivalent theories can have models of different
+cardinalities.  In contrast, defenders of quantifier variance
+realize that there is certainly a sense in which theories can be
+intertranslatable even if they violate that cardinality constraint.
+The question boils down to which criterion of theoretical equivalence
+is the better one to adopt?
+
+I believe that this is one of the most interesting questions that
+philosophers can ask, precisely because it's a non-factual question.
+Or, to put it more accurately, the answer that one gives to such a
+question determines what one thinks is a factual question --- and so
+it's not the kind of question that two parties can easily resolve by
+appeal to a shared stock of facts.  Nonetheless, we've made a lot of
+progress on the technical side, so that we now have a much more clear
+sense of what's at stake, and of the price we must pay for adopting
+some particular formal notion of equivalence as an intuitive guide to
+our practice of judging between theories.
+
+Consider, for example, the locus of debate between definitional
+equivalence and Morita equivalence, or what is essentially the same,
+between s-intertranslatability and w-intertranslatability.  This is
+precisely the flashpoint for recent debates in metametaphysics.  The
+first thing to notice is that both of these views of theoretical
+equivalence are quite moderate and centrist!  Supposing that
+quantifier variantists are advocating something like Morita as their
+preferred notion of theoretical equivalence, they are nowhere near as
+liberal as the Putnam of the model-theoretic argument.
+
+We can also see that the ontology of w-intertranslatable theories can
+never be radically different from each other.  If $F:T\to T'$ is a
+homotopy equivalence (between single-sorted theories), then for each
+model $M$ of $T'$, there is a model $F^*M$ of $T$, whose domain is
+explicitly constructed by the recipe:
+\[ (F^*M)(\sigma ) \: = \: M(\sigma ')\times\cdots\times M(\sigma
+  ')/\sim ,\] where $\sim$ is an equivalence relation defined by the
+theory $T'$.  There are a couple of important points here.  First, the
+ontology of $F^*M$ results from simple logical constructions of the
+ontology of $M$.  Borrowing terminology from Bertrand Russell, we
+could say that the elements of $F^*M$ are {\it logical constructs} of
+elements of $M$.  Second, the recipe for constructing $F^*M$ from $M$
+is {\it uniform}, i.e.\ it doesn't depend on $M$.  In other words,
+it's not just that each model of $T$ consists of logical constructs of
+elements of a model of $T'$, it's that the type of construction is
+uniform.  It's in this extended, and yet nonetheless quite strong
+sense, that $T$ has the same ontology as $T'$.
+
+Moreover, since $F$ is assumed to be a homotopy equivalence, we can
+say the same thing in reverse order: each model of $T'$ consists of
+logical construct of elements of a model of $T$, and this construction
+is uniform on models.  One bonus insight here is seeing how the
+relation ``being a logical construct of'' differs from the
+mereological parthood relation.  Consider the specific example of the
+point and line formulations of affine geometry (see Section
+\ref{go-geometry}).  Here the points are logical constructs of lines,
+and the lines are logical constructs of points.  It's tempting to
+think then that points are logical constructs of points --- but that
+would be incorrect.  The reason that inference doesn't go through is
+that ``being a logical construct of'' is not like the mereological
+notion of parthood.  To get a line, we don't simply take two points,
+we take an equivalence class of two points.  Thus, there is no sense
+here in which a line results from taking a composite of points.  The
+opposite direction is even more clear.  We can construct points from
+lines, but certainly a point is not made out of lines.
+
+The upshot of these considerations is that moving from definitional
+equivalence to Morita equivalence is not as radical a generalization
+(or liberalization) as it might seem at first.  Even for the
+ontological purists, a case could be made that Morita equivalence
+involves only the slightest relaxation of the constraint that
+equivalent theories should have equinumerous domains.
+
+In contrast, categorical equivalence is extremely liberal from an
+ontological point of view.  It's possible, indeed, to have
+categorically equivalent theories where there is no reasonable sense
+in which the ontology of the first's models can be constructed from
+the ontology of the second's models.
+
+There are, however, some intermediate cases that are worth
+considering.  Some of these are discussed by \cite{hudetz-new}.  Here
+we just look at one example that will be familiar from Chapter
+\ref{cat-prop}.  Consider the categories $\cat{Bool}$ of Boolean
+algebras, and $\cat{Stone}$ of Stone spaces.  As we proved,
+$\cat{Bool}$ is equivalent to the opposite of $\cat{Stone}$, where the
+arrows have been flipped.  Moreover, the functors relating these two
+categories do have a strongly constructive flavor.  The functor
+$F:\cat{Bool}\to\cat{Stone}^{op}$ is the representable functor
+$\mathrm{hom}(-,2)$, where $2$ is the two-element Boolean algebra.
+The functor $G:\cat{Stone}^{op}\to\cat{Bool}$ takes the clopen
+subsets.  In both cases, the functor involves construction an object
+of one category out of an object of the second category, and possibly
+some reference object, such as $2$.
+
+Could these latter sorts of functors be taken as representing genuine
+theoretical equivalences?  There are two clarifications we need to
+raise for that question.  First, the question doesn't even make sense
+until we say something more about how a category, which may not be of
+the form $\mathrm{Mod}(T)$ for a first-order theory, can represent a
+theory.  Second, for many physical theories --- and {\it pace} Quine
+--- the elements of a mathematical domain $X$ are not necessary meant
+to represent objects in the physical world.  Consider the following
+example which, besides being extremely interesting in its own right,
+illustrates several of these points.
+
+General relativity (GTR), qua mathematical object, can roughly be
+taken to be the category $\cat{Lor}$ of Lorentzian manifolds, equipped
+with an appropriate collection of smooth mappings between them.  There
+has been a longstanding debate --- stimulated, no doubt, by Quine's
+criterion of ontological commitment --- about whether accepting GTR
+demands that one accept the existence of spacetime points.  Perhaps
+partially in response to that claim, John Earman noted that GTR could
+also be formulated in terms of mathematical objects called ``Einstein
+algebras''.  The relationship between Lorentzian manifolds and
+Einstein algebras is suggestively parallel to the relationship between
+Stone spaces and Boolean algebras.  This parallel was confirmed by
+\cite{rosenstock}, who showed that $\cat{Lor}$ is equivalent to the
+category $\cat{EAlg}$ of Einstein algebras.
+
+If one takes categorical equivalence as the criterion for theoretical
+equivalence, then the Einstein algebra formulation of GTR is no better
+nor worse than the Lorentzian manifold formulation.  However, one
+might also wish to draw a stronger conclusion: one might wish to say
+that Rosenstock et al.'s proof shows that accepting GTR does {\it not}
+involve ontological commitment to spacetime points.
+
+However, that conclusion would be hasty.  The implicit argument
+pattern here would run as follows:
+\begin{quote}
+  Let $T$ be a theory with a sort $\sigma$.  If $T$ is equivalent to
+  $T'$, and $T'$ doesn't quantify over $\sigma$, then to accept $T$
+  cannot involve ontological commitment to things of type
+  $\sigma$. \end{quote} To see that this inference pattern proves too
+much, we can consider some simple examples.  First, consider the
+example of the theory $T$ in sort $\Sigma =\{\sigma \}$ that says
+there are exactly two things; and consider the theory $T'$ in sort
+$\Sigma '=\{\sigma '\}$ that says there are exactly two things.  By
+the above inference rule we would have to conclude that accepting $T$
+does not demand ontological commitment to things of type $\sigma$,
+merely because there is another sort symbol $\sigma '$.  This is
+silly.  The difference between $\sigma$ and $\sigma '$ could be merely
+notational.
+
+Perhaps then the argument pattern above is meant to be a bit more
+nuanced.
+\begin{quote} Let $T$ be a theory with sort $\sigma$.  If $T$ is
+  equivalent to a theory $T'$, and $T'$ has no sort $\sigma '$ that is
+  ``isomorphic'' to $\sigma$, then accepting $T$ does not involve
+  ontological commitment to things of type $\sigma$. \end{quote} The
+word ``isomorphic'' was put into quotes because we would still need to
+explicate what we mean by it.  But that could be done.  e.g.\ we might
+say that an equivalence $F:T\to T'$ shows that $\sigma$ and $\sigma '$
+isomorphic if $F(\sigma )=\sigma '$ and $E_{x,y}\equiv (x=_\sigma y)$
+for variables $x,y$ of sort $\sigma$.  But in this case, the proposed
+criterion simply begs the question against the idea that Morita
+equivalent theories can have the ``same ontology''.  To take Morita
+equivalence seriously as a criterion of theoretical equivalence means
+simply that there is no cross-theoretical reference point for counting
+objects or quantifying over them.
+
+
+\section{Flat versus structured views of theories} \label{sec:flat}
+
+For the past fifty years, philosophers' discussions of the nature of
+scientific theories has been dominated by the dilemma: are theories
+sets of sentences, or are theories collections of models?  But the
+point of this debate has become less and less clear.  Most of us these
+days are non-essentialists about mathematical explications.  For
+example, most of us don't think that scientific theories really are
+sets of axioms, or that they really are collections of models.
+Instead, we think that different explications are good for different
+purposes.  There is, nonetheless, a big question lurking in the
+background --- viz.\ the question of whether we should conceive of
+theories as ``flat'', or whether we should conceive of them as
+``structured''.  And this question comes up whether one thinks that
+theories are made of sentences, or whether one thinks that they are
+made of models.
+
+The syntactic view of theories is usually formulated as follows:
+\begin{quote} A theory is a {\it set} of sentences. \end{quote} This
+formulation provides a {\it flat} view: a theory consists of a
+collection of things, and not in any relations between those things,
+or structure on those things.  In contrast, a {\it structured} view of
+theories says that scientific theories are best represented by
+structured mathematical objects.  For example, a structured syntactic
+view of theories might say that a theory consists of both sentences
+and inferential relations between those sentences.
+
+A flat version of the semantic view might be formulated as:
+\begin{quote} A theory is a {\it set} (or {\it class}) of
+  models. \end{quote} In contrast, a structured version of the
+semantic view will say that a theory consists of a structured
+collection of models.  For example, a theory might consist of models
+with certain mappings between these models (such as elementary
+embeddings), or a theory might consist of models and certain
+``nearness'' relations between those models.
+
+Both the syntactic and the semantic views of theories are typically
+presented as flat views.  In the latter case, I suspect that the flat
+point of view is accidental.  That is, most proponents of the semantic
+view are not ideologically committed to the claim that a theory is a
+bare set (or class) of models.  They may not have realized the
+implications of that claim, or that there is an alternative to it.
+
+In contrast, in the case of syntactically oriented views, some 20th
+century philosophers were ideologically committed to a flat view ---
+perhaps due to their worries about intensional and/or normative
+concepts.  The main culprit here is Quine, of course ...  whose
+criticism of the analytic-synthetic distinction is directed precisely
+against a structured view of theories.  On a structured syntactic view
+of theories, the essential structure of a theory includes not just
+some number of sentences, but also the logical relations between those
+sentences.  In this case, commitment to a theory would involve claims
+about inferential relations, in particular, claims about which
+sentences are logical consequences of the empty set.  In other words,
+a structured syntactic view of theories presupposes an
+analytic-synthetic distinction.
+
+Quine's powerful criticisms of the analytic-synthetic distinction
+raise worries for a structured syntactic picture of theories.  But is
+all well with the unstructured, or flat, syntactic view?  I maintain
+that the unstructured view has {\it severe} problems that have never
+been addressed.  First of all, if theories are sets of sentences, then
+what is the criterion of equivalence between theories?  A
+mathematically minded person will be tempted to say that between two
+{\it sets}, there is only one relevant condition of equivalence,
+namely equinumerosity.  But certainly we don't want to say that two
+theories are equivalent if they have the same number of sentences!
+Rather, if two theories are equivalent, then they should have some
+further structure in common.  What structure should they have in
+common?  I would suggest that, at the very least, equivalent theories
+ought to share the same inferential relations.  But if that's the
+case, then the content of a theory includes its inferential relations.
+
+
+
+\section{Believing a scientific theory}
+
+It is often said that the difference between scientific realists and
+antirealists is that the former {\it believe} scientific theories, and
+the latter do not --- or at least they don't believe everything that
+these theories say.  (e.g.\ the constructive empiricist doesn't
+necessarily believe what theories say about unobservable things.)
+This classification is based on a presupposition, viz.\ that the
+notion of ``believing a scientific theory'' is clear --- or is at
+least as clear as the notion of believing, say, that my desk is brown.
+But this presupposition doesn't quite fit the facts.  On none of the
+reasonable analyses of ``scientific theory'' is a theory nothing more
+than a set of claims about the world.  Therefore, {\it believing a
+  scientific theory} cannot be analyzed without remainder into
+believing a set of claims about the world.
+
+To see what's at issue here, it will be helpful to revisit one of the
+earliest objections to the semantic view of theories.  According to
+the semantic view of theories, a scientific theory is a class of
+models.  Now, the objector to the semantic view points out that there
+is a grammatical problem: in the phrase ``$S$ believes that $X$'', the
+second argument $X$ needs to be filled by something toward which a
+person can bear a propositional attitude.  The argument $X$ cannot be
+replaced by a name such as ``Thor'', or predicate such as ``purple'',
+much less by a name for a class of things, such as ``the set of \dots
+''.  In particular, it makes no grammatical sense to say that ``$S$
+believes that $\2M$'', where $\2M$ is a class of models.
+
+The semanticists have a ready reply to this objection:
+\begin{quote}
+  Semantic Analysis of Belief (SAB): When a theory $T$ is given by
+  means of a class $\2M$ of models, then belief in $T$ means belief
+  that the world is isomorphic to one of the models in
+  $\2M$. \end{quote} There are many, many problems with SAB, most
+notably the opacity of the notion of a model being isomorphic with the
+concrete world.  (That issue is discussed extensively by
+\cite{bas2008}.)  However, there is another problem with SAB that we
+find even more serious, because it bears directly on questions of a
+normative nature, e.g.\ to what one commits oneself when one accepts a
+scientific theory.  In particular, we think that ``believing $T$''
+involves more commitments beyond those that are expressed by ($\ast$).
+
+Consider a specific example.  Let $T$ be Einstein's general theory of
+relativity (GTR).  According to SAB, a person believes GTR iff she
+believes that the world is isomorphic to one of the models of GTR.
+But that analysis is inaccurate in both directions: it captures both
+more, and less, than physicists actually believe when they accept GTR.
+First, it captures more, because it seems to commit physicists to the
+belief that there is some privileged model of GTR that gives the best
+overall picture of the physical world.  Of course, if you know how GTR
+works, you'll find that picture to be laughable.  Just imagine two
+relativists --- a cosmologist, and a black hole theorist ---
+sitting down to argue over whose model gives a more perspicuous
+representation of reality.  They won't do that, because they are well
+aware that these models are accurate representations for certain
+purposes, and not for others.  And what's more, it's we --- the users
+of physics --- who choose the intended application of the theory.
+Thus, SAB says more than physicists will actually want to say about
+their theories.
+
+Second, the semantic analysis of belief (SAB) also omits some of the
+content that physicists pack into their theories.  Indeed, SAB locates
+the content of a theory in one or other particular model, ignoring the
+fact that physicists routinely invoke the existence of other models,
+not to speak of a rich system of relations between models.  Indeed, if
+a model $M$ is removed from its context in $\mathrm{Mod}(T)$, then it
+can no longer do the representational and explanatory work that it's
+expected to do.  Consider again the case of GTR.  As we noted above,
+GTR is a powerful theory not because it is overly specific, but
+because it is widely applicable --- offering different, but related,
+models for a wide variety of situations.  GTR finds the unity between
+these situations, including counterfactual situations.  (Fans of David
+Lewis might be reminded of his insight that a good theory balances
+informativeness and simplicity.  We only note that there are two
+different ways to be informative: by saying what is unique about your
+situation, or by saying what is common among many different
+situations.)
+
+Furthermore, some of the most powerful explanations in GTR draw on
+facts about how a model sits inside the space of all models, some of
+which we known not to represent the actual world.  For example, what
+explains the fact that our universe began in a singularity?  According
+to GTR, singular spacetimes are generic, i.e.\ they densely pack the
+space of cosmological solutions to Einstein's field equations; hence,
+the reason our universe begins in a singularity is because most
+nomologically possible universes begin this way.
+
+The fact that GTR uses all of its models, and the relations between
+them, is only reinforced by looking at simple examples from
+first-order logic.  If we take a first-order theory $T$, then
+typically a single model $M$ of $T$ does not contain enough
+information to reconstruct $T$.  In other words, if you give me a
+model $M$ of $T$, I couldn't reliably reconstruct the theory $T$ of
+which it was a model.  What that means is that $M$ contains less
+information than the theory $T$ itself.  The content of the syntactic
+object $T$ is not contained in a single model $M$, but in the
+structured collection $\mathrm{Mod}(T)$ of all its models.  What this
+means in turn is that accepting $T$ cannot be reduced to a claim about
+one of the models in $\mathrm{Mod}(T)$; instead, accepting $T$ must
+involve some sort of attitude toward the entire collection
+$\mathrm{Mod}(T)$.
+
+The point we are making here ties all the way back to the preface of
+the book, where we tried to justify our omission of modal logic.
+There we claimed that accepting a first-order theory --- with no
+explicit modal operators --- involves modal commitments.  We're making
+the same point here.  To accept a theory $T$ isn't just to take a
+stand on how the world {\it is}, it is also to take a stand on how the
+world {\it could be}.  More is true.  To accept a theory $T$ involves
+choosing a language $\Sigma$, and this language determines how we
+parse the space of possibilities --- e.g.\ which possibilities we
+consider to be isomorphic, and which we consider not to be isomorphic.
+(If you've read the previous chapters carefully, you're also aware
+that the language $\Sigma$ determines the topological structure of
+$\mathrm{Mod}(T)$.)  In short, the syntactic approach to theories had
+the advantage (largely unnoticed by its proponents), that the
+syntactic object $T$ packs in a lot of information --- about what is
+possible, and about how to classify possibilities.  One of the dangers
+of the semantic view is forgetting how much scientific theories say.
+
+The fault here doesn't lie completely with the semantic view of
+theories.  In fact, there's an analogous problem for those, such as
+Quine, who accept a flat syntactic view of theories (see Section
+\ref{sec:flat}).  According to the flat syntactic view, a theory $T$
+is a {\it set} of sentences.  Indeed, Quine --- among other flat
+syntacticists --- sometimes equates belief in $T$ with belief in a set
+of sentences.  But that cannot be quite right, as we can see again
+from actual scientific theories, as well as from simple examples from
+first order logic.
+
+As for examples from first-order logic, let $\Sigma _1$ be the empty
+signature, and let $T_1$ be the theory in $\Sigma _1$ that says there
+are exactly two things.  Let $\Sigma _2=\{ c\}$, where $c$ is a
+constant symbol, and let $T_2$ be the theory in $\Sigma _2$ that says
+there are exactly two things.  Here $T_1$ and $T_2$ share the same
+axiom, but they aren't equivalent theories by any reasonable standard
+--- not even by categorical equivalence.  The first theory's models
+have automorphism group $\7Z _2$, whereas the second theory's models
+have trivial automorphism group (since the denotation of $c$ is
+fixed).  Nonetheless, $T_1$ and $T_2$ agree on the statements that
+they make about any particular model: they both say that there are two
+things.  The user of $T_2$ has an extra name $c$, but her using this
+name does not amount to any claim about how things are.  Thus, we have
+a puzzle: on a world-by-world basis, $T_1$ and $T_2$ say the same
+thing; and yet, it's not reasonable to think that $T_1$ and $T_2$ say
+the same thing.
+
+The solution to this little puzzle is to recognize that believing a
+theory cannot be reduced to believing that a certain collection of
+sentences is true.  At the very least, believing a theory also
+requires that we adopt a language --- or an ``ideology'', as Quine
+liked to call it.  However, Quine wasn't completely clear on what the
+reasons might be for accepting an ideology.  The issues became
+slightly more clear when Lewis suggests that our choice of ideology
+corresponds to our beliefs about which properties are ``natural'', and
+when \cite{sider2013} suggests that choice of ideology is tantamount
+to assertion that the world has a certain structure.  While we don't
+necessarily agree with this way of describing the situation, we agree
+that ideology plays a theoretical role.
+
+If we claim that a theory is a collection of sentences, then we ought
+also to accept the claim that theories are equivalent only if they
+contain the same sets of sentences.  Or, to be more accurate, two
+theories are equivalent just in case each sentence in the first is
+equivalent to a sentence in the second, and vice versa.  But now, what
+standard of equivalence should we use for the sentences?  The only
+reasonable standard --- two sentences are equivalent if they express
+the same proposition --- is of no use in comparing actual scientific
+theories.  Thus, the only reasonable account of the identity of
+scientific theories treats theories as a {\it structured} objects, in
+which case equivalence means having the same structure.  And then we
+have a challenge question: what does it mean to believe or accept a
+structured object?
+
+It might be illuminating to compare a scientific theory with the kinds
+of beliefs for which people live and die --- e.g.\ religious beliefs.
+As you know, many western religions have creeds that are supposed to
+capture the key tenets of the system of belief.  Now, suppose that you
+were to try to write down the central tenets of a scientific theory as
+a creed.  For example, you might take a copy of Robert Wald's {\it
+  General Relativity}, and start searching through it for the basic
+``truth claims'' of the theory.  However, you'll quickly grow
+frustrated, as it doesn't seem to make any specific claims.  GTR
+doesn't say what happened on December 7, 1941, nor does it say how
+many planets are in our solar system, nor does it say (before one
+selects a particular model for application) how old the universe is.
+Instead, GTR consists of some mathematics, and some recommendations
+about how to apply this mathematics to various situations.  And yet,
+there is never any hint that GTR is a bad theory because it's not
+specific enough.  Quite to the contrary, GTR is a good theory
+precisely because it is so general.
+
+One might be tempted to think that the creed of GTR is summed up in
+its basic equations, Einstein's Field Equations (EFE).  In this case,
+to accept GTR would be to say:
+\begin{quote} ($\dagger$) I believe that
+  $R_{ab} - {1 \over 2}g_{ab}\,R = T_{ab}$. \end{quote} This is an
+interesting possibility to consider, and there are two attitudes we
+could take to it.  I will call these two attitudes the physicist's
+attitude, and the metaphysician's attitude (almost certainly
+caricaturing both).  In my experience, physicists don't say things
+like ($\dagger$).  Certainly, they write down EFE, and they use it as
+a rule for generating descriptions of situations that they take to be
+accurate.  But I've never heard a physicist say, ``I believe that
+Einstein's Field Equations are true.''  These physicists seem to have
+a positive attitude toward EFE --- perhaps we should call it
+``acceptance,'' but I don't think we could call it ``belief''.
+
+In contrast, metaphysicians encourage us to say things such as, ``the
+success of GTR gives us reason to think that EFE are true.''  In order
+to make sense of EFE being true, the metaphysician might search for
+referents for the terms that occur in it.  For example, in the spirit
+of David Armstrong, he might say something like, ``The symbols
+$R_{ab}$ and $T_{ab}$ refers to natural properties, and and EFE is the
+statement that a second-order relation holds between these
+properties.''  This kind of metaphysician seems to think that there
+aren't enough concreta to account for the meaning of the abstract
+statements of science.  Thus, he transmogrifies abstracta into
+concreta, and then uses these new hybrid abstract-concreta as the
+referents for the symbols in scientific statements.  After all this
+hocus pocus, we're supposed to understand what it means to say that
+EFE is {\it true}, and hence, what it would mean to {\it believe} EFE.
+However, physicists haven't yet bought into this way of speaking or
+thinking.  Physicists who haven't been corrupted by analytic
+philosophy still think of the theoretical statements of science as
+different in kind from more mundane claims such as, ``there is an
+apple on my desk.''
+
+It might sound like I am saying that physicists are instrumentalists,
+i.e.\ that they treat the theoretical statements of science as mere
+instruments from which to derive predictions.  I believe that this is
+yet another false dilemma --- in this case, a false dilemma suggested
+by formal semantics.  In formal semantics we have a simple, black and
+white distinction between interpreted and uninterpreted terms.  So,
+the metaphysician might ask: are the terms in EFE interpreted or
+uninterpreted?  The dilemma is false.  The terms in EFE are sometimes
+interpreted by users of the theory, e.g.\ physicists.  But
+interpretation presupposes an interpreter, and so it doesn't make
+sense to ask of a theory, {\it sans} theorist, whether its terms are
+interpreted.
+
+The existence of more than one model --- or, to speak more accurately,
+of more than one application --- is not a bug of scientific theories,
+it is a feature.  What is lost in informativeness is gained in
+applicability.  But the more flexible a theory is in its applications,
+the less sense it makes to think of our attitude towards that theory
+as simple ``belief''.  Perhaps this is one reason why we need another
+word, such as ``acceptance''.  As van Fraassen pointed out long ago,
+to accept a theory cannot be reduced to an attitude that the theory
+somehow mirrors the world.  Acceptance of a theory involves a sort of
+appropriation, where the theory serves as a guide to future action.
+
+I've been considering the question, ``what does it mean to accept a
+scientific theory?'' and have found ample reason to reject the idea
+that it's nothing more than a special case of belief.  Accepting a
+scientific theory may involve believing that some things are true, but
+it also involves a more complex set of attitudes --- such as adopting
+certain standards for explanation, certain rules for reasoning about
+counterfactual scenarios, etc..  Perhaps these additional aspects of
+theory acceptance are what Carnap was trying to capture when he talked
+about a theory's ``$P$-rules''.
+
+What I'm saying here might be anathema to doctrinaire Quineans who
+have no place in their picture for any of these rules.  Indeed, we
+think that accepting a scientific theory is similar to accepting the
+validity of an argument.  To say that $\phi\vdash\psi$ is valid is not
+(on my picture) a claim about how things are; rather, it's a claim
+about about how people ought to reason.  In the same way, to accept a
+scientific theory isn't simply believing that something is true; it's
+taking a stance on how one ought to reason about nature.
+
+% The semantic view of theories is typically wedded with what I will
+% call the \emph{atomic theory of scientific representation}.  According
+% to TARS, a theory represents a domain by means of its individual
+% models.  The idea here is that the theory hooks up to the world at a
+% single node (one of its models).  But as we have seen, the
+% mathematical content (or representational capacity) of a theory
+% includes structure on the class of models.  If this structure on the
+% class of models is a part of this theory's representational capacity,
+% then why doesn't the theory use it to represent?
+
+% First, a scientific theory represents by means of its entire class of
+% models, and the structure thereupon.  Of course, a good theory will
+% also have close connections between individual models and the
+% phenomena --- such is the nature of applications of the theory.  For
+% example, GTR is a structured class of models, but one of its
+% individual models (the Schwarzschild solution) is a particularly good
+% representation for a collapsing star.
+
+% Now, our positive proposal (that $\mathrm{Mod}(T)$ as a whole
+% represents) raises one concern: if $\mathrm{Mod}(T)$ does the
+% representing, then what does it represent?  Indeed, we tend to think
+% of representation as involving some kind of correspondence between the
+% representor and the represented.  To put the point in another way, how
+% could $\mathrm{Mod}(T)$ be a ``correct representation'' unless there
+% are correlates ``out there'' for all the structure we find in
+% $\mathrm{Mod}(T)$?  In particular, there's a danger that our account
+% entails that to accept a theory $T$ demands that one accept a very
+% robust form of Lewisian modal realism.
+
+% However, there's yet another false --- or at least questionable ---
+% presupposition in this line of thought, viz.\ the presupposition that
+% successful representation demands isomorphism, in particular, that it
+% demands a one-to-one correlation between elements of the
+% representation and the things that are represented.  The point we are
+% making here is an old one, for it goes back at least as far as William
+% of Ockham.  To his great credit, Ockham realized that our language is
+% filled with words that play a role in our representations without
+% themselves purporting to represent any particular thing.  The view we
+% want to endorse here is a sort of Ockhamism vis-a-vis the mathematical
+% structure of theories.
+
+
+
+\section{Notes}
+
+\begin{itemize}
+  \item For more technical details on second-order logic, see
+  \cite{shapiro,manzano-book}.  Philosophers have argued quite a bit
+  about the advantages and disadvantages of second-order logic.  For
+  example, Quine argued that second-order logic is, ``set theory in
+  sheep's clothing.''  See e.g.\ \cite{bueno}.
+\item Carnap gives his mature view of Ramsey sentences in
+  \citep{carnap-pfp}.  For more on the role of Ramsey sentences in
+  Carnap's philosophy of science, see
+  \cite{psillos2000,psillos2006,friedman2011,demo2013}.
+\item For more on
+  the Ramsey sentence functionalism, see \cite{shoemaker}.
+\item For a detailed, but older, discussion of the technical issues
+  surrounding Ramsey sentences, see \cite[][Chap.\ 3]{tuomela}.  For
+  recent discussion of the prospects of Ramsey sentence structuralism,
+  see \cite{ketland,melia,ainsworth,dew-ram}.
+\item For general surveys of structural realism, see
+  \cite{frigg2011,ladyman}.  The idea behind structural realism goes
+  much further back than the 1980s.  Something similar had been
+  proposed by Poincar\'e and Russell in the early 1900s, and then
+  again by Grover Maxwell in the 1960s.  What's new about the 1990s
+  reincarnation of structural realism is (1) the explicit claim that
+  it can solve the pessimistic metainduction, and (2) the explication
+  of structure in terms of Ramsey sentences.  Needless to say, the
+  idea behind structural realism could survive, even if --- as we've
+  argued --- Ramsey sentences don't provide a useful explication of
+  the structure of a theory.
+\item Putnam's model theoretic argument first appeared in
+  \cite{putnam1977,putnam-models}, with antecedents in Quine's
+  permutation arguments for ontological relativity.  The most
+  influential response to Putnam is Lewis' \citeyearpar{lewis-putnam},
+  which is the {\it locus classicus} of his version of metaphysical
+  realism which emphasizes the notion of {\it natural properties}.
+  That torch has been taken up by \cite{sider2013}.  The response we
+  gave to Putnam's argument follows the spirit of \cite{bas-putnam}.
+  For an excellent overview of Putnam's arguments, see \cite{button}.
+ \end{itemize}
+
+
+%% continuum diagram
+
+%% invariants of theoretical equivalence
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

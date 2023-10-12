@@ -1,0 +1,2914 @@
+%% http://math.stackexchange.com/questions/359693/overview-of-basic-results-about-images-and-preimages
+
+% \documentclass[11pt]{article}
+% \title{The Category of Sets}
+% \usepackage{array,multirow,amsthm,amsmath,amssymb,url,eucal}
+% \usepackage{bussproofs}
+% \usepackage{tikz-cd}
+% \usepackage{natbib}
+% \newtheorem{prop}{Proposition}[section]
+% \newtheorem{lemma}[prop]{Lemma}
+% \newtheorem{thm}[prop]{Theorem}
+% \newtheorem{cor}[prop]{Corollary}
+% \theoremstyle{definition}
+% \newtheorem*{defn}{Definition}
+% \newtheorem{axiom}{Axiom}
+% \newtheorem{exercise}[prop]{Exercise}
+% \newtheorem*{exercises}{Exercises}
+% \newtheorem*{example}{Example}
+% \newtheorem{facts}[prop]{Facts}
+% \newtheorem{fact}[prop]{Fact}
+% \theoremstyle{remark}
+% \newtheorem*{disc}{Discussion}
+% \newtheorem*{note}{Note}
+% \usepackage{mathrsfs}
+% % \usepackage{showlabels}
+% \usepackage[framemethod=TikZ]{mdframed}
+% \author{Hans Halvorson}
+% \date{\today}
+
+% \begin{document}
+% \newcommand{\RA}{\vdash}
+% \newcommand{\7}{\mathbb}
+% \newcommand{\2}{\mathscr}
+% \newcommand{\cl}{\overline}
+% \renewcommand{\emph}{\textbf}
+
+
+% \maketitle
+
+%%% TO DO 10/16
+%% -- reintroduce Boolean structure Omega
+%% -- regular categories -- graph of function -> function AxE!y
+%% -- pullback of subobjects (instead of equalizer), comprehension
+%% -- Cartesian closed. X^0 = 1 ?
+
+%%% TO DO on prop metatheory
+%% -- show f conservative => f^* surjective
+%% -- show f equivalence <=> f conservative & f eso
+%% -- show f equivalence <=> CDE
+
+%%% TO DO on Boolean algebras
+%% -- example: finite-cofinite algebra
+
+% TO DO: 
+% \begin{itemize}
+% \item complement of a subobject
+% \item Boolean operations on $\Omega$.
+% \item $\mathrm{Sub}(1)\cong \Omega$
+% \item $\Omega$ has four subobjects.
+% \item right adjoint to pullback (universal quantifier)
+% \item Show that $X\times 2\cong X\times (1+1)\cong X+X$. 
+% \item Lattice of subobjects
+% \item union of subobjects
+% \item Power sets.  Boolean operations on power sets!
+% \item Exponential objects
+% \item distributive law: Show $(A_0\cup A_1)\cap B=(A_0\cap B)\cup (A_1\cap B)$.
+%   Relation to the fact that images exist?  
+% \item Sketch construction of rational numbers, real numbers
+% \end{itemize}
+
+%% TO DO: define union of subsets
+
+%% TO DO: subsets form a (complete) Boolean algebra
+
+\chapter{The Category of Sets} \label{cat-set}
+
+
+\section{Introduction}
+
+In the previous chapter we started to reason about theories (in
+propositional logic) without explicitly saying anything about the
+rules of reasoning that we would be permitted to use.  Now we need to
+talk more explicitly about the theory we will use to talk about
+theories, i.e.\ our {\it metatheory}.  We want our metatheory $M$ to
+be able to describe theories, which we can take in the first instance
+to be ``collections of sentences,'' or better, ``structured
+collections of sentences.''\footnote{I don't mean to be begging the
+  question here about what a theory is.  We could just as well think
+  of a theory as a structured collection of models.  And just as
+  sentences can be broken down into smaller components until we reach
+  undefined primitives, so models can be broken down into smaller
+  components until we reach undefined primitives.  In both cases,
+  metatheory bottoms out in undefined primitives.  We can call these
+  primitives ``symbols,'' or ``sets,'' or anything else we want.  But
+  the name we choose doesn't affect the inferences we're permitted to
+  draw.}  What's more, sentences themselves are structured collections
+of symbols.  Fortunately, we won't need to press the inquiry further
+into the question of the nature of symbols.  It will suffice to assume
+that there are enough symbols, and that there is some primitive notion
+of identity of symbols.  For example, I assume that you understand
+that ``$p$'' is the same symbol as ``$p$'', and is different from
+``$q$''.
+
+Fortunately, there is a theory of collections of things lying close to
+hand, namely ``the theory of sets.''  At the beginning of the 20th
+century, much effort was given to clarifying the theory of sets, since
+it was intended to serve as a foundation for all of mathematics.
+Amazingly, the theory of sets can be formalized in first-order logic
+with only one non-logical symbol, viz. a binary relation symbol
+``$\in$''.  In the resulting first-order theory --- usually called
+Zermelo-Frankel set theory --- the quantifiers can be thought of as
+ranging over sets, and the relation symbol $\in$ can be used to define
+further notions such as subset, Cartesian products of sets, functions
+from one set to another, etc..
+
+Set theory can be presented informally (sometimes called ``naive set
+theory''), or formally (``axiomatic set theory'').  In both cases, the
+relation $\in$ is primitive.  However, we're going to approach things
+from a different angle.  We're not concerned as much with what sets
+{\it are}, but with what we can {\it do} with them.  Thus, I'll
+present a version of ETCS, the elementary theory of the category of
+sets.\footnote{All credit to William Lawvere for introducing this
+  approach to set theory.  For a gentle introduction, see
+  \citep{lawvere-sets}.}  Here ``elementary theory'' indicates that
+this theory can be formalized in elementary (i.e.\ first-order) logic.
+The phrase ``category of sets'' indicates that this theory treats the
+collection of sets as a structured object --- a category consisting of
+sets and functions between them.
+
+\begin{axi}[Sets is a category]{ax:set-cat} $\cat{Sets}$ is a
+  \emph{category}, i.e.\ it consists of two kinds of things: objects,
+  which we call \textbf{sets}, and arrows, which we call
+  \textbf{functions}.  To say that $\cat{Sets}$ is a category means
+  that: 
+\begin{enumerate}
+\item Every function $f$ has a domain set $d_0f$ and a codomain set
+  $d_1f$.  We write $f:X\to Y$ to indicate that $X=d_0f$ and $Y=d_1f$.
+\item Compatible functions can be composed.  For example, if $f:X\to
+  Y$ and $g:Y\to Z$ are functions, then $g\circ f:X\to Z$ is a
+  function.  (We frequently abbreviate $g\circ f$ as $gf$.)
+\item Composition of functions is associative:
+\[ h\circ (g\circ f) \: = \: (h\circ g)\circ f \]
+when all these compositions are defined.
+\item For each set $X$, there is a function $1_X:X\to X$ that acts as
+  a left and right identity relative to composition.
+\end{enumerate}
+\label{ax:set-cat} \end{axi}
+
+\begin{disc} If our goal was to formalize ETCS rigorously in
+  first-order logic, we might use two-sorted logic, with one sort for
+  sets, and one sort for functions.  We will introduce the apparatus
+  of many-sorted logic in Chapter \ref{chap-second}.  The primitive
+  vocabulary of this theory would include symbols $\circ ,d_0,d_1,1$,
+  but it would \textit{not} include the symbol $\in$.  In other words,
+  containment is \textit{not} a primitive notion of ETCS. \end{disc}
+
+Set theory makes frequent use of bracket notation, such as:
+\[ \{ n\in N \mid n>17 \} .\] These symbols should be read as, ``the
+set of $n$ in $N$ such that $n>17$.''  Similarly, $\{ x,y\}$ designates
+a set consisting of elements $x$ and $y$.  But so far, we have no
+rules for reasoning about such sets.  In the following sections, we
+will gradually add axioms until it becomes clear which rules of
+inference are permitted vis-a-vis sets.  
+
+Suppose for a moment that we understand the bracket notation, and
+suppose that $X$ and $Y$ are sets.  Then given an element $x\in X$,
+and an element $y\in Y$, we can take the set $\{ x,\{ x,y\}\}$ as an
+``ordered pair'' consisting of $x$ and $y$.  The pair is ordered
+because $x$ and $y$ play asymmetric roles: the element $x$ occurs by
+itself, as well as with the element $y$.  If we could then gather
+together these ordered pairs into a single set, we would designate it
+by $X\times Y$, which we call the \emph{Cartesian product} of $X$ and
+$Y$.  The Cartesian product construction should be familiar from high
+school mathematics.  For example, the plane (with $x$ and $y$
+coordinates) is the Cartesian product of two copies of the real number
+line.
+
+In typical presentations of set theory, the existence of product sets
+is derived from other axioms.  Here we will proceed in the opposite
+direction: we will take the notion of a product set as primitive.
+
+\bigskip
+
+\begin{axi}[Cartesian products]{ax:set-prod} For any two sets $X$ and
+  $Y$, there is a set $X\times Y$, and functions $\pi _0:X\times Y\to
+  X$ and $\pi _1:X\times Y\to Y$, such that: for any other set $Z$ and
+  functions $f:Z\to X$ and $g:Z\to Y$, there is a unique function
+  $\langle f,g\rangle :Z\to X\times Y$ such that $\pi _0\langle
+  f,g\rangle = f$ and $\pi _1\langle f,g\rangle =g$.
+ \label{ax:set-prod} \end{axi}
+
+Here the angle brackets $\langle f,g\rangle$ are not intended to
+indicate anything about the internal structure of the denoted
+function.  This notation is chosen merely to indicate that $\langle
+f,g\rangle$ is uniquely determined by $f$ and $g$.
+
+The defining conditions of a product set can be visualized by means of
+an arrow diagram.  \[ \begin{tikzcd}
+  & Z \arrow[ddl,bend right,"f"'] \arrow[ddr,bend left,"g"] \arrow[dashed,d,"{\langle f,g\rangle}"] \\
+  & X\times Y \arrow[dl,"\pi _0"] \arrow[dr,"\pi _1"'] \\
+  X & & Y
+\end{tikzcd} \] Here each node represents a set, and arrows between
+nodes represent functions.  The dashed arrow is meant to indicate that
+the axiom asserts the existence of such an arrow (dependent on the
+existence of the other arrows in the diagram).
+
+\begin{disc} There is a close analogy between the defining conditions
+  of a Cartesian product and the introduction and elimination rules
+  for conjunction.  If $\phi\wedge\psi$ is a conjunction, then there
+  are arrows (i.e.\ derivations) $\phi\wedge\psi\to \phi$ and
+  $\phi\wedge\psi\to \psi$.  That's the $\wedge$ elimination
+  rule.\footnote{Here I'm intentionally being ambiguous between the
+    relation $\vdash$ and the connective $\to$.  The analogy is more
+    clear if we use the symbol $\to$ the latter.}  Moreover, for any
+  sentence $\theta$, if there are derivations $\theta\to\phi$ and
+  $\theta\to\psi$, then there is a unique derivation
+  $\theta\to\phi\wedge \psi$.  That's the $\wedge$ introduction rule.
+\end{disc}
+
+\begin{defn} Let $\gamma$ and $\gamma '$ be paths of arrows in a
+  diagram that begin and end at the same node.  We say that $\gamma$
+  and $\gamma '$ \emph{commute} just in case the composition of the
+  functions along $\gamma$ is equal to the composition of the
+  functions along $\gamma '$.  We say that the diagram as a whole
+  \emph{commutes} just in case any two paths between nodes are equal.
+  Thus, for example, the product diagram above commutes. \end{defn}
+
+The functions $\pi _0:X\times Y\to X$ and $\pi _1:X\times Y\to Y$ are
+typically called \emph{projections} of the product.  What features do
+these projections have?  Before we say more on that score, let's pause
+to talk about features of functions.
+
+You may have heard before of some properties of functions such as
+being one-to-one, or onto, or continuous, etc..  For bare sets, there
+is no notion of continuity of functions, per se.  And, with only the
+first two axioms in place, we do not yet have the means to define what
+it means for a function to be one-to-one or onto.  Indeed, recall that
+a function $f:X\to Y$ is typically said to be one-to-one just in case
+$f(x)=f(y)$ implies $x=y$ for any two ``points'' $x$ and $y$ of $X$.
+But we don't yet have a notion of points!
+
+Nonetheless, there are point-free surrogates for the notions of being
+one-to-one and onto.
+
+\begin{defn} A function $f:X\to Y$ is said to be a \emph{monomorphism}
+  just in case for any two functions $g,h:Z\rightrightarrows X$, if
+  $fg=fh$ then $g=h$.  \end{defn}
+
+\begin{defn} A function $f:X\to Y$ is said to be a \emph{epimorphism}
+  just in case for any two functions $g,h:Y\to Z$, if $gf=hf$ then
+  $g=h$.  \end{defn}
+
+We will frequently say, ``\dots is monic'' as shorthand for ``\dots is
+a monomorphism,'' and ``\dots is epi'' for ``\dots is an
+epimorphism.''
+
+\begin{defn} A function $f:X\to Y$ is said to be an \emph{isomorphism}
+  just in case there is a function $g:Y\to X$ such that $gf=1_X$ and
+  $fg=1_Y$.  If there is an isomorphism $f:X\to Y$, we say that $X$
+  and $Y$ are \emph{isomorphic}, and we write $X\cong Y$.  \end{defn}
+
+\begin{exercise} \label{comps} Show the following:
+\begin{enumerate}
+\item If $gf$ is monic, then $f$ is monic.
+\item If $fg$ is epi, then $f$ is epi.
+\item If $f$ and $g$ are monic, then $gf$ is monic.
+\item If $f$ and $g$ are epi, then $gf$ is epi.
+\item If $f$ is an isomorphism, then $f$ is epi and
+  monic. \end{enumerate} \end{exercise}
+
+\begin{prop} Suppose that both $(W,\pi _0,\pi _1)$ and
+  $(W',\pi '_0,\pi '_1)$ are Cartesian products of $X$ and $Y$.  Then
+  there is an isomorphism $f:W\to W'$ such that $\pi '_0f=\pi _0$ and
+  $\pi '_1f=\pi _1$. \end{prop}
+
+\begin{proof} Since $(W',\pi '_0,\pi '_1)$ is a Cartesian product of
+  $X$ and $Y$, there is a unique function $f:W\to W'$ such that
+  $\pi '_0f= \pi _0$ and $\pi '_1f= \pi _1$.  Since
+  $(W,\pi _0,\pi _1)$ is also a product of $X$ and $Y$, there is a
+  unique function $g:W'\to W$ such that $\pi _0g=\pi '_0$ and
+  $\pi _1g=\pi '_1$.  We claim that $f$ and $g$ are inverse to each
+  other.  Indeed,
+  \[ \pi '_i\circ (f\circ g) \: = \: \pi _i\circ g \: = \: \pi '_i ,\]
+  for $i=0,1$.  Thus, by the uniqueness clause in the definition of
+  Cartesian products, $f\circ g=1_{W'}$.  A similar argument shows
+  that $g\circ f=1_W$.  \end{proof}
+
+
+%% TO DO: define f\times g
+
+%% TO DO: define diagonal
+
+\newcommand{\dl}{\delta}
+
+\begin{defn} If $X$ is a set, we let $\dl :X\to X\times X$ denote the
+  unique arrow $\langle 1_X,1_X\rangle$ given by the definition of
+  $X\times X$.  We call $\dl$ the \emph{diagonal} of $X$, or the
+  \emph{equality relation} on $X$.  Note that $\dl$ is monic, since
+  $\pi _0\dl =1_X$ is monic.  \end{defn}
+
+\begin{defn} Suppose that $f:W\to Y$ and $g:X\to Z$ are functions.
+  Consider the following diagram:
+\[ \begin{tikzcd}
+W \arrow[d,"f"'] & W\times X \arrow[l,"q_0"] \arrow[r,"q_1"']
+\arrow[dashed,d,"f\times g"] & X
+\arrow[d,"g"] \\
+Y               & Y\times Z \arrow[l,"\pi _0"] \arrow[r,"\pi _1"'] & Z 
+\end{tikzcd} \]
+We let $f\times g=\langle fq_0,gq_1\rangle$ be the unique
+function from $W\times X$ to $Y\times Z$ such that 
+\[ \pi _0(f\times g) = fq_0,\qquad \pi _1(f\times g)=gq_1 .\] Recall
+here that, by the definition of products, a function into $Y\times Z$
+is uniquely defined by its compositions with the projections $\pi _0$
+and $\pi _1$.
+\label{unravel} \end{defn}
+
+\begin{prop} Suppose that $f:A\to B$ and $g:B\to C$ are functions.
+  Then $1_X\times (g\circ f)=(1_X\times g)\circ (1_X\times
+  f)$. \end{prop}
+
+\begin{proof} Consider the following diagram
+\[ \begin{tikzcd} 
+X \arrow[d,"1_X"'] &   X\times A \arrow[l] \arrow[r] \arrow[d,"1_X\times f"]
+& A \arrow[d,"f"]  \\
+X \arrow[d,"1_X"'] &   X\times B \arrow[l] \arrow[r] \arrow[d,"1_X\times g"]
+& B \arrow[d,"g"] \\
+X   &   X\times C \arrow[l] \arrow[r] & C 
+\end{tikzcd} \] where $1_X\times f$ and $1_X\times g$ are constructed
+as in Defn \ref{unravel}.  Since the top and bottom squares both
+commute, the entire diagram commutes.  But then the composite arrow
+$(1_X\times g)\circ (1_X\times f)$ satisfies the defining properties
+of $1_X\times (g\circ f)$. \end{proof}
+
+\begin{exercise} Show that $1_X\times 1_Y=1_{X\times
+    Y}$. \end{exercise}
+
+\begin{defn} Let $X$ be a fixed set.  Then $X$ induces two mappings,
+  as follows:
+\begin{enumerate}
+\item A mapping $Y\mapsto X\times Y$ of sets to sets.  
+\item A mapping $f\mapsto 1_X\times f$ of functions to functions.
+  That is, if $f:Y\to Z$ is a function, then $1_X\times f:X\times Y\to
+  X\times Z$ is a function.  \end{enumerate} By the previous results,
+the second mapping is compatible with the composition structure on
+arrows.  In this case, we call the pair of mappings a \emph{functor}
+from $\cat{Sets}$ to $\cat{Sets}$. \end{defn}
+
+\begin{exercise} Suppose that $f:X\to Y$ is a function.  Show that the
+  following diagram commutes.
+  \[ \begin{tikzcd}
+    X \arrow[r,"f"] \arrow[d,"\dl _X"']  & Y \arrow[d,"\dl _Y"] \\
+    X\times X \arrow[r,"f\times f"'] & Y\times
+    Y \end{tikzcd} \] \end{exercise}
+
+
+We will now recover the idea that sets consist of points by requiring
+the existence of a single-point set $1$, which plays the privileged
+role of determining identity of functions.
+
+\begin{axi}[Terminal Object]{ax:terminal} There is a set $1$
+  with the following two features:
+\begin{enumerate}
+\item For any set $X$, there is a unique function
+  \[ \begin{tikzcd} X \arrow[r,"\beta _X"] & 1 \end{tikzcd} \] In this
+  case, we say that $1$ is a \emph{terminal object} for $\cat{Sets}$.
+\item For any sets $X$ and $Y$, and functions $f,g:X\rightrightarrows
+  Y$, if $f\circ x=g\circ x$ for all functions $x:1\to X$, then $f=g$.
+  In this case, we say that $1$ is a \emph{separator} for
+  $\cat{Sets}$. \end{enumerate} \label{ax:terminal} \end{axi}
+
+%%
+%% introduce elements 
+%%
+
+The reader may wish to note that for a general category, a
+\emph{terminal object} is required only to have the first of the two
+properties above.  So, we are not merely requiring that $\cat{Sets}$
+has a terminal object; we are requiring that it has a terminal object
+that also serves as a separator for functions.
+
+\begin{exercise} Show that if $X$ and $Y$ are terminal objects in a
+  category, then $X\cong Y$.  \end{exercise}
+
+\begin{defn} We write $x\in X$ to indicate that $x:1\to X$ is a
+  function, and we say that $x$ is an \emph{element} of $X$.  We say
+  that $X$ is \emph{non-empty} just in case it has at least one
+  element.  If $f:X\to Y$ is a function, we sometimes write $f(x)$ for
+  $f\circ x$.  With this notation, the statement that $1$ is a
+  separator says: $f=g$ if and only if $f(x)=g(x)$, for all $x\in X$.
+\end{defn}
+
+\begin{disc} In ZF set theory, equality between functions is
+  completely determined by equality between sets.  Indeed, in ZF,
+  functions $f,g:X\rightrightarrows Y$ are defined to be certain
+  subsets of $X\times Y$; and subsets of $X\times Y$ are defined to be
+  equal just in case they contain the same elements.  In the ETCS
+  approach to set theory, equality between functions is primitive, and
+  Axiom \ref{ax:terminal} stipulates that this equality can be
+  detected by checking elements. 
+
+  Some might see this difference as arguing in favor of ZF: it is more
+  parsimonious, because it derives $f=g$ from something more
+  fundamental.  However, the defender of ETCS might claim in reply
+  that her theory defines $x\in y$ from something more fundamental.
+  Which is {\it really} more fundamental, equality between arrows
+  (functions), or containment of objects (sets)?  We'll leave that for
+  other philosophers to think about. \end{disc}
+
+\begin{exercise} Show that any function $x:1\to X$ is
+  monic. \end{exercise}
+
+\begin{prop} A set $X$ has exactly one element if and only if $X\cong
+  1$. \end{prop}
+
+\begin{proof} The terminal object $1$ has exactly one element, since
+  there is a unique function $1\to 1$.
+
+  Suppose now that $X$ has exactly one element $x:1\to X$.  We will
+  show that $X$ is a terminal object.  First, for any set $Y$, there
+  is a function $x\circ \beta _Y$ from $Y$ to $X$.  Now suppose that
+  $f,g$ are functions from $Y$ to $X$ such that $f\neq g$.  By Axiom
+  \ref{ax:terminal}, there is an element $y\in Y$ such that $fy\neq
+  gy$.  But then $X$ has more than one element, a contradiction.
+  Therefore, there is a unique function from $Y$ to $X$, and $X$ is a
+  terminal object.  \end{proof}
+
+\begin{prop} In any category with a terminal object $1$, any object
+  $X$ is itself a Cartesian product of $X$ and $1$.  \end{prop}
+
+\begin{proof} We have the obvious projections $\pi _0=1_X:X\to X$ and
+  $\pi _1=\beta _X:X\to 1$.  Now let $Y$ be an object, and let
+  $f:Y\to X$ and $g:Y\to 1$ be arrows.  We claim that $f:Y\to X$ is
+  the unique arrow such that $1_Xf=f$ and $\beta _Xf=g$.  To see that
+  $f$ satisfies this condition, note that $g:Y\to 1$ must be
+  $\beta _Y$, the unique arrow from $Y$ to the terminal object.  If
+  $h$ is another arrow that satisfies this condition, then
+  $h=1_Xh=f$. \end{proof}
+
+\begin{prop} Let $a$ and $b$ be elements of $X\times Y$.  Then $a=b$
+  if and only if $\pi _0(a)=\pi _0(b)$ and $\pi _1(a)=\pi
+  _1(b)$. \end{prop}
+
+\begin{proof} Suppose that $\pi _0(a)=\pi _0(b)$ and $\pi _1(a)=\pi
+  _1(b)$.  By the uniqueness property of the product, there is a
+  unique function $c:1\to X\times Y$ such that $\pi _0(c)=\pi _0(a)$
+  and $\pi _1(c)=\pi _1(a)$.  Since $a$ and $b$ both satisfy this
+  property, $a=b$.
+\end{proof}
+
+\begin{note} The previous proposition justifies the use of the
+  notation
+  \[ X\times Y \: = \: \{ \langle x,y\rangle \mid x\in X,y\in Y \} .\]
+  Here the identity condition for ordered pairs is given by
+  \[ \langle x,y\rangle = \langle x',y'\rangle \qquad \text{iff}
+  \qquad x=x'\;\text{and}\; y=y' .\] \end{note}
+
+\begin{prop} Let $(X\times Y,\pi _0,\pi _1)$ be the Cartesian product
+  of $X$ and $Y$.  If $Y$ is non-empty, then $\pi _0$ is an
+  epimorphism.  \label{proj-epi} \end{prop}
+
+\begin{proof} Suppose that $Y$ is non-empty, and that $y:1\to Y$ is an
+  element.  Let $\beta _X:X\to 1$ be the unique map, and let $f=y\circ
+  \beta _X$.  Then $\langle 1_X,f\rangle :X\to X\times Y$ such that
+  $\pi _0\langle 1_X,f\rangle =1_X$.  Since $1_X$ is epi, $\pi _0$ is
+  epi. \end{proof}
+
+
+
+
+
+\begin{defn} We say that $f:X\to Y$ is \emph{injective} just in case:
+  for any $x,y\in X$ if $f(x)=f(y)$, then $x=y$.  Written more
+  formally:
+  \[ \forall x\forall y[f(x)=f(y)\to x=y ] \] \end{defn}
+
+\begin{note} ``Injective'' is synonymous with
+  ``one-to-one''. \end{note}
+
+\begin{exercise} Let $f:X\to Y$ be a function.  Show that if $f$ is
+  monic, then $f$ is injective. \end{exercise}
+
+\begin{prop} Let $f:X\to Y$ be a function.  If $f$ is injective then
+  $f$ is monic. \label{inj-mon} \end{prop}
+
+\begin{proof} Suppose that $f$ is injective, and let $g,h:A\to X$ be
+  functions such that $f\circ g=f\circ h$.  Then for any $a\in A$, we
+  have $f(g(a))=f(h(a))$.  Since $f$ is injective, $g(a)=h(a)$.  Since
+  $a$ was an arbitrary element of $A$, Axiom \ref{ax:terminal} entails
+  that $g=h$.  Therefore, $f$ is monic. \end{proof}
+
+\begin{defn} Let $f:X\to Y$ be a function.  We say that $f$ is
+  \emph{surjective} just in case: for each $y\in Y$, there is an $x\in
+  X$ such that $f(x)=y$.  Written formally:
+\[ \forall y\exists x[f(x)=y] \]
+And in diagrammatic form:
+\[ \begin{tikzcd}
+  & 1 \arrow[dashed,dl,"x"'] \arrow[dr,"y"] \\
+X \arrow[rr,"f"] & & Y \end{tikzcd} \]
+\end{defn}
+
+\begin{note} ``Surjective'' is synonymous with ``onto''. \end{note}
+
+\begin{exercise} Show that if $f:X\to Y$ is surjective then $f$ is an
+  epimorphism. \end{exercise}
+
+We will eventually establish that all epimorphisms are surjective.
+However, first we need a couple more axioms.  Given a set $X$, and
+some definable condition $\phi$ on $X$, we would like to be able to
+construct a subset consisting of those elements in $X$ that satisfy
+$\phi$.  The usual notation here is $\{ x\in X\mid \phi (x) \}$, which
+we read as, ``the $x$ in $X$ such that $\phi (x)$.''  But the
+important question is: which features $\phi$ do we allow?  As an
+example of a definable condition $\phi$, consider the condition of,
+``having the same value under the functions $f$ and $g$,'' that is,
+$\phi (x)$ just in case $f(x)=g(x)$.  We call the subset $\{ x\in
+X\mid f(x)=g(x) \}$ the \emph{equalizer} of $f$ and $g$.
+
+\begin{axi}[Equalizers]{ax:set-eq} Suppose that
+  $f,g:X\rightrightarrows Y$ are functions.  Then there is a set $E$
+  and a function $m:E\to X$ with the following property: $fm=gm$, and
+  for any other set $F$ and function $h:F\to X$, if $fh=gh$, then
+  there is a unique function $k:F\to E$ such that $mk=h$.
+\[ \begin{tikzcd}
+E \arrow[r,"m"] & X \arrow[shift left,r,"f"] \arrow[shift right,r,"g"']
+& Y \\
+F \arrow[dashed,u,"k"] \arrow[ur,"h"'] 
+\end{tikzcd} \] We call $(E,m)$ an \emph{equalizer} of $f$ and $g$.
+If we don't need to mention the object $E$, we will call the arrow $m$
+the equalizer of $f$ and $g$.  \label{ax:set-eq} \end{axi}
+
+\begin{exercise} Suppose that $(E,m)$ and $(E',m')$ are both
+  equalizers of $f$ and $g$.  Show that there is an isomorphism
+  $k:E\to E'$.  \end{exercise}
+
+\begin{defn} Let $A,B,C$ be sets, and let $f:A\to C$ and $g:B\to C$ be
+  functions.  We say that $g$ \emph{factors through} $f$ just in case
+  there is a function $h:B\to A$ such that $fh=g$. \end{defn}
+
+\begin{exercise} Let $f,g:X\rightrightarrows Y$, and let $m:E\to X$ be
+  the equalizer of $f$ and $g$.  Let $x\in X$.  Show that $x$ factors
+  through $m$ if and only if $f(x)=g(x)$. \end{exercise}
+
+\begin{prop} In any category, if $(E,m)$ is the equalizer of $f$ and
+  $g$.  Then $m$ is a monomorphism. \end{prop}
+
+\begin{proof} Let $x,y:Z\to E$ such that $mx=my$.  Since $fmx=gmx$,
+  there is a unique arrow $z:Z\to E$ such that $mz=mx$.  Since both
+  $mx=mx$ and $my=mx$, it follows that $x=y$.  Therefore, $m$ is
+  monic. \end{proof}
+
+\begin{defn} Let $f:X\to Y$ be a function.  We say that $f$ is a
+  \emph{regular monomorphism} just in case $f$ is the equalizer (up to
+  isomorphism) of a pair of arrows $g,h:Y\rightrightarrows
+  Z$. \end{defn}
+
+\begin{exercise} Show that if $f$ is an epimorphism and a regular
+  monomorphism, then $f$ is an
+  isomorphism. \label{herman} \end{exercise}
+
+
+%% Can now construct pullbacks and preimages
+
+In other approaches to set theory, one uses $\in$ to define a relation
+of inclusion between sets:
+\[ X\subseteq Y \: \Longleftrightarrow \: \forall x(x\in X\to x\in Y )
+.\] We cannot define this exact notion in our approach since, for us,
+elements are attached to some particular set.  However, for typical
+applications, every set under consideration will come equipped with a
+canonical monomorphism $m:X\to U$, where $U$ is some fixed set.  Thus,
+it will suffice to consider a relativized notion.
+
+\begin{defn} A \emph{subobject} or \emph{subset} of a set $X$ is a set
+  $B$ and a monomorphism $m:B\to X$, called the \emph{inclusion} of
+  $B$ in $X$.  Given two subsets $m:B\to X$ and $n:A\to X$, we say
+  that $B$ is a subset of $A$ (relative to $X$), written $B\subseteq
+  _X A$ just in case there is a function $k:B\to A$ such that $nk=m$.
+  When no confusion can result, we omit $X$ and write $B\subseteq
+  A$.  \end{defn}
+
+Let $m:B\to Y$ be monic, and let $f:X\to Y$.  Consider the following
+diagram:
+  \[ \begin{tikzcd} f^{-1}(B) \arrow{r}{k} & X\times B \arrow[shift
+    left=0.5ex]{r}[above]{fp _0} \arrow[shift
+    right=0.5ex]{r}[below]{mp _1} & Y \end{tikzcd} \] where
+  $f^{-1}(B)$ is defined as the equalizer of $f\pi _0$ and $mp_1$.
+  Intuitively, we have
+\[ \begin{array}{l l l}
+f^{-1}(B) & = &  \{ \langle x,y\rangle \in X\times B\mid f(x)=y \} \\
+& = & \{ \langle x,y\rangle \in X\times Y \mid f(x)=y \; \text{and} \; y\in B \} \\
+& = & \{ x\in X \mid f(x)\in B \} .\end{array} \]
+Now we verify that $f^{-1}(B)$ is a subset of $X$.
+
+\begin{prop} The function $p_0k:f^{-1}(B)\to X$ is monic. \end{prop}
+
+\begin{proof} To simplify notation, let $E=f^{-1}(B)$.  Let $x,y:Z\to
+  E$ such that $p_0kx=p_0ky$.  Then $fp_0kx=fp_0ky$, and hence
+  $mp_1kx=mp_1ky$.  Since $m$ is monic, $p_1kx=p_1ky$.  Thus, $kx=ky$.
+  (The identity of a function into $X\times B$ is determined by the
+  identity of its projections onto $X$ and $B$.)  Since $k$ is monic,
+  $x=y$.  Therefore, $p_0k$ is monic.
+\end{proof}
+
+\begin{defn} Let $m:B\to X$ be a subobject, and let $x:1\to X$.  We
+  say that $x\in B$ just in case $x$ factors through $m$ as follows:
+\[ \begin{tikzcd} 
+                                  & B \arrow{d}{m} \\
+1 \arrow{r}{x} \arrow[dashed]{ur} &
+X              \end{tikzcd} \] \end{defn}
+
+\begin{prop} Let $A\subseteq B\subseteq X$.  If $x\in A$ then $x\in
+  B$. \end{prop}
+
+\begin{proof}
+\[ \begin{tikzcd}
+               & A \arrow{d} \arrow{r}{k} & B \arrow{d} \\
+1 \arrow[r,"x"'] \arrow[dashed] {ur} & X \arrow[r,"1_X"']         & X \end{tikzcd} \] 
+\end{proof}
+
+Recall that $x\in f^{-1}(B)$ means: $x:1\to X$ factors
+  through the inclusion of $f^{-1}(B)$ in $X$.  Consider the following
+  diagram:
+\[ \begin{tikzcd}
+  1 \arrow{ddr}[left]{x} \arrow[dashed]{dr} \\
+  & f^{-1}(B) \arrow{r}{p} \arrow{d}{m^*} & B \arrow{d}[right]{m} \\
+  & X \arrow{r}[below]{f} & Y \end{tikzcd} \] First look just at the
+lower-right square.  This square commutes, in the sense that following
+the arrows from $f^{-1}(B)$ clockwise gives the same answer as
+following the arrows from $f^{-1}(B)$ counterclockwise.  The square
+has another property: for any set $Z$, and functions $g:Z\to X$ and
+$h:Z\to B$, there is a unique function $k:Z\to f^{-1}(B)$ such that
+$m^{*}k=g$ and $pk=h$.  [To understand better, draw a picture!]  When
+a commuting square has this property, then it's said to be a
+\emph{pullback}.
+
+\begin{prop} Let $f:X\to Y$, and let $B\subseteq Y$.  Then $x\in
+  f^{-1}(B)$ if and only if $f(x)\in B$.  \end{prop}
+
+\begin{proof} If $x\in f^{-1}(B)$, then there is an arrow
+  $\hat{x}:1\to f^{-1}(B)$ such that $m^*\hat{x}=x$.  Thus,
+  $fx=mp\hat{x}$, which entails that the element $f(x)\in Y$ factors
+  through $B$, i.e.\ $f(x)\in B$.  Conversely, if $f(x)\in B$, then
+  since the square is a pullback, $x:1\to X$ factors through
+  $f^{-1}(B)$, i.e.\ $x\in f^{-1}(B)$. \end{proof}
+
+\begin{defn} Given functions $f:X\to Z$ and $g:Y\to Z$, we define
+  \[ X\times _ZY \: = \: \{ \langle x,y\rangle \in X\times Y \mid
+  f(x)=g(y) \} .\] In other words, $X\times _ZY$ is the equalizer of
+  $f\pi _0$ and $g\pi _1$.  The set $X\times _ZY$, together with the
+  functions $\pi _0:X\times _ZY\to X$ and $\pi _1:X\times _ZY\to Y$ is
+  called the \emph{pullback} of $f$ and $g$, alternatively the
+  \emph{fibered product} of $f$ and $g$.   \end{defn}
+
+The pullback of $f$ and $g$ has the following distinguishing property:
+for any set $A$, and functions $h:A\to X$ and $k:A\to Y$ such that
+$fh=gk$, there is a unique function $j:A\to X\times _ZY$ such that
+$\pi _0j=h$ and $\pi _1j=k$.
+\[ \begin{tikzcd}
+  A \arrow[ddr,"h"'] \arrow[drr,"k"] \arrow[dr,dashed] \\
+  & X\times _ZY \arrow[d,"\pi _0"] \arrow[r,"\pi _1"'] & Y
+  \arrow[d,"g"]
+  \\
+  & X \arrow[r,"f"'] & Z \end{tikzcd} \] The following is an
+interesting special case of a pullback.
+
+\begin{defn} Let $f:X\to Y$ be a function.  Then the \emph{kernel
+    pair} of $f$ is the pullback $X\times _YX$, with projections
+  $p_0:X\times _YX\to X$ and $p_1:X\times _YX\to X$.  Intuitively,
+  $X\times _YX$ is the relation, ``having the same image under $f$.''
+  Written in terms of braces, 
+  \[ X\times _YX \: = \: \{ \langle x,x'\rangle \in X\times X \mid
+  f(x)=f(x') \} .\] In particular, $f$ is injective if and only if,
+  ``having the same image under $f$'' is coextensive with the equality
+  relation on $X$.  That is, $X\times _YX=\{ \langle x,x\rangle \mid
+  x\in X \}$, which is the diagonal of $X$. \end{defn}
+
+\begin{exercise} Let $f:X\to Y$ be a function, and let
+  $p_0,p_1:X\times _YX\rightrightarrows X$ be the kernel pair of $f$.
+  Show that the following are equivalent:
+\begin{enumerate}
+\item $f$ is a monomorphism.
+\item $p_0$ and $p_1$ are isomorphisms.
+\item $p_0=p_1$.  \end{enumerate} \label{kkp} \end{exercise}
+
+
+
+\section{Truth values and subsets}
+
+\newcommand{\true}{\mathsf{t}} \newcommand{\false}{\mathsf{f}}
+
+\newcommand{\tr}{\mathsf{t}} \newcommand{\f}{\mathsf{f}}
+
+\begin{axi}[Truth-value object]{ax:classify} There is a set $\Omega$
+  with the following features:
+\begin{enumerate}
+\item $\Omega$ has exactly two elements, which we denote by $\true
+  :1\to \Omega$ and $\false :1\to \Omega$.
+\item For any set $X$, and subobject $m:B\to X$, there is a unique
+  function $\ch{B}:X\to \Omega$ such that the following diagram is a
+  pullback:
+  \[ \begin{tikzcd}
+    B \arrow[d, "m"'] \arrow{r} & 1 \arrow{d}{\true} \\
+    X \arrow[r, "\ch{B}"'] & \Omega \end{tikzcd} \] In other words,
+  $B=\{ x\in X\mid \ch{B}(x)=\tr \}$.
+\end{enumerate} \label{ax:classify}
+\end{axi}
+
+Intuitively speaking, the first part of Axiom \ref{ax:classify} says
+that $\Omega$ is a two-element set, say $\Omega = \{ \f,\tr\}$.  The
+second part of Axiom \ref{ax:classify} says that $\Omega$ classifies
+the subobjects of a set $X$.  That is, each subobject $m:B\to X$
+corresponds to a unique \emph{characteristic function} $\ch{B}:X\to
+\{\f,\tr\}$ such that $\ch{B}(x)=\tr$ if and only if $x\in B$.
+
+The terminal object $1$ is a set with one element.  Thus, it should be
+the case that $1$ has two subsets, the empty set and $1$ itself.
+
+\begin{prop} The terminal object $1$ has exactly two
+  subobjects.  \label{sub-one} \end{prop}
+
+\begin{proof} By Axiom \ref{ax:classify}, subobjects of $1$ correspond
+  to functions $1\to\Omega$, that is, to elements of $\Omega$.  By
+  Axiom \ref{ax:classify}, $\Omega$ has exactly two elements.
+  Therefore, $1$ has exactly two subobjects. \end{proof}
+
+Obviously the function $\tr:1\to\Omega$ corresponds to the subobject
+$\mathrm{id}_1:1\to 1$.  Can we say more about the subobject $m:A\to1$
+corresponding to the function $\f:1\to \Omega$?  Intuitively, we
+should have $A=\{ x\in 1\mid \tr = \f\}$, in other words, the empty
+set.  To confirm this intuition, consider the pullback diagram:
+\[ \begin{tikzcd}
+1 \arrow[dashed,dr,"x"] \\ 
+&   A \arrow[d,"m"'] \arrow[r,"k"] & 1 \arrow[d,"\tr"] \\
+&   1 \arrow[r,"\f"'] & \Omega
+\end{tikzcd} \] Note that $m$ and $k$ must both be the unique function
+from $A$ to $1$, that is $m=k=\beta _A$.  Suppose that $A$ is
+nonempty, i.e.\ there is a function $x:1\to A$.  Then $\beta _A\circ
+x$ is the identity $1\to 1$, and since the square commutes, $\tr =\f$,
+a contradiction.  Therefore, $A$ has no elements.
+
+% Conversely, suppose that $A$ is a set with no elements.  Then in the
+% diagram above we can take $m=k=\beta _A$, and since $A$ has no
+% elements, the diagram trivially commutes.  We claim that it is a
+% pullback.  Indeed, for an arbitrary set $X$, there is only one
+% function $\beta _X:X\to 1$.  But $\tr\circ \beta _X\neq \f\circ\beta
+% _X$.  Thus, the conditions for a pullback a trivially satisifed.  By
+% the uniqueness of pullbacks, it follows that there is a unique object
+% in $\cat{Sets}$ that has no elements.
+
+\begin{exercise} Show that $\Omega\times\Omega$ has exactly four
+  elements.  \end{exercise}
+
+% Axiom \ref{ax:terminal} tells us that functions are individuated by
+% their values on elements.  The next proposition tells us that
+% subobjects of a set $X$ are also individuated by their elements.
+
+% \begin{prop} Let $m:A\to X$ and $n:B\to X$ be subobjects of $X$.  Then
+%   the following are equivalent:
+% \begin{enumerate}
+% \item $A$ and $B$ are the same subobject; i.e. there is an isomorphism
+%   $k:A\to B$ such that $nk=m$.
+% \item For all $x\in X$, $x\in A$ if and only if $x\in B$. 
+% \item $\ch{A}=\ch{B}$. \end{enumerate} \end{prop}
+
+% \begin{proof} ($1\Rightarrow 2$) Let $k:A\to B$ be an isomorphism such
+%   that $m=nk$.  Then $x:1\to X$ factors through $A$ if and only if it
+%   factors through $B$.
+
+%   ($2\Rightarrow 3$) Suppose that $x:1\to X$ factors through $A$ if
+%   and only if it factors through $B$.  We claim that
+%   $\ch{A}(x)=\ch{B}(x)$.  Indeed, $\ch{A}(x)=t$ iff $x$ factors
+%   through $A$, iff $x$ factors through $B$, iff $\ch{B}(x)=t$.
+
+%   ($3\Rightarrow 1$) This is just a restatement of Axiom
+%   \ref{ax:classify}, which says that subobjects are in one-to-one
+%   correspondence with characteristic functions.
+% \end{proof}
+
+
+We now use the existence of a truth-value object in $\cat{Sets}$ to
+demonstrate further properties of functions.
+
+\begin{exercise} Show that in any category, if $f:X\to Y$ is a regular
+  monomorphism, then $f$ is monic. \end{exercise}
+
+\begin{prop} Every monomorphism between sets is regular, i.e.\ an
+  equalizer of a pair of parallel
+  arrows.  \label{set-regular-monic} \end{prop}
+
+\begin{proof} Let $m:B\to X$ be monic.  By Axiom \ref{ax:classify},
+  the following is a pullback diagram:
+  \[ \begin{tikzcd}
+    B \arrow[d,"m"'] \arrow{r} & 1 \arrow{d}{t} \\
+    X \arrow[r,"\ch{B}"'] & \Omega \end{tikzcd} \] A straightforward
+  verification shows that $m$ is the equalizer of $X\stackrel{\beta
+    _X}{\to} 1\stackrel{\tr}{\to}\Omega$ and $\ch{B}:X\to\Omega$.
+  Therefore, $m$ is regular monic.
+\end{proof}
+
+Students with some background in mathematics might assume that if a
+function $f:X\to Y$ is both a monomorphism and an epimorphism, then it
+is an isomorphism.  However, that isn't true in all categories!  [For
+example, it's not true in the category of monoids.]  Nonetheless,
+$\cat{Sets}$ is a special category, and in this case we have the
+result:
+
+\begin{prop} In $\cat{Sets}$, if a function is both a monomorphism and
+  an epimorphism, then it is an
+  isomorphism. \label{sets:balanced} \end{prop}
+
+\begin{proof} In any category, if $m$ is regular monic and epi, then
+  $m$ is an isomorphism (Exercise \ref{herman}). \end{proof}
+
+\begin{defn} Let $f:X\to Y$ be a function, and let $y\in Y$.  The
+  \emph{fiber} over $y$ is the subset $f^{-1}\{ y\}$ of $X$ given by
+  the following pullback:
+  \[ \begin{tikzcd} f^{-1}\{ y\} \arrow[d] \arrow[r] & 1 \arrow[d,"y"] \\
+    X \arrow[r,"f"] & Y \end{tikzcd} \] \end{defn}
+
+
+\begin{prop} Let $p:X\to Y$.  If $p$ is not a surjection, then there
+  is a $y_0\in Y$ such that the fiber $p^{-1}\{ y_0\}$ is
+  empty. \label{empty-fiber} \end{prop}
+
+\begin{proof} Since $p$ is not a surjection, there is a $y_0\in Y$
+  such that for all $x\in X$, $p(x)\neq y_0$.  Now consider the
+  pullback:
+\[ \begin{tikzcd} 
+1 \arrow[dashed]{rd}{z} \\
+& {p^{-1}\{ y_0 \}} \arrow{d}{m} \arrow{r} &  1 \arrow{d}{y_0} \\
+& X \arrow{r}{p}  & Y 
+\end{tikzcd} \] If there were a morphism $z:1\to p^{-1}\{ y_0\}$, then
+we would have $p(m(z))=y_0$, a contradiction.  Therefore, $p^{-1}\{
+y_0\}$ is empty.
+\end{proof}
+
+\begin{prop} In $\cat{Sets}$, epimorphisms are
+  surjective. \label{sets:es} \end{prop}
+
+\begin{proof} Suppose that $p:X\to Y$ is not a surjection.  Then there
+  is a $y_0\in Y$ such that for all $x\in X$, $p(x)\neq y_0$.  Since
+  $1$ is terminal, the morphism $y_0:1\to Y$ is monic.  Consider the
+  following diagram:
+  \[ \begin{tikzcd}
+    1 \arrow[ddr,"x"'] \arrow{rrd} \\
+    & p^{-1}\{ y_0\} \arrow{d} \arrow{r} & 1 \arrow{d}{y_0} \arrow{r} & 1 \arrow{d}{\tr} \\
+    & X \arrow{r}{p} & Y \arrow{r}{g} & \Omega \end{tikzcd} \] Here
+  $g$ is the characteristic function of $\{ y_0\}$; by Axiom
+  \ref{ax:classify}, $g$ is the unique function that makes the right
+  hand square a pullback.  Let $x\in X$ be arbitrary. If we had
+  $g(p(x))=\tr$, then there would be an element $x'\in p^{-1}\{y_0\}$,
+  in contradiction with the fact that the latter is empty (Proposition
+  \ref{empty-fiber}).  By Axiom \ref{ax:classify}, either
+  $g(p(x))=\tr$ or $g(p(x))=\f$; therefore, $g(p(x))=\f$.  Now let $h$
+  be the composite $Y\to 1\stackrel{\f}{\to} \Omega$.  Then, for any
+  $x\in X$, we have $h(p(x))=\f$.  Since $g\circ p$ and $h\circ p$
+  agree on arbitrary $x\in X$, we have $g\circ p=h\circ p$.  Since
+  $g\neq h$, it follows that $p$ is not an epimorphism.
+\end{proof}
+
+
+In a general category, there is no guarantee that an epimorphism pulls
+back to an epimorphism.  However, in $\cat{Sets}$, we have the
+following:
+
+\begin{prop} In $\cat{Sets}$, the pullback of an epimorphism is an
+  epimorphism.  \label{sets-pullback-epi} \end{prop}
+
+\begin{proof} Suppose that $f:Y\to Z$ is epi, and let $x\in X$.
+  Consider the pullback diagram:
+  \[ \begin{tikzcd}
+    1 \arrow{ddr}[left]{x} \arrow{drr}{y} \arrow[dashed]{dr} \\
+    & \ast \arrow{d}{q_0} \arrow[r,"q_1"'] &  Y \arrow{d}{f} \\
+    & X \arrow[r,"g"'] & Z \end{tikzcd} \] By Proposition
+  \ref{sets:es}, $f$ is surjective.  In particular, there is a $y\in
+  Y$ such that $f(y)=g(x)$.  Since the diagram is a pullback, there is
+  a unique $\langle x,y\rangle :1\to \ast$ such that $q_0\langle
+  x,y\rangle =x$ and $q_1\langle x,y\rangle =y$.  Therefore, $q_0$ is
+  surjective, and hence epi.
+\end{proof}
+
+\begin{prop} If $f:X\to Y$ and $g:W\to Z$ are epimorphisms, then so is
+  $f\times g:X\times W\to Y\times Z$. \end{prop}
+
+\begin{proof} Since $f\times g=(f\times 1)\circ (1\times g)$, it will
+  suffice to show that $f\times 1$ is epi when $f$ is epi.  Now, the
+  following diagram is a pullback:
+\[ \begin{tikzcd}
+  X\times W \arrow{r}{p_0} \arrow[d,"f\times 1"'] & X \arrow{d}{f} \\
+  Y\times W \arrow{r}{p_0} & Y \end{tikzcd} \] By Proposition
+\ref{sets-pullback-epi}, if $f$ is epi, then $f\times 1$ is
+epi.  \end{proof}
+
+
+Suppose that $f:X\to Y$ is a function, and that $p_0,p_1:X\times
+_YX\rightrightarrows X$ is the kernel pair of $f$.  Suppose also that
+$h:E\to Y$ is a function, that $q_0,q_1:E\times _YE\rightrightarrows
+E$ is the kernel pair of $h$, and that $g:X\epi E$ is an epimorphism.
+Then there is a unique function $b:X\times _YX\to E\times _YE$, such
+that $q_0b=gp_0$ and $q_1b=gp_1$.
+\[ \begin{tikzcd} X\times _Y X \arrow[d,dashed,"b"'] \arrow[r,shift
+  left,"p_0"] \arrow[shift
+  right,r,"p_1"'] & X \arrow[d,->>,"g"] \arrow[r,"f"] & Y \\
+  E\times _Y E \arrow[shift left,r,"q_0"] \arrow[shift right,r,"q_1"']
+  & E \arrow[ur,"h"'] \end{tikzcd} \] An argument similar to the one
+above shows that $b$ is an epimorphism.  We will use this fact below
+to describe the properties of epimorphisms in $\cat{Sets}$.
+
+
+\section{Relations}
+
+\subsection*{Equivalence relations and equivalence classes}
+
+%% TO DO: subobject defined??
+
+%% TO DO: for this we need image factorizations (regular category)
+
+%% regular epis are stable under pullback
+
+A relation $R$ on a set $X$ is a subset of $X\times X$; i.e.\ a set of
+ordered-pairs.  A relation is said to be an equivalence relation just
+in case it is reflexive, symmetric, and transitive.  One particular
+way that equivalence relations on $X$ arise is from functions with $X$
+as domain: given a function $f:X\to Y$, let say that $\langle
+x,y\rangle \in R$ just in case $f(x)=f(y)$.  [Sometimes we say that,
+``$x$ and $y$ lie in the same fiber over $Y$.'']  Then $R$ is an
+equivalence relation on $X$.
+
+Given an equivalence relation $R$ on $X$, and some element $x\in X$,
+let $[x]=\{ y\in X \mid \langle x,y\rangle \in R \}$ denote the set of
+all elements of $X$ that are equivalent to $X$.  We say that $[x]$ is
+the {\bf equivalence class} of $x$.  It's straightforward to show that
+for any $x,y\in X$, either $[x]=[y]$ or $[x]\cap [y]=\emptyset$.
+Moreover, for any $x\in X$, we have $x\in [x]$.  Thus the equivalence
+classes form a {\bf partition} of $X$ into disjoint subsets.
+
+We'd like now to be able to talk about the set of these equivalence
+classes, i.e.\ something that might intuitively be written as $\{
+[x]\mid x\in X \}$.  The following axiom guarantees the existence of
+such a set, called $X/R$, and a canonical mapping $q:X\to X/R$ that
+takes each element $x\in X$ to its equivalence class $[x]\in X/R$.
+
+
+% Intuitively speaking, we can gather together the fibers of $f$ into a
+% set:
+% \[ X/R \: = \: \{ f^{-1}\{ y\} \mid y\in Y \} .\] These fibers are
+% called \emph{equivalence classes} of the relation $R$.  The set $E$
+% has the following special properties: (1) there is a canonical
+% epimorphism $q:X\to X/R$ that assigns each $x\in X$ its equivalence
+% class in $X/R$, and (2) given a function $g:X\to Z$ that is constant
+% on the equivalence classes [i.e.\ if $x$ and $y$ are equivalent, then
+% $h(x)=h(x')$], there is a unique function $k:E\to Z$ such that $kg=h$.
+
+Our next axiom guarantees the existence of the set of equivalence
+classes.
+
+\begin{axi}[Equivalence classes]{}
+Let $R$ be an equivalence relation on $X$.  Then there is a
+set $X/R$, and a function $q:X\to X/R$ with the properties: 
+\begin{enumerate}
+\item $\langle x,y\rangle \in R$ if and only if $q(x)=q(y)$.
+\item For any set $Y$ and function $f:X\to Y$ that is constant on
+  equivalence classes, there is a unique function $\overline{f}:X/R\to
+  Y$ such that $\overline{f}\circ q=f$.  \end{enumerate}
+\[ \begin{tikzcd} X \arrow[r,"f"] \arrow[d,"q"'] & Y \\
+  X/R \arrow[dashed,ur,"\overline{f}"'] \end{tikzcd} \] Here $f$ is
+constant on equivalence classes just in case $f(x)=f(y)$ whenever
+$\langle x,y\rangle \in R$.  \label{ax:eq}
+\end{axi}
+
+An equivalence relation $R$ can be thought of as a subobject of
+$X\times X$, i.e.\ a subset of ordered pairs.  Accordingly, there are
+two functions $p_0:R\to X$ and $p_1:R\to X$ given by: $p_0\langle
+x,y\rangle = x$ and $p_1\langle x,y\rangle =y$.  Then condition (1) in
+the above axiom says that $q\circ p_0=q\circ p_1$.  And condition (2)
+says that for any function $f:X\to Y$ such that $f\circ p_0=f\circ p
+_1$, there is a unique function $\overline{f}:X/R \to Y$ such that
+$\overline{f}\circ q=f$.  In this case, we say that $q$ is a
+\emph{coequalizer} of $p_0$ and $p_1$.
+
+\begin{exercise} Show that in any category, coequalizers are unique up
+  to isomorphism. \end{exercise}
+
+\begin{exercise} Show that in any category, a coequalizer is an
+  epimorphism. \end{exercise}
+
+\begin{exercise} For a function $f:X\to Y$, let $R=\{ \langle
+  x,y\rangle \in X\times X \mid f(x)=f(y) \}$.  That is, $R$ is the
+  kernel pair of $f$.  Show that $R$ is an equivalence
+  relation. \end{exercise}
+
+\begin{defn} A function $f:X\to Y$ is said to be a \emph{regular
+    epimorphism} just in case $f$ is a coequalizer. \end{defn}
+
+\begin{exercise} Show that in any category, if $f:X\to Y$ is both a
+  monomorphism and a regular epimorphism, then $f$ is an
+  isomorphism. \end{exercise}
+
+\begin{prop} Every epimorphism in $\cat{Sets}$ is regular.  In
+  particular, every epimorphism is the coequalizer of its kernel
+  pair. \label{regs} \end{prop}
+
+\begin{proof} Let $f:X\to Y$ be an epimorphism.  Let $p_0,p_1:X\times
+  _YX\rightrightarrows X$ be the kernel pair of $f$.  By Axiom
+  \ref{ax:eq}, the coequalizer $g:X\to E$ of $p_0$ and $p_1$ exists;
+  and since $f$ also coequalizes $p_0$ and $p_1$, there is a unique
+  function $m:E\to Y$ such that $f=mg$.
+  \[ \begin{tikzcd} X\times _Y X \arrow[r,shift left,"p_0"]
+    \arrow[r,shift right,"p_1"']
+    \arrow[d,"b"] & X \arrow[r,"f"] \arrow[d,"g"] & Y \\
+    E\times _Y E \arrow[r,shift left,"q_0"] \arrow[r,shift
+    right,"q_1"'] & E \arrow[ur,"m"'] \end{tikzcd} \] Here $E\times
+  _YE$ is the kernel pair of $m$.  Since $mgp_0=fp_0=fp_1=mgp_1$,
+  there is a unique function $b:X\times _YX\to E\times _YE$ such that
+  $gp_0=q_0b$ and $gp_1=q_1b$.  By the considerations at the end of
+  the previous section, $b$ is an epimorphism.  Furthermore,
+  \[ q_0b = gp_0 = gp_1 = q_1b ,\] and therefore $q_0=q_1$.  By
+  Exercise \ref{kkp}, $m$ is a monomorphism.  Since $f=mg$, and $f$ is
+  epi, $m$ is also epi.  Therefore, by Proposition
+  \ref{sets:balanced}, $m$ is an isomorphism.
+\end{proof}
+
+This last proposition actually shows that $\cat{Sets}$ is what is
+known as a \emph{regular category}.  In general, a category $\cat{C}$
+is said to be \emph{regular} just in case it has all finite limits, if
+coequalizers of kernel pairs exist, and if regular epimorphisms are
+stable under pullback.  Now, it's known that if a category has
+products and equalizers, then it has all finite limits.  Thus
+$\cat{Sets}$ has all finite limits.  Our most recent axiom says that
+$\cat{Sets}$ has coequalizers of kernel pairs.  And finally, all
+epimorphisms in $\cat{Sets}$ are regular, and epimorphisms in
+$\cat{Sets}$ are stable under pullback; therefore, regular
+epimorphisms are stable under pullback.
+
+Regular categories have several nice features that will prove quite
+useful.  In the remainder of this section, we will discuss one such
+features: factorization of functions into a regular epimorphism
+followed by a monomorphism.
+
+\subsection*{The epi-monic factorization}
+
+Let $f:X\to Y$ be a function, and let $p_0,p_1:X\times
+_YX\rightrightarrows X$ be the kernel pair of $f$.  By Axiom
+\ref{ax:eq}, the kernel pair has a coequalizer $g:X\epi E$.  Since $f$
+also coequalizes $p_0$ and $p_1$, there is a unique function $m:E\to
+Y$ such that $f=mg$.
+\[ \begin{tikzcd}
+  X\times _YX \arrow[r,shift left,"p_0"] \arrow[r,shift right,"p_1"'] & X \arrow[rr,"f"] \arrow[->>,rd,"g"'] & & Y \\
+  & & E \arrow[ur,"m"'] \end{tikzcd} \] An argument similar to the one
+in Proposition \ref{regs} shows that $m$ is a monomorphism.  Thus,
+$(E,m)$ is a subobject of $Y$, which we call the \emph{image} of $X$
+under $f$, and we write $E=f(X)$.  The pair $(g,m)$ is called the
+\emph{epi-monic factorization} of $f$.  Since epis are surjections,
+and monics are injections, $(g,m)$ can also be called the
+surjective-injective factorization.
+
+%% TO DO: Show uniqueness of factorization
+
+\begin{defn} Suppose that $A$ is a subset of $X$, in particular,
+  $n:A\to X$ is monic.  Then $f\circ n:A\to Y$, and we let $f(A)$
+  denote the image of $A$ under $f\circ n$.
+  \[ \begin{tikzcd}
+    A \arrow[d,"n"'] \arrow[dashed,r] & f(A) \arrow[>->,d] \\
+    X \arrow[r,"f"] & Y \end{tikzcd} \] We also use the suggestive
+  notation
+\[ f(A) \: = \: \exists _f(A) \: = \: \{ y\in Y \mid \exists x\in
+A.f(x)=y \} . \] \end{defn}
+
+\begin{prop} Let $f:X\to Y$ be a function, and let $A$ be a subobject
+  of $X$. The image $f(A)$ is the smallest subobject of $Y$ through
+  which $f$ factors. \label{image-smallest} \end{prop}
+
+\begin{proof} Let $e:X\to Q$ and $m:Q\to Y$ be the epi-monic
+  factorization of $f$.  Suppose that $n:B\to Y$ is a subobject, and
+  that $f$ factors through $n$, say $f=ng$.  Consider the following
+  diagram.
+  \[ \begin{tikzcd} E \arrow[shift left=0.5ex]{r}[above]{p_0}
+    \arrow[shift right=0.5ex]{r}[below]{p_1} & X \arrow{r}{f}
+    \arrow[->>]{d}[left]{e}
+    \arrow{dr}{g} & Y \\
+    & Q \arrow[dashed]{r}{k} & B
+    \arrow[>->]{u}[right]{n} \end{tikzcd} \] Then
+  $ngp_0=fp_0=fp_1=ngp_1$, since $p_0,p_1$ is the kernel pair of $f$.
+  Since $n$ is monic, $gp_0=gp_1$, i.e.\ $g$ coequalizes $p_0$ and
+  $p_1$.  Since $e:X\to Q$ is the coequalizer of $p_0$ and $p_1$,
+  there is a unique function $k:Q\to B$ such that $ke=g$.  By
+  uniqueness of the epi-monic factorization, $nk=m$.  Therefore,
+  $Q\subseteq B$.
+\end{proof}
+% adjunction!
+
+
+
+
+\begin{prop} For any $A\subseteq X$ and $B\subseteq Y$, we have 
+  \[ A\subseteq f^{-1}(B) \quad \text{if and only if} \quad \exists
+  _f(A)\subseteq B .\] \end{prop}
+
+\begin{proof} Suppose first that $A\subseteq f^{-1}(B)$, in particular
+  that $k:A\to f^{-1}(B)$.  Consider the following diagram:
+  \[ \begin{tikzcd}
+    A \arrow{d}[left]{k} \arrow{r}{e} & \exists _f(A) \arrow[bend left=60]{dd}{j} \arrow[dashed]{d} \\
+    f^{-1}(B) \arrow{d}[left]{m^*} \arrow{r} & B \arrow{d}{m} \\
+    X \arrow{r}[below]{f} & Y \end{tikzcd} \] By definition, $je$ is the
+  epi-mono factorization of $fm^*k$.  Since $fm^*k$ also factors
+  through $m:B\to Y$, we have $\exists _f(A)\subseteq B$, by
+  Proposition \ref{image-smallest}.
+
+Suppose now that $\exists _f(A)\subseteq B$.  Using the fact that the
+lower square in the diagram is a pullback, we see that there is an
+arrow $k:A\to f^{-1}(B)$ such that $m^*k$ is the inclusion of $A$ in
+$X$.  That is, $A\subseteq f^{-1}(B)$.  
+\end{proof}
+
+\begin{exercise} Use the previous result to show that $A\subseteq
+  f^{-1}(\exists _f(A))$, for any subset $A$ of $X$. \end{exercise}
+
+
+
+
+
+
+
+% \begin{prop} If $f:X\to Y$ is epi, and $f=me$ is the
+%   surjective-injective factorization, then $m$ is an
+%   isomorphism. \end{prop}
+
+% \begin{proof} If $f=me$ is epi, then $m$ is epi (Proposition \ref{?}).
+%   But $m$ is also monic, and therefore an isomorphism (Corollary
+%   \ref{sets:balanced}).  \end{proof}
+
+
+
+
+
+% \begin{prop} Let $X,Y$ be sets, and let $f:X\to Y$ be a function.
+%   Then $f$ is a surjection if and only if the kernel pair diagram for
+%   $f$ is also a pushout. \end{prop}
+
+% \begin{proof}
+%   Consider the following pullback diagram:
+%   \begin{equation} \begin{tikzcd}
+%       X\times _f X \arrow{r}{\pi _1} \arrow{d}[left]{\pi _0} & X \arrow{d}{f} \\
+%       X \arrow{r}[below]{f} &
+%       Y \end{tikzcd} \label{push-pull} \end{equation} Suppose first
+%   that $f$ is a surjection.  Let $g:X\to Z$ and $h:X\to Z$ such that
+%   $g\pi _0=h\pi _1$.  Then $h=g$, and $g$ is constant on each fiber
+%   $f^{-1}\{ y\}$.  Moreover, since $f$ is surjective, each fiber is
+%   nonempty.  Thus, $k:Y\to Z$ can (and must) be defined by setting
+%   $k(y)=g[f^{-1}\{ y\}]$.
+
+%   Suppose now that (\ref{push-pull}) is a pushout.  Since $X\times
+%   _fX$ contains the diagonal, $\pi _0$ is surjective and hence epi.
+%   Since the pushout of an epi is epi, $f$ is epi.  Finally, since
+%   epimorphisms in $\mathbf{Sets}$ are surjective, $f$ is
+%   surjective. \end{proof}
+
+
+
+
+% \subsection{The calculus of relations}
+
+
+% Note that Axiom \ref{ax:eq} doesn't actually use the notion of an
+% equivalence relation.  We now turn to giving a precise definition of
+% this notion.
+
+% \begin{defn} A \emph{relation} from $A$ to $X$ is a subobject $m:R\to
+%   A\times X$.  A relation on $X$ is a subobject $m:R\to X\times X$.
+% \end{defn}
+
+% Recall that each function $m:R\to X\times X$ is determined by its
+% projections $\pi _0m$ and $\pi _1m$.  Thus, we can also think of a
+% relation as a pair of functions $m_0,m_1:R\rightrightarrows X$.
+% Intuitively, two elements $x,y\in X$ stand in the relation $R$ just in
+% case there is a $z\in R$ such that $m_0(z)=x$ and $m_1(z)=y$.
+
+% \begin{defn} A relation $m:R\to X\times X$ is said to be
+%   \emph{reflexive} just in case the diagonal $\dl :X\to X\times X$
+%   factors through $m$.
+%   \[ \begin{tikzcd}
+%     & R \arrow{d}{m} \\
+%     X \arrow[dashed]{ur} \arrow{r}[below]{\dl} & X\times X
+% \end{tikzcd} \]
+% In terms of elements, $\langle x,x\rangle \in R$ for all $x\in X$.
+% \end{defn}
+
+
+% Recall that a Cartesian product of $X$ and $Y$ is usually written as
+% $X\times Y$, as if there were just one set that can play this role.
+% In fact, a Cartesian product of $X$ and $Y$ is any triple $\{
+% Z,p_0,p_1\}$, where $Z$ is a set, $p_0:Z\to X$, $p_1:Z\to Y$,
+% satisfying the properties described in Axiom \ref{ax:set-prod}.
+% Consider, in particular, the case where we take the Cartesian product
+% of $X$ with itself.  Suppose that $\{ X\times X,p_0,p_1\}$ has the
+% requisite properties.  Then it is easy to see that $\{ X\times
+% X,p_1,p_0\}$ also has the requisite properties, although it differs
+% from the former product in the order of its projections.  By
+% Proposition \ref{unique-product}, there is an isomorphism $\sigma
+% :X\times X\to X\times X$ such that $p_0\sigma =p_1$ and $p_1\sigma
+% =p_0$.  Written in terms of elements, we have $\sigma \langle
+% x,y\rangle = \langle y,x\rangle$.  We call $\sigma$ the \emph{twist
+%   map} of $X\times X$.  (Technically, we could write $\sigma _X$, and
+% then we could show that this family of maps is natural in $X$.)
+
+% \begin{defn} Let $m:R\to X\times X$ be a relation on $X$.  We write
+%   $R^{op}$ for the relation $\sigma m:R\to X\times X$.  Intuitively,
+%   \[ R^{op} \: = \: \{ \langle x,y\rangle \in X\times X\mid \langle
+%   y,x\rangle \in R \} .\] We say that $R$ is \emph{symmetric} just in
+%   case $R^{op}\subseteq R$ as subobjects of $X\times X$.  Intuitively,
+%   $R$ is symmetric just in case $\langle y,x\rangle \in R$ whenever
+%   $\langle x,y\rangle \in R$. \end{defn}
+
+
+% %% TO DO: existential quantifier as projection
+
+% Suppose that $m:B\to X\times Y$ is a subobject, i.e.\ a subset of
+% $X\times Y$.  We would like to create a subset of $X$ of elements that
+% satisfy the following condition:
+% \[ \{ x\in X \mid \exists y\in Y.\langle x,y\rangle \in B \} .\]
+% Consider the following diagram:
+% \[ \begin{tikzcd}
+%   B \arrow{d}[left]{m} \arrow[->>]{r}{p}  &  \pi _0(B)  \arrow[>->]{d}{i} \\
+%   X\times Y \arrow{r}[below]{\pi _0} & X \end{tikzcd} \] Here $ip:B\to
+% X$ is the surjective-injective factorization of $\pi _0m$.  In other
+% words, $\pi _0(B)$ is the image of $B$ under $\pi _0$.
+
+
+% \begin{defn} Suppose that $m:R\to X\times Y$ and $n:S\to Y\times Z$
+%   are relations.  We define a relation $S\circ R$ on $X\times Z$ as
+%   follows: first we think of $R$ and $S$ as subsets of $X\times
+%   Y\times Y\times Z$ by pulling back along the projections to $X\times
+%   Y$ and $Y\times Z$.  Then we pull back along the diagonal $\dl
+%   :Y\to Y\times Y$ to give us the subset 
+%   \[ M \: = \: \{ \langle x,y,z\rangle \mid \langle x,y\rangle \in R\;
+%   \text{and}\; \langle y,z\rangle \in S \} ,\] of $X\times Y\times Z$.
+%   Finally, we project out $Y$ to give us the set
+%   \[ S\circ R \: = \: \{ \langle x,z\rangle \mid \exists y\in
+%   Y.\langle x,y\rangle \in R\;\text{and}\;\langle y,z\rangle \in S \}
+%   .\] The first two steps required taking pullbacks, which preserve
+%   monics (i.e.\ subsets).  The final step takes a projection ... [[TO
+%   DO]]
+% \end{defn}
+
+% \begin{defn} We say that a relation $R$ on $X$ is \emph{transitive}
+%   just in case $R\circ R\subseteq R$.  In other words: for any
+%   $x,y,z\in X$, if $\langle x,y\rangle \in R$ and $\langle y,z\rangle
+%   \in R$, then $\langle x,z\rangle\in R$. \end{defn}
+
+% \begin{defn} We say that a relation $R$ on $X$ is an \emph{equivalence
+%     relation} just in case $R$ is reflexive, symmetric, and
+%   transitive. \end{defn}
+
+
+% \begin{exercise} Given a surjection $f:X\to Y$, let
+%   $p_0,p_1:E_f\rightrightarrows X$ be the kernel pair of $f$.  Show
+%   that $E_f$, considered as a subobject of $X\times X$, is an
+%   equivalence relation on $X$. \end{exercise}
+
+% Given an equivalence relation $E$ on $X$, we let $f_E:X\to Q$ denote
+% the [[start here]]
+
+
+%   \begin{prop} For any surjection $f:X\to Y$, we have $f=f_{E_f}$.
+%     For any equivalence relation $E$ on $X$, we have
+%     $E=E_{f_E}$.  \end{prop}
+
+
+% \begin{proof}  Suppose that $f:X\to Y$ is an epimorphism.  Consider
+%   the following diagram, where $p_0,p_1:E_f\rightrightarrows X$ is the
+%   kernel pair of $f$, and $q:X\to Z$ is the coequalizer of $p_0$ and
+%   $p_1$.   
+%   \[ \begin{tikzcd} E_f \arrow[shift left=0.5ex]{r}[above]{p_0} \arrow[shift
+%     right=0.5ex]{r}[below]{p_1} &
+%     X \arrow[->>]{d}{q} \arrow[->>]{r}{f} & Y \\
+%     & Z \arrow[dashed]{ur}{k} \end{tikzcd} \] Since $fp_0=fp_1$, the
+%   universal property of the coequalizer entails that there is a unique
+%   $k:Z\to Y$ such that $kq=f$.  By Proposition \ref{comp-epi}, $k$ is
+%   an epimorphism.  
+
+%   We claim that $k$ is injective.  Suppose that $z,z'\in Z$ such that
+%   $k(z)=k(z')$.  Since $q$ is surjective, there are $x,x'\in X$ such
+%   that $q(x)=z$ and $q(x')=z'$.  Hence $f(x)=kq(x)=kq(x')=f(x')$, and
+%   thus $\langle x,x'\rangle \in E_f$.  Since $qp_0=qp_1$, it follows
+%   that 
+%   \[ z=q(x)=qp_0\langle x,x'\rangle = qp_1\langle x,x'\rangle =
+%   q(x')=z' . \] Therefore, $k$ is injective.  By Proposition
+%   \ref{sets:balanced}, $k$ is an isomorphism.
+
+%   Now let $p_0,p_1:E\to X$ be an equivalence relation on $X$, and let
+%   $f:X\to Q$ be the coequalizer of $p_0$ and $p_1$.  Let
+%   $q_0,q_1:E_f\to X$ be the kernel pair of $f$ so that we have the
+%   following:
+%   \[ \begin{tikzcd} & E \arrow[dashed]{dl}[left]{k} \arrow[shift
+%     right=0.5ex]{d}[left]{p_0} \arrow[shift left=0.5ex]{d}[right]{p_1} \\
+%     E_f \arrow[shift left=0.5ex]{r}[above]{q_0} \arrow[shift
+%     right=0.5ex]{r}[below]{q_1}
+%     & X \arrow[->>]{d}{f} \\
+%     & Q \end{tikzcd} \] Since $fp_0=fp_1$, and since $\{
+%   E_f,q_0,q_1\}$ is the pullback of $f$ along itself, $k:E\to E_f$ is
+%   the unique arrow such that $q_ik=p_i$.  We then have $\langle
+%   q_0,q_1\rangle k=\langle p_0,p_1\rangle$, from which it follows that
+%   $k$ is monic.  In other words, $E\subseteq E_f$ as subobjects of
+%   $X\times X$.  
+
+%   To conclude the argument, we need to show that $E_f\subseteq E$.
+%   For this, suppose that $\langle x_0,y_0\rangle\not\in E$.  Let $B$
+%   be the equivalence class of $x_0$, i.e.\ $B = \{ x\in X \mid \langle
+%   x_0,x\rangle \in E \}$.  By Axiom \ref{ax:classify}, there is a
+%   function $\ch{B}:X\to\Omega$ such that $\ch{B}(x)=t$ if $x\in B$,
+%   and $\ch{B}(x)=f$ if $x\not\in B$.  In particular, $\ch{B}(x_0)=t$
+%   and $\ch{B}(y_0)=f$.  We claim that $\chi _B$ equalizes $p_0$ and
+%   $p_1$.  Indeed, for any $\langle x,y\rangle\in E$, if $x\in B$ if
+%   and only if $y\in B$, hence $\ch{B}(x)=\ch{B}(y)$.  Since $(Q,f)$ is
+%   the coequalizer of $p_0,p_1$, there is a unique morphism
+%   $g:Q\to\Omega$ such that $gf=\ch{B}$.  Thus, if $f(x_0)=f(y_0)$,
+%   then $\ch{B}(x_0)=gf(x_0)=gf(y_0)=\ch{B}(y_0)$, contradicting the
+%   fact that $x_0\in B$ but $y_0\not\in B$.  Therefore, $f(x_0)\neq
+%   f(y_0)$ and $\langle x_0,y_0\rangle\not\in E_f$.
+% \end{proof}
+
+\subsection*{Functional relations}
+
+\begin{defn} A relation $R\subseteq X\times Y$ is said to be
+  \emph{functional} just in case for each $x\in X$ there is a unique
+  $y\in Y$ such that $\langle x,y\rangle \in R$. \end{defn}
+
+\begin{defn} Suppose that $f:X\to Y$ is a function.  We let
+  $\mathrm{graph}(f)= \{ \langle x,y\rangle \mid f(x)=y
+  \}$. \end{defn}
+
+\begin{exercise} Show that $\mathrm{graph}(f)$ is a functional
+  relation. \end{exercise}
+
+The following result is helpful for establishing the existence of
+arrows $f:X\to Y$.
+
+\begin{prop} Let $R\subseteq X\times Y$ be a functional relation.
+  Then there is a unique function $f:X\to Y$ such that
+  $R=\mathrm{graph}(f)$. \end{prop}
+
+The proof of this result is somewhat complicated, and we omit it (for
+the time being).
+
+%% TO DO: this shows that any two empty sets are isomorphic!
+
+
+\section{Colimits}
+
+
+\newcommand{\cpr}{\amalg}
+
+\begin{axi}[Coproducts]{ax:set-coprod} For any two sets $X,Y$, there
+  is a set $X\amalg Y$ and functions $i_0:X\to X\amalg Y$ and
+  $i_1:Y\to X\amalg Y$ with the feature that for any set $Z$, and
+  functions $f:X\to Z$ and $g:Y\to Z$, there is a unique function
+  $f\cpr g:X\cpr Y\to Z$ such that $(f\cpr g)\circ i_0=f$ and
+  $(f\cpr g)\circ i_1=g$.
+  \[ \begin{tikzcd}
+    & Z  \\
+    & X \cpr Y \arrow[dashed,u,"f\cpr g"] \\
+    X \arrow[bend left,uur,"f"] \arrow[ur,"i_0"'] & & Y \arrow[bend
+    right,uul,"g"'] \arrow[ul,"i_1"] \end{tikzcd} \] We call $X\cpr Y$
+  the \emph{coproduct} of $X$ and $Y$.  We call $i_0$ and $i_1$ the
+  coprojections of the coproduct.
+   \end{axi}
+
+   Intuitively speaking, the coproduct $X\cpr Y$ is the disjoint union
+   of the sets $X$ and $Y$.  What we mean by ``disjoint'' here is that
+   if $X$ and $Y$ share elements in common (which doesn't make sense
+   in our framework, but does in some frameworks), then these elements
+   are dis-identified before the union is taken.  For example, in
+   terms of elements, we could think of $X\cpr Y$ as consisting of
+   elements of the form $\langle x,0\rangle$, with $x\in X$, and
+   elements of the form $\langle y,1\rangle$, with $y\in Y$.  Thus, if
+   $x$ is contained in both $X$ and $Y$, then $X\cpr Y$ contains two
+   separate copies of $x$, namely $\langle x,0\rangle$ and $\langle
+   x,1\rangle$.
+
+   We now show that that the inclusions $i_0:X\to X\cpr Y$ and
+   $i_1:Y\to X\cpr Y$ do, in fact, have disjoint images.
+
+   \begin{prop} Coproducts in $\cat{Sets}$ are disjoint.  In other
+     words, if $i_0:X\to X\amalg Y$ and $i_1:Y\to X\amalg Y$ are the
+     coprojections, then $i_0(x)\neq i_1(y)$ for all $x\in X$ and
+     $y\in Y$.  \label{coprod-disjoint} \end{prop}
+
+   \begin{proof} Suppose for reductio ad absurdum that
+     $i_0(x)=i_1(y)$.  Let $g:X\to \Omega$ be the unique map that
+     factors through $\tr:1\to \Omega$.  Let $h:Y\to\Omega$ be the
+     unique map that factors through $\f:1\to\Omega$.  By the
+     universal property of the coproduct, there is a unique function
+     $g\cpr h:X\cpr Y\to \Omega$ such that $(g\cpr h)i_0=g$ and
+     $(g\cpr h)i_1=h$.  Thus, we have
+     \[ \tr=g(x)=(g\cpr h)i_0x = (g\cpr h)i_1y=h(y)=\f ,\] a
+     contradiction.  Therefore, $i_0(x)\neq i_1(y)$, and the ranges of
+     $i_0$ and $i_1$ are disjoint. \end{proof}
+
+\begin{prop} The coprojections $i_0:X\to X\cpr Y$ and $i_1:Y\to X\cpr
+  Y$ are monomorphisms.  \label{coprod-monic} \end{prop}
+
+\begin{proof} We will show that $i_0$ is monic; the result then
+  follows by symmetry.  Suppose first that $X$ has no elements.  Then
+  $i_0$ is trivially injective, hence monic by Proposition \ref{inj-mon}.
+  Suppose now that $X$ has an element $x:1\to X$.  Let $g=x\circ \beta
+  _Y$, where $\beta _Y:Y\to 1$.  Then $(1_X\cpr g)i_0=1_X$, and Exercise
+  \ref{comps} entails that $i_0$ is monic.
+\end{proof}
+
+% \begin{prop} Let $x:1\to X$, and let $g:X\to\Omega$ be the
+%   characteristic function of $\{ x\}$, considered as a subobject of
+%   $X$.  If $y:1\to X$ such that $y\neq x$, then $gy=0$. \end{prop}
+
+% \begin{proof} The following diagram is a pullback:
+% \[ \begin{tikzcd} 
+% 1 \arrow{r} \arrow{d}{x} & 1 \arrow{d}{t} \\
+% X \arrow{r}{g} & \Omega \end{tikzcd} \]
+% By Axiom \ref{classify}, there are exactly two functions
+%   from $1$ to $\Omega$.  Thus, either $gy=0$ or $gy=1$.  If $gy=1$  If
+%   $gy=1$, then $y$ factors through $x$.  Therefore, $y=x$.  
+% \end{proof}
+
+\begin{prop} The coprojections are jointly surjective.  That is, for
+  each $z\in X\cpr Y$, either there is an $x\in X$ such that
+  $z=i_0(x)$, or there is a $y\in Y$ such that
+  $z=i_1(y)$. \label{coprod-cover} \end{prop}
+
+\begin{proof} Suppose for reductio ad absurdum that $z$ is neither in
+  the image of $i_0$ nor in the image of $i_1$.  Let $g:(X\cpr
+  Y)\to\Omega$ be the characteristic function of $\{ z_0\}$. Then for
+  all $x\in X$, $g(i_0(x))=f$.  And for all $y\in Y$, $g(i_1(y))=f$.
+  Now let $h:(X\cpr Y)\to \Omega$ be the constant $f$ function, i.e.\
+  $h(z)=f$ for all $z\in X\cpr Y$.  Then $gi_0=hi_0$ and $gi_1=hi_1$.
+  Since functions from $X\cpr Y$ are determined by their
+  coprojections, $g=h$, a contradiction.  Therefore, all $z\in X\cpr
+  Y$ are either in the range of $i_0$ or in the range of $i_1$.
+\end{proof}
+
+\begin{prop} The function $\tr\amalg \f:1\amalg 1\to \Omega$ is an
+  isomorphism.  \label{set:boolean} \end{prop}
+
+\begin{proof}  Consider the diagram:
+  \[ \begin{tikzcd}
+    & \Omega \\
+    & 1 \cpr  1 \arrow[dashed,u,"\tr\amalg\f"] \\
+    1 \arrow[bend left,uur,"\tr"] \arrow[ur,"i_0"'] & & 1 \arrow[bend
+    right,uul,"\f"'] \arrow[ul,"i_1"] \end{tikzcd} \] Then
+  $\tr\amalg\f$ is monic since every element of $1\cpr 1$ factors
+  through either $i_0$ or $i_1$ (Proposition \ref{coprod-cover}), and
+  since $\tr\neq \f$.  Furthermore, $\tr\amalg\f$ is epi since $\tr$
+  and $\f$ are the only elements of $\Omega$.  By Proposition
+  \ref{sets:balanced}, $\tr\amalg\f$ is an isomorphism. \end{proof}
+
+\begin{prop} Let $X$ be a set, and let $B$ be a subset of $X$.  Then
+  the inclusion $B\amalg X\backslash B\to X$ is an
+  isomorphism. \label{xmid} \end{prop}
+
+\begin{proof} Using the fact that $\Omega$ is Boolean, for every $x\in
+  X$, either $x\in B$ or $x\in X\backslash B$.  Thus the inclusion
+  $B\amalg X\backslash B\to X$ is a bijection, hence an
+  isomorphism. \end{proof}
+
+
+% \begin{defn} Let $A$ and $B$ be subsets of $X$.  We say that $A$ and
+%   $B$ are \emph{disjoint} just in case there is no element $x\in X$
+%   such that $x\in A$ and $x\in B$. \end{defn}
+
+% \begin{prop} Suppose that $A$ and $B$ are disjoint subsets of $X$.
+%   Then $A\cpr B$ is a subobject of $X$, and is the smallest subobjet of
+%   $X$ that contains both $A$ and $B$. \end{prop}
+
+% \begin{proof} Let $m:A\to X$ and $n:B\to X$ be the inclusions.  First
+%   we need to show that $(m\cpr n):A\cpr B\to X$ is monic.  Suppose that
+%   $x,y\in A\cpr B$ such that $(m\cpr n)(x)=(m\cpr n)(y)$.  By Proposition
+%   \ref{coprod-cover}, both $x$ and $y$ are either in $A$ or $B$.
+%   Since $A$ and $B$ are disjoint, it's not the case that $x\in X$ and
+%   $y\in Y$, or vice versa.  If $x,y\in X$, then \[
+%   m(x)=(m\cpr n)(x)=(m\cpr n)(y)=m(y) ,\] and since $m$ is monic, $x=y$.
+%   Similarly, if $x,y\in Y$, then $x=y$.  In either case, $x=y$, and
+%   therefore $m\cpr n$ is monic. \end{proof}
+
+\newcommand{\es}{\emptyset}
+
+\begin{axi}[Empty set]{ax:zero} There is a set $\es$ with the
+  following properties:
+\begin{enumerate}
+\item For any set $X$, there is a unique function 
+  \[ \begin{tikzcd} \es \arrow[r,"\alpha _X"] & X \end{tikzcd} \] In
+  this case, we say that $\es$ is an \emph{initial object} in
+  $\cat{Sets}$.
+\item $\es$ is empty, i.e.\ there is no function $x:1\to\es$.
+\end{enumerate} \label{ax:es} \end{axi}
+
+
+
+
+\begin{exercise} Show that in any category with coproducts, if $A$ is
+  an initial object, then $X\cpr A\cong X$, for any object
+  $X$. \end{exercise}
+
+
+\begin{prop} Any function $f:X\to\es$ is an isomorphism. \end{prop}
+
+\begin{proof} Since $\es$ has no elements, $f$ is trivially
+  surjective.  We now claim that $X$ has no elements.  Indeed, if
+  $x:1\to X$ is an element of $X$, then $f(x)$ is an element of $\es$.
+  Since $X$ has no elements, $f$ is trivially injective.  By
+  Proposition \ref{sets:balanced}, $f$ is an isomorphism. \end{proof}
+
+\begin{prop} A set $X$ has no elements if and only if $X\cong
+  \es$. \label{empty-init} \end{prop}
+
+\begin{proof} By Axiom \ref{ax:es}, the set $\es$ has no elements.
+  Thus if $X\cong\es$, then $X$ has no elements.
+
+  Suppose now that $X$ has no elements.  Since $\es$ is an initial
+  object, there is a unique arrow $\alpha _X:\es\to X$.  Since $X$ has
+  no elements, $\alpha _X$ is trivially surjective.  Since $\es$ has
+  no elements, $\alpha _X$ is trivially injective.  By Proposition
+  \ref{sets:balanced}, $f$ is an isomorphism. \end{proof}
+
+
+%% TO DO: pushouts
+
+
+% \section{Subobjects}
+
+% \newcommand{\sub}[1]{\mathrm{Sub}(#1)}
+
+% \begin{defn} For a set $X$, let $\mathrm{Sub}(X)$ denote the set of
+%   equivalence classes of subobjects of $X$.  In other words, we treat
+%   two subobjects $m:A\to X$ and $n:B\to X$ as equal just in case there
+%   is an isomorphism $k:A\to B$ such that $m=nk$.  By Axiom
+%   \ref{ax:classify}, subobjects of $X$ correspond one-to-one with
+%   functions $X\to\Omega$.  \end{defn}
+
+% \begin{prop} $\sub{X}$ is a partially ordered when equipped with the
+%   relation $\subseteq$. \end{prop}
+
+% \begin{proof} Given $m:B\to X$, the identity arrow $1_B:B\to B$ shows
+%   that $B\subseteq B$.  Suppose now that $m:B\to X$ and $n:A\to X$ are
+%   subobjects such that $A\subseteq B$ and $B\subseteq A$.  That is,
+%   there are functions $f:A\to B$ and $g:B\to A$ such that $mf=n$ and
+%   $ng=m$.  Then, $m(fg)=(mf)g=ng=m$.  Since $m$ is monic, $fg=1_B$.
+%   Similarly, $gf=1_A$.  Therefore $A\cong B$.  The last step of the
+%   proof is left to the following exercise.
+% \end{proof}
+
+% \begin{exercise} Show that if $A\subseteq B$ and $B\subseteq C$, then
+%   $A\subseteq C$. \end{exercise}
+
+% \begin{defn} Given subobjects $A$ and $B$ of $X$, we define another
+%   subobject $A\cap B$ by taking the pullback:
+%   \[ \begin{tikzcd}
+%     A\cap B \arrow{d} \arrow{r} & B \arrow{d}{n} \\
+%     A \arrow[r,"m"'] & X \end{tikzcd} \] Thus, $A\cap B\subseteq A$ and
+%   $A\cap B\subseteq B$.  \end{defn}
+
+% Recall that a pullback of two arrows $f$ and $g$ can be alternately
+% constructed as an equalizer: the set of pairs $\langle x,y\rangle$
+% such that $fx=gy$.  In this case, $A\cap B$ can be described as the
+% set of pairs $a\in A$ and $b\in B$ such that $m(a)=n(b)$.  In
+% diagrammatic form, the top square is a pullback:
+% \[ \begin{tikzcd}
+%   A\cap B \arrow{d} \arrow{r} & X \arrow{d}{\dl} \\
+%   A\times B \arrow{r}{m\times n} \arrow{d} & X\times X
+%   \arrow{d}{\chi _A\times \chi _B} \\
+%   1\times 1 \arrow{r}{t\times t} & \Omega\times\Omega \end{tikzcd} \]
+% The bottom square, being the product of two pullbacks, is also a
+% pullback.  Using the fact that $(\chi _A\times \chi _B)\dl =
+% \langle \chi _A,\chi _B\rangle$, we conclude that the following is a
+% pullback:
+% \[ \begin{tikzcd}
+% A\cap B \arrow{r} \arrow{d} &  1 \arrow{d}{\langle t,t\rangle} \\
+% X \arrow{r}[below]{\langle \chi _A,\chi _B\rangle} &
+% \Omega\times\Omega \end{tikzcd} \]
+
+% \begin{defn} Let $B\subseteq X$.  We define the \emph{complement}
+%   $X\backslash B$ as follows: let $\ch{B}:X\to\Omega$ be the
+%   characteristic function of $B$, and take the pullback:
+%   \[ \begin{tikzcd}
+%     X\backslash B \arrow{r} \arrow{d} & 1 \arrow{d}{f} \\
+%     X \arrow[r, "\ch{B}"'] & \Omega \end{tikzcd} \] where $f:1\to
+%   \Omega$ is the ``false'' element.  That is, $X\backslash B$ is the
+%   set of $x\in X$ such that $\ch{B}(x)=f$.  More formally:
+%   \[ X\backslash B \: = \: \{ x\in X\mid \ch{B}(x)=f \} .\] By Axiom
+%   \ref{ax:classify}, for every $x\in X$, either $\ch{B}(x)=t$ or
+%   $\ch{B}(x)=f$, but not both.  Moreover, $\ch{B}(x)=t$ if and only if
+%   $x\in B$.  Thus, we have
+% \[ X\backslash B \: = \: \{ x\in X\mid x\not\in B  \} .\] \end{defn}
+
+
+
+
+
+% \begin{prop} Let $\ell :C\to X$ be a subobject such that $C\subseteq
+%   A$ and $C\subseteq B$.  Then $C\subseteq A\cap B$. \end{prop}
+
+% \begin{proof} Since $C\subseteq A$, there is a function $j:C\to A$
+%   such that $mj=\ell$.  And since $C\subseteq B$, there is a function
+%   $k:C\to B$ such that $nk=\ell$.  Consider the pullback diagram:
+%   \[ \begin{tikzcd}
+%     C \arrow{ddr}[left]{j} \arrow{drr}{k} \arrow[dashed]{dr}{f} \\
+%     & A \cap B \arrow[r,"i_1"'] \arrow{d}{i_0} & B \arrow{d}{n} \\
+%     & A \arrow{r}{m} & X \end{tikzcd} \] Here $f:C\to A\cap B$ is the
+%   unique function such that $i_0f=j$ and $i_1f=k$.  Therefore,
+%   $C\subseteq A\cap B$.
+% \end{proof}
+
+
+% \subsection{Boolean structure of truth-values}
+
+% We now show that $\Omega$ comes equipped with functions that act as
+% truth-functional connectives: $\neg ,\vee,\wedge$.
+
+% Since $\Omega$ has two elements, $\Omega$ has four subobjects.
+% (Recall that distinct subobjects can be separated by elements.)  The
+% subobjects of $\Omega$ are $\alpha :0\to\Omega$, $t:1\to\Omega$,
+% $f:1\to\Omega$, and $\mathrm{id}:\Omega\to\Omega$.  Since subobjects
+% of $\Omega$ correspond to functions $\Omega\to\Omega$, there are four
+% such functions.
+
+% \begin{defn} We define the function $\neg :\Omega\to\Omega$ to be the
+%   characteristic function of the subobject $f:1\to\Omega$.  Thus, the
+%   following is a pullback:
+%   \[ \begin{tikzcd}
+%     1  \arrow[d,"f"'] \arrow[r,"\mathrm{id}"] & 1 \arrow[d,"t"] \\
+%     \Omega \arrow[r,"\neg"'] & \Omega \end{tikzcd} \] In other words,
+%   $\neg f=t$.  \end{defn}
+
+% We claim that $\neg t=f$.  If $\neg t=t$, then since the diagram above
+% is a pullback, $t:1\to\Omega$ would factor through $f:1\to\Omega$,
+% which would entail that $t=f$, a contradiction.
+% \[ \begin{tikzcd}
+%   1 \arrow[ddr,"t"'] \arrow[drr,"\mathrm{id}"] \arrow[dashed,dr] \\
+%   & 1  \arrow[d,"f"] \arrow[r,"\mathrm{id}"'] & 1 \arrow[d,"t"] \\
+%   & \Omega \arrow[r,"\neg"'] & \Omega \end{tikzcd} \] Therefore, $\neg
+% \neg f=f$ and $\neg\neg t=t$.  Using the fact that functions are
+% individuated by their elements, we have $\neg\neg =
+% \mathrm{id}_{\Omega}$.
+
+% We now define the binary connectives on $\Omega$.  The set
+% $\Omega\times\Omega$ has four elements: $\langle t,t\rangle ,\langle
+% t,f\rangle ,\langle f,t\rangle ,\langle f,f\rangle$.  Consider
+% $\langle f,f\rangle :1\to\Omega\times\Omega$ as a subobject, and let
+% $B$ be its complement in $\Omega\times\Omega$.  We define
+% \[ \begin{tikzcd} \Omega\times\Omega \arrow[r,"\vee"] &
+%   \Omega \end{tikzcd} \] to be the characteristic function of
+% $(\Omega\times\Omega )\backslash B$.  In terms of elements, $\vee
+% \langle x,y\rangle = t$ iff either $x=t$ or $y=t$.  Similarly, we
+% define
+% \[ \begin{tikzcd} \Omega\times\Omega \arrow[r,"\wedge"] &
+%   \Omega \end{tikzcd} \] to be the characteristic function of the
+% subobject $\langle t,t\rangle :1\to\Omega\times\Omega$.  In other
+% words, the following is a pullback
+% \[ \begin{tikzcd}
+% 1 \arrow[d,"{\langle t,t\rangle}"'] \arrow[r] & 1 \arrow[d,"t"] \\
+% \Omega\times\Omega \arrow[r,"\wedge"'] & \Omega  
+% \end{tikzcd} \]  
+
+% %% transfer Boolean structure to characteristic functions
+
+% \subsection{Boolean structure of $\mathrm{Sub}(X)$}
+
+% We now show that the Boolean operations on $\Omega$ induce Boolean
+% operations on characteristic functions.  In short, if a set $Y$ has an
+% operation, say $g:Y\times Y\to Y$, then the set $\hom (X,Y)$ of
+% functions from $X$ to $Y$ can naturally be equipped with a
+% corresponding operation: $a:X\to Y$ and $b:X\to Y$, then let
+% $g(a,b)=g\circ (a\times a)$, where $a\times b:X\times X\to Y\times Y$
+% is the function defined by the Cartesian product.  In the particular
+% case at hand, suppose that $\chi _A$ and $\chi _B$ are characteristic
+% functions of subobjects of $X$.  We define $\chi _A\wedge \chi _B$ to
+% be the function
+% \[ \begin{tikzcd} X \arrow{r}{\langle\chi _A ,\chi _B\rangle} &
+%   \Omega\times\Omega \arrow{r}{\wedge} & \Omega \end{tikzcd} \]
+% Evaluating on elements, it's easy to see that $(\chi _A\wedge \chi
+% _B)(x)=t$ if and only if $\chi _A(x)=t$ and $\chi _B(x)=t$.
+% Similarly, we define $\chi _A\vee \chi _B$ to be the function
+% \[ \begin{tikzcd} X \arrow{r}{\langle\chi _A ,\chi _B\rangle} &
+%   \Omega\times\Omega \arrow{r}{\vee} & \Omega \end{tikzcd} \] Finally,
+% we define $\neg \chi _A$ to be the function
+% \[ \begin{tikzcd} X \arrow{r}{\chi _A} &
+%   \Omega \arrow{r}{\neg} & \Omega \end{tikzcd} \]
+
+
+% \begin{prop} Let $A$ and $B$ be subobjects of $X$.  Then $\chi
+%   _A\wedge\chi _B$ is the characteristic function of $A\cap
+%   B$. \end{prop}
+
+% \begin{proof} By the definition of $\wedge :\Omega\times\Omega\to
+%   \Omega$, the square on the right below is a pullback.
+%   \[ \begin{tikzcd}
+%     A\cap B \arrow{d} \arrow{r} & 1 \arrow{d}{\langle t,t\rangle} \arrow[r,"i"] & 1 \arrow{d}{t} \\
+%     X \arrow{r}[below]{\langle\chi _A ,\chi _B\rangle} &
+%     \Omega\times\Omega \arrow{r}[below]{\wedge} &
+%     \Omega \end{tikzcd} \]
+% As we discussed in the definition of $A\cap B$, the square on the left
+% is also a pullback.  Since pullbacks compose to give pullbacks, the
+% outer square is a pullback.  Thus, by the correspondence between
+% subobjects and characteristic functions, $\wedge \langle \chi _A,\chi
+% _B\rangle$ is the characteristic function of $A\cap B$.
+% \end{proof}
+
+% \begin{prop} Let $B$ be a subobject of $X$.  Then $\neg \chi _B$ is
+%   the characteristic function of $X\backslash B$. \end{prop}
+
+% \begin{proof} Consider the following diagram:
+% \[ \begin{tikzcd}
+% X\backslash B \arrow[d] \arrow[r] & 1 \arrow[r] \arrow[d,"f"] & 1
+% \arrow[d,"t"] \\
+% X             \arrow[r,"\chi _B"'] & \Omega \arrow[r,"\neg"'] & \Omega 
+% \end{tikzcd} \] The square on the left is a pullback, by the
+% definition of $X\backslash B$.  The square on the right is a pullback,
+% by the definition of $\neg$.  Therefore, the outer square is a
+% pullback, and $\neg\chi _B$ is the characteristic function of
+% $X\backslash B$.
+% \end{proof}
+
+
+
+% \subsection{Relating $\sub{X}$ to $\sub{Y}$}
+
+% Suppose that $f:X\to Y$ is a function.  We now show that $f$ induces a
+% systematic relationship between subobjects of $X$ and subobjects of
+% $Y$.
+
+% For the next couple of propositions, we need to know that composing
+% pullback diagrams gives a pullback diagram.  For a proof of that fact,
+% see ???.
+
+% \begin{prop} $f^{-1}$ is order-preserving, i.e.\ if $A\subseteq B$
+%   then $f^{-1}(A)\subseteq f^{-1}(B)$. \end{prop}
+
+% \begin{proof} Suppose that $n:A\to Y$ and $m:B\to Y$ are monic, and
+%   that $k:A\to B$ such that $mk=n$.  Consider the following diagram:
+% \[ \begin{tikzcd} f^{-1}(A) \arrow[bend right=60]{dd}[left]{n^*}
+%   \arrow{r}{h} \arrow[dashed]{d}{j}
+%   &  A \arrow{d}{k} \arrow[bend left=60]{dd}{n} \\
+%   f^{-1}(B) \arrow{r}{g} \arrow{d}{m^*}    &  B \arrow{d}{m} \\
+%   X \arrow{r}{f} & Y \end{tikzcd} \] Here $n^*$ is the pullback of
+% $n=mk$ along $f$.  Hence, $mkh = fn^*$.  Since the bottom square is a
+% pullback, there is a unique arrow $j:f^{-1}(A)\to f^{-1}(B)$ such that
+% $m^*j=n^*$ and $gj=kh$.  Since $n$ is monic, $n^*$ is monic
+% (Proposition \ref{pull-monic}), and therefore $j$ is monic.  That is,
+% $f^{-1}(B)\subseteq f^{-1}(A)$. \end{proof}
+
+% \begin{prop} $f^{-1}(A\cap B)=f^{-1}(A)\cap f^{-1}(B)$. \end{prop}
+
+% \begin{proof}
+%   %% box diagram
+
+
+% \end{proof}
+
+
+
+
+% \begin{prop} For any $x\in X$, $x\in X\backslash B$ if and only if
+%   $x\not\in B$. \end{prop}
+
+% \begin{proof} The idea here is simple: we have assumed that the
+%   truth-value object $\Omega$. is Boolean and two-valued.  Thus, for
+%   every element $x\in X$, either $\chi _B(x)=t$ or $\chi _B(x)=f$, but
+%   not both.  But now for more detail:
+
+%   Recall that $x\in B$ means that $x:1\to X$ factors through $m:B\to
+%   X$.  Suppose first that $x\in X\backslash B$, so that $x$ factors
+%   through $n:X\backslash B\to X$.  Then $\chi _B(x)=f$.  If $x$ also
+%   factored through $B$, then we would have $\chi _B(x)=t$.  By Axiom
+%   \ref{ax:classify}, $t\neq f$.  Therefore, $x\not\in B$.
+
+%   Suppose now that $x\not\in B$.  Again by Axiom \ref{ax:classify},
+%   either $\chi _B(x)=t$ or $\chi _B(x)=f$.  If $\chi _B(x)=t$, then
+%   $x\in B$.  Thus, $\chi _B(x)=f$.  In the definition of $X\backslash
+%   B$, the diagram is a pullback, which shows that $x:1\to X$ factors
+%   through $X\backslash B$.  That is, $x\in X\backslash B$.
+% \end{proof}
+
+% By Axiom \ref{ax:classify}, there are precisely two elements
+% $t,f:1\rightrightarrows \Omega$.  Thus, for any element $x:1\to X$,
+% either $\chi _B(x)=t$ of $\chi _B(x)=f$.  We claim now that $\chi
+% _B(x)=t$ iff $\chi _{X\backslash B}=f$.  Suppose first that $\chi
+% _B(x)=t$.   
+%   \[ \begin{tikzcd}
+% 1\arrow[ddr, "x"'] \\ 
+% &    X\backslash B \arrow{r} \arrow{d} & 1 \arrow{d}{f} \\
+%     & X \arrow[r, "\ch{B}"'] & \Omega \end{tikzcd} \]
+% If $x\in X\backslash B$ then 
+
+
+
+
+
+
+
+
+% \begin{prop} Suppose that $A$ and $B$ are subsets of $X$.  Then $A$
+%   and $B$ are disjoint iff the following is a pullback:
+%   \[ \begin{tikzcd}
+%     \es \arrow{r} \arrow{d} & B \arrow{d} \\
+%     A \arrow{r} & X \end{tikzcd} \] \end{prop}
+
+% \begin{proof} Suppose first that $A$ and $B$ are disjoint.  Since
+%   $\alpha _X:\es\to X$ is unique, the square commutes.  Now suppose
+%   that $f:C\to A$ and $g:C\to B$ such that $mf=ng$.  Suppose for
+%   reductio ad absurdum that $x:1\to C$ is an element.  Then
+%   $mf(x)=ng(x)$, and $A$ and $B$ are not disjoint, a contradiction.
+%   Thus, $C$ has no elements.  By Proposition \ref{empty-init}, $C\cong
+%   \es$, and there is a unique isomorphism $\alpha _C:C\to\es$.
+
+%   Suppose now that the diagram is a pullback.  And suppose for
+%   reductio ad absurdum that $x:1\to X$ factors both through $A$ and
+%   $B$.  Using the fact that the diagram is a pullback, $x:1\to X$
+%   would factor through $\es$, a contradiction.  Therefore, $A$ and $B$
+%   are disjoint.
+% \end{proof}
+
+
+
+% \begin{defn} Let $A$ and $B$ be subobjects of $X$.  We define $A\cup
+%   B$ to be the subobject of $X$ corresponding to the characteristic
+%   function $\chi _A\vee \chi _B$.  Recall that $(\chi _A\vee \chi
+%   _B)(x)=t$ if and only if either $\chi _A(x)=t$ or $\chi _B(x)=t$.
+%   Thus, $x\in A\cup B$ if and only if $x\in A$ or $x\in
+%   B$.  \end{defn}
+
+
+
+
+
+
+% % \begin{proof} By Proposition \ref{?}, it will suffice to show that
+% %   $\alpha _X$ is injective.  But $0$ has no elements (Axiom
+% %  \ref{ax:zero}), and therefore is trivially injective. \end{proof}
+
+
+
+
+
+
+
+
+
+% %% graph of a function always exists in a regular category??  See Butz
+
+% %% \bax Suppose that $f:X\to Y$ is a function.  Then there is a set
+% %% $\mathrm{Gr}(f)$, and a monomorphism $m:\mathrm{Gr}(f)\to X\times Y$
+% %% such that for any element $x\in X$, 
+
+% %% try to define coequalizers from equivalence classes
+
+
+
+
+
+
+\section{Sets of functions and sets of subsets}
+
+(Note: The following section is highly technical, and can be skipped
+on a first reading.)
+
+One distinctive feature of the category of sets is its ability to
+model almost any mathematical construction.  One such construction is
+gathering together old things into a new set.  For example, given two
+sets $A$ and $X$, can we form a set $X^A$ of all functions from $A$ to
+$X$?  Similarly, given a set $X$, can we form a set $\2P X$ of all
+subsets of $X$?
+
+As usual, we won't be interested in hard questions about what it takes
+to be a set.  Rather, we're interested in hypothetical questions: if
+such a set existed, what would it be like?  The crucial features of
+$X^A$ seem to be captured by the following axiom:
+
+%% TO DO: mention terminology of "Cartesian closed"
+
+%% TO DO: Analogy with A -> B and intro - elim rules
+
+\begin{axi}[Exponential objects]{ax:expo} Suppose that $A$ and $X$ are
+  sets.  Then there is a set $X^A$, and a function $e_X:A\times X^A\to
+  X$ such that for any set $Z$, and function $f:A\times Z\to X$, there
+  is a unique function $f^\sharp :Z\to X^A$ such that $e_X\circ
+  (1_A\times f^\sharp )=f$.  \[ \begin{tikzcd}
+    A\times X^A \arrow{r}{e_X} & X  \\
+    A\times Z \arrow[dashed]{u}{1_A\times f^\sharp }
+    \arrow{ur}[below]{f}
+  \end{tikzcd} \] The set $X^A$ is called an \emph{exponential
+    object}, and the function $f^\sharp :Z\to X^A$ is called the
+  \emph{transpose} of $f:A\times Z\to X$.  \label{ax:expo}
+\end{axi}
+
+
+The way to remember this axiom is to think of $Y^X$ as the set of
+functions from $X$ to $Y$, and to think of $e:X\times Y^X\to Y$ as a
+meta-function that takes an element $f\in Y^X$, and an element $x\in
+X$, and returns the value $e(f,x)=f(x)$.  For this reason, $e:X\times
+Y^X\to Y$ is sometimes called the \emph{evaluation function}.
+
+Note further that if $f:X\times Z\to Y$ is a function, then for each
+$z\in Z$, $f(-,z)$ is a function from $X\to Y$.  In other words, $f$
+corresponds uniquely to a function from $Z$ to functions from $Y$ to
+$X$.  This latter function is the transpose $f^\sharp :Z\to Y^X$ of
+$f$.
+
+We have written Axiom \ref{ax:expo} in first-order fashion, but it
+might help to think of it as stating that there is a one-to-one
+correspondence between two sets:
+\[ \hom (X\times Z,Y) \: \cong \: \hom (Z,Y^X ) , \] where $\hom
+(A,B)$ is though of as the set of functions from $A$ to $B$.  As a
+particular case, when $Z=1$, the terminal object, we have 
+\[ \hom (X,Y) \: \cong \: \hom (1,Y^X) .\] In other words, elements of
+$Y^X$ in the ``internal sense'' correspond to elements of $\hom (X,Y)$
+in the ``external sense.''
+
+Consider now the following special case of the above construction:
+\[ \begin{tikzcd}
+  A\times X^A \arrow{r}{e_X} & X^A  \\
+  A\times X^A \arrow[dashed]{u}{1\times e^\sharp } \arrow[ur,"e_X"']
+\end{tikzcd} \] Thus, $e_X^\sharp = 1_{X^A}$.
+
+\begin{defn} Suppose that $g:Y\to Z$ is a function.  We let
+  $g^A:X^A\to Y^A$ denote the transpose of the function:
+  \[ \begin{tikzcd} A\times Y^A \arrow[r,"e_Y"] & Y \arrow[r,"g"] &
+    Z \end{tikzcd} \] That is, $g^A=(g\circ e_Y)^\sharp$, and the
+  following diagram commutes:
+\[ \begin{tikzcd}
+A\times Z^A \arrow[r,"e_Z"] & Z \\
+A\times Y^A \arrow[u,"1\times g^A"] \arrow[r,"e_Y"] & Y \arrow[u,"g"] 
+\end{tikzcd} \]
+\end{defn}
+
+\begin{prop} Let $f:A\times X\to Y$ and $g:Y\to Z$ be functions.
+  Then $(g\circ f )^\sharp =g^A\circ f^\sharp$. \end{prop}
+
+\begin{proof} Consider the following diagram:
+\[ \begin{tikzcd}
+A \times Z^A \arrow[rr,"e_Z"] & & Z \\
+& A\times Y^A \arrow[ul,"1\times g^A"] \arrow[dr,"e_Y"] \\
+A\times X \arrow[uu,"1\times (g\circ f)^\sharp"] \arrow[ur,"1\times f^\sharp"]
+\arrow[rr,"f"'] & & Y \arrow[uu,"g"] \end{tikzcd} \]
+The bottom triangle commutes by the definition of $f^\sharp$.  The
+upper right triangle commutes by the definition of $g^A$.  And the
+outer square commutes by the definition of $(g\circ f)^\sharp$.  It
+follows that 
+\[ e_Z\circ (1\times (g^A\circ f^\sharp )) \: = \: g\circ f ,\]
+and hence $g^A\circ f^\sharp=(g\circ f)^\sharp$. 
+\end{proof}
+
+Consider now the following particular case:
+\[ \begin{tikzcd}
+    A\times (A\times X)^A \arrow{r}{e} & A\times X  \\
+    A\times  X \arrow[dashed]{u}{1\times p}
+    \arrow[ur,"1"']
+  \end{tikzcd} \] Here $p=1^\sharp$ is the unique function such that
+  $e(1_A\times p)=1_{A\times X}$.  Intuitively, we can think of $p$ as
+  the function that takes an element $x\in X$, and returns the
+  function $p_x:A\to A\times X$ such that $p_x(a)=\langle a,x\rangle$.
+  Thus, $(1\times p)\langle a,x\rangle=\langle a,p_x\rangle$, and
+  $e(1\times p)\langle a,x\rangle =p_x(a)=\langle a,x\rangle$.
+
+% TO DO: define flat
+
+\begin{defn} Suppose that $f:Z\to X^A$ is a function.  We define
+  $f^\flat :Z\times A\to X$ to be the following composite function:
+\[ \begin{tikzcd}
+A\times Z \arrow[r,"1\times f"] & A\times X^A \arrow[r,"e_X"] &
+X \end{tikzcd} \] \end{defn}
+
+\begin{prop} Let $f:X\to Y$ and $g:Y\to Z^A$ be functions.  Then
+  $(g\circ f)^\flat = g^\flat \circ (1_A\times
+  f)$.  \label{zuerst} \end{prop}
+
+\begin{proof} By definition, 
+\[ (g\circ f)^\flat = e_X\circ (1\times (g\circ f))=e_X\circ (1\times
+g)\circ (1\times f)=g^\flat \circ (1\times f) .\]
+\end{proof}
+
+
+
+
+\begin{prop} For any function $f:A\times Z\to X$, we have $(f^\sharp
+  )^\flat =f$. \end{prop}
+
+\begin{proof} By the definitions, we have 
+\[ (f^\sharp)^\flat \: = \: e_X\circ (1\times f^\sharp) = f .\]
+\end{proof}
+
+\begin{prop} For any function $f:Z\to X^A$, we have $(f^\flat )^\sharp
+  = f$. \end{prop}
+
+\begin{proof} By definition, $(f^\flat )^\sharp$ is the unique
+  function such that $e_X\circ (1\times (f^\flat )^\sharp)=f^\flat$.
+  But also $e_X\circ (1\times f)=f^\flat$.  Therefore,
+  $(f^\flat)^\sharp=f$.
+\end{proof}
+
+
+% \begin{prop} Let $f:X\to Y^A$ and $g^A:Y^A\to Z^A$ be functions.  Then
+%   $(g^A\circ f)^\flat = g\circ f^\flat$. \label{zwo} \end{prop}
+
+% \begin{proof} TO DO [[needed?]]
+
+
+% \end{proof}
+
+
+
+\begin{prop} For any set $X$, we have $X^1\cong X$. \end{prop}
+
+\begin{proof} Let $e:1\times X^1\to X$ be the evaluation function from
+  Axiom \ref{ax:expo}.  We claim that $e$ is a bijection.  Recall that
+  there is a natural isomorphism $i:1\times 1\to 1$.  Consider the
+  following diagram:
+  \[ \begin{tikzcd}
+    1\times X^1 \arrow{r}{e} & X \\
+    1\times 1 \arrow{u}[left]{1\times x^\sharp} \arrow{r}{i} & 1
+    \arrow{u}[right]{x} \end{tikzcd} \] That is, for any element
+  $x:1\to X$, there is a unique element $x^\sharp$ of $X^1$ such that
+  $e(1\times x^\sharp)=x$.  Thus, $e$ is a bijection, and $X\cong
+  1\times X^1$ is isomorphic to $X$.
+\end{proof}
+
+%% the following is true in any category?  no need to invoke elements?
+
+\begin{prop} For any set $X$ we have $X^0\cong 1$. \end{prop}
+
+\begin{proof} Elements of $X^\es$ correspond functions $\es\to X$.
+  There is exactly one such function, hence $X^{\es}$ has exactly one
+  element $x:1\to X^{\es}$.  Thus, $x$ is a bijection, and
+  $X^{\es}\cong 1$.
+\end{proof}
+
+\begin{prop} For any sets $A,X,Y$, we have $(X\times Y)^A\cong
+  X^A\times Y^A$. \end{prop}
+
+\begin{proof} An elegant proof of this proposition would note that
+  $(-)^A$ is a functor, and is right adjoint to the functor $A\times
+  (-)$.  Since right adjoints preserve products, $(X\times Y)^A\cong
+  X^A\times Y^A$.  Nonetheless, we will go into further detail.
+
+  By uniqueness of Cartesian products, it will suffice to show that
+  $(X\times Y)^A$ is a Cartesian product of $X^A$ and $Y^A$, with
+  projections $\pi _0^A$ and $\pi _1^A$.  Let $Z$ be an arbitrary set,
+  and let $f:Z\to X^A$ and $g:Z\to Y^A$ be functions.  Now take
+  $\gamma = \langle f^\flat ,g^\flat \rangle ^\sharp$, where
+  $f^\flat:A\times Z\to X$ and $g^\flat:A\times Z\to Y$.
+  \[ \begin{tikzcd} & Z \arrow[bend right,ddl,"f"'] \arrow[bend
+    left,ddr,"g"]
+    \arrow[dashed,d,"\gamma"] \\
+    & (X\times Y)^A \arrow[dl,"\pi _0^A"] \arrow[dr,"\pi _1^A"'] \\
+    X^A & & Y^A \end{tikzcd} \] We claim that $\pi _0^A\gamma =f$ and
+  $\pi _1^A\gamma = g$.  Indeed,
+  \[ \pi _0^A\circ \gamma = \pi _0^A \circ \langle f^\flat ,g^\flat
+  \rangle ^\sharp = (\pi _0\circ \langle f^\flat ,g^\flat \rangle
+  )^\sharp = (f^\flat )^\sharp = f .\] Thus, $\pi _0^A\gamma =f$, and
+  similarly, $\pi _1^A\gamma =g$.
+
+Suppose now that $h:Z\to (X\times Y)^A$ such that $\pi _0^Ah=f$ and
+$\pi _1^Ah=g$.  Then 
+\[ f = \pi _0^A\circ (h^\flat )^\sharp = (\pi _0\circ h^\flat )^\sharp
+.\] Hence, $\pi _0\circ h^\flat=f^\flat$, and similarly, $\pi _1\circ
+h^\flat=g^\flat$.  That is, $h^\flat = \langle f^\flat
+,g^\flat\rangle$, and $h=\langle f^\flat ,g^\flat \rangle^\sharp
+=\gamma$.
+\end{proof}
+
+
+\begin{prop} For any sets $A,X,Y$, we have $A\times (X\cpr Y)\cong
+  (A\times X)\cpr (A\times Y)$. \end{prop}
+
+\begin{proof} Even without Axiom \ref{ax:expo}, there is always a
+  canonical function from $(A\times X)\cpr (A\times Y)$ to $A\times
+  (X\cpr Y)$, namely $\phi :=(1_A\times i_0)\cpr (1_A\times i_1)$, where $i_0$
+  and $i_1$ are the coproduct inclusions of $X\cpr Y$.  That is,
+  \[ \phi \circ j_0=1_A\times i_0,\qquad \text{and} \qquad \phi\circ
+  j_1=1_A\times i_1 ,\] where $j_0$ and $j_1$ are the coproduct
+  inclusions of $(A\times X)\cpr (A\times Y)$. 
+
+\[ \begin{tikzcd}
+ & X\cpr Y  \\
+X \arrow[ur,"i_0"]  &  A\times (X\cpr Y) \arrow[u,"p_1"] &  Y
+\arrow[ul,"i_1"'] \\
+A\times X \arrow[ur,"1_A\times i_0"] \arrow[r,"j_0"'] \arrow[u,"q_1"]  &  (A\times X)\cpr (A\times
+Y) \arrow[dashed,u,"\phi"] & A\times Y
+\arrow[l,"j_1"] \arrow[ul,"1_A\times i_1"'] \arrow[u,"r_1"'] \
+\end{tikzcd} \] We will show that Axiom \ref{ax:expo} entails that
+$\phi$ is invertible.  
+
+Let $g:A\times (X\cpr Y)\to A\times (X\cpr Y)$ be the identity, i.e.\
+$g=1_{A\times (X\cpr Y)}$.  Then $g^\sharp :X\cpr Y\to (A\times (X\cpr
+Y))^A$ is the unique function such that $e(1_A\times g^\sharp)=g$.  By
+Proposition \ref{zuerst},
+\[ (g^\sharp \circ i_0)^\flat = g\circ (1_A\times i_0) = 1_A\times i_0
+.\]  Similarly, $(g^\sharp\circ i_1)^\flat = 1_A\times i_1$.  Thus,
+\[ g^\sharp \: = \: (1_A\times i_0 )^\sharp \cpr  (1_A\times i_1)^\sharp
+.\] We also have $(1_A\times i_0)^\sharp = (\phi\circ j_0 )^{\sharp} =
+\phi ^A\circ j_0^\sharp$, and $(1^A\times i_1)^\sharp = \phi ^A\circ
+j_1^\sharp$.  Hence
+\[ g^\sharp \: = \: (\phi ^A\circ j_0^\sharp ) \cpr  (\phi ^A\circ
+j_1^\sharp ) \: = \: \phi ^A\circ (j_0^\sharp \cpr j_1^\sharp ) .\] Now
+for the inverse of $\phi$, we take $\psi = (j_0^\sharp\cpr j_1^\sharp
+)^\flat$.
+\[ \begin{tikzcd}
+& ((A\times X)\cpr (A\times Y))^A \\
+& X\cpr Y \arrow[dashed,u,"j_0^\sharp\cpr j_1^\sharp"] \\
+X \arrow[ur,"i_0"'] \arrow[uur,"j_0^\sharp"] & & Y
+\arrow[uul,"j_1^\sharp"'] \arrow[ul,"i_1"] \end{tikzcd} \] It then follows that
+\[ (\phi \circ \psi )^\sharp \:=\: \phi ^A\circ (j_0^\sharp
+\cpr j_1^\sharp ) \: = \: g^\sharp , \] and therefore $\phi\circ\psi
+=1_{A\times (X\cpr Y)}$.  Similarly, \[ (\psi\circ\phi\circ
+j_0)^\sharp=\psi ^A\circ (\phi \circ j_0)^\sharp = \psi ^A\circ
+g^\sharp\circ i_0 = \psi^\sharp\circ i_0= j_0^\sharp . \] Thus,
+$\psi\circ\phi\circ j_0=j_0$, and a similar calculation shows that
+$\psi\circ\phi\circ j_1=j_1$.  It follows that $\psi\circ\phi
+=1_{(A\times X)\cpr (A\times Y)}$.  Thus, $\psi$ is a two-sided inverse
+for $\phi$, and $A\times (X\cpr Y)$ is isomorphic to $(A\times X)\cpr (A\times
+Y)$. \end{proof}
+
+% Since $X^A$ is the set of functions from $A$ to $X$, if we have a
+% function $f:B\to A$, then precomposition with $f$ should give a
+% function from $X^A$ to $X^B$.
+
+% \begin{defn} Let $f:B\to A$ be a function.  We define a function
+%   $X^f:X^B\to X^A$ as follows.  First consider the composite function
+%   $e_X\circ (f\times 1)$:
+%   \[ \begin{tikzcd} B\times X^A \arrow[r,"f\times 1"] & A\times X^A
+%     \arrow[r,"e_X"] & X
+% \end{tikzcd} \] Then apply the sharp operation to obtain a function
+% $X^f:X^A\to X^B$.
+% \end{defn}
+
+% \begin{prop} Suppose that $g:Y\to X^A$ and $X^f:X^A\to X^B$.  Then
+%   $(X^f\circ g)^\flat = g^\flat \circ (f\times
+%   1_Y)$. \label{zweit} \end{prop}
+
+% TO DO
+
+
+%% Question: given an endomorphism $f:X\to X$, can we define a
+%% subobject of $X^A$, those 'functions' that commute with $f$?  As a
+%% specific example, can we define the set of fixed points of $f$?
+
+\newcommand{\sub}[1]{\mathrm{Sub}(#1)}
+
+\begin{defn}[Powerset] If $X$ is a set, we let $\2P X =\Omega
+  ^X$.  \end{defn}
+
+Intuitively speaking, $\2P X$ is the set of all subsets of $X$.  For
+example, if $X=\{ a,b\}$, then $\2P X=\{ \emptyset ,\{a \} ,\{ b\} ,\{
+a,b\} \}$.  More rigorously, each element of $\Omega ^X$ corresponds
+to a function $1\to \Omega ^X$, which in turn corresponds to a
+function $X\cong 1\times X\to\Omega$, which corresponds to a subobject
+of $X$.  Thus, we can think of $\2P X$ as another name for $\sub{X}$,
+although $\sub{X}$ is not really an object in $\cat{Sets}$.
+
+% It is easy to verify, however, that the structure we've defined on
+% $\sub{X}$ is internally definable on $\Omega ^X$.  For example, recall
+% that the intersection operation $A,B\mapsto A\cap B$ was defined in
+% terms of the composite $\wedge \langle \chi _A,\chi _B\rangle$.
+% Similarly, we define intersection on $(\Omega ^X\times \Omega ^X)\cong
+% (\Omega\times\Omega )^X$ as follows: TO DO
+
+
+
+
+
+
+
+\section{Cardinality}
+
+%% TO DO: define infinite
+
+{\it Summary:} When mathematics was rigorized in the 19th century, one
+of the important advances was a rigorous definition of ``infinite
+set.''  It came as something of a suprise that there are different
+sizes of infinity, and that some infinite sets (e.g.\ the real
+numbers) are strictly larger than the natural numbers.  In this
+section, we define ``finite'' and ``infinite.''  We then add an axiom
+which says there is a specific set $N$ that behaves like the natural
+numbers; in particular, $N$ is infinite.  Finally, we show that the
+powerset $\2P X$ of a set $X$ is always larger than $X$.
+
+\begin{defn} A set $X$ is said to be \emph{finite} if and only if for
+  any function $m:X\to X$, if $m$ is monic, then $m$ is an
+  isomorphism.  A set $X$ is said to be \emph{infinite} if and only if
+  there is a function $m:X\to X$ that is monic and not
+  surjective. \end{defn}
+
+We are already guaranteed the existence of finite sets: for example,
+the terminal object $1$ is finite, as is the subobject classifier
+$\Omega$.  But the axioms we have stated thus far do not guarantee the
+existence of any infinite sets.  We won't know that there are infinite
+sets until we add the ``natural number object'' axiom below.
+
+% \begin{prop} $X$ is infinite if and only if there is a function
+%   $g:X\to X$ that is surjective but not injective. \end{prop}
+
+% %% do we know yet that we can define functions such as $g'$ below?
+
+% \begin{proof} Suppose that $X$ is infinite, that is, there a function
+%   $f:X\to X$ that is injective but not surjective.  Then there is a
+%   surjective function $g:f(X)\to X$.  Pick an arbitrary point $x_0\in
+%   X$, and define $g':X\to X$ by letting $g'$ agree with $g$ on $f(X)$,
+%   and $g'(x)=x_0$ for $x\in X\backslash f(X)$.  Then $g'$ is
+%   surjective since $g:f(X)\to X$ is surjective.  But $g'$ is not
+%   injective.  \end{proof}
+
+% \begin{prop} If $X$ is infinite then $X\backslash \{ x\}$ is infinite,
+%   for any $x\in X$.  \end{prop}
+
+% \begin{proof} Let $X$ be infinite, and let $f:X\to X$ be injective but
+%   not surjective.  Fix $x_0\in X$.  Since $f$ is not surjective, there
+%   is a $y\in X\backslash f(X)$.  We may, in fact, suppose that $y\neq
+%   x_0$; because there is a permutation $p$ of $X$ such that
+%   $p(x_0)\neq x_0$ and $p\circ f$ is also injective but not
+%   surjective.
+
+%   If $f(y)$ were in the image of $f\circ f$, then we would have
+%   $f(y)=f(f(z))$ for some $z$, and since $f$ is injective $y=f(z)$,
+%   contradicting the fact that $y$ is not in the image of $f$.
+%   Therefore, neither $y$ nor $f(y)$ is in the image of $f\circ f$.
+%   Moreover, $y\neq f(y)$ since $y$ is not in the image of $f$.
+
+%   Let $g$ be $f\circ f$ restricted to $X\backslash\{ x_0\}$.  If $x_0$
+%   is in the image of $g$, then replace $g$ with $q\circ g$, where
+%   $q:X\to X$ is a permutation that switches $x_0$ and $f(y)$.  Call
+%   the resulting function $g$ again, but now think of $g$ as a function
+%   from $X\backslash\{ x_0\}$ to $X\backslash\{ x_0\}$.  Then $g$ is
+%   injective, but $y$ is not in the image of $g$.  \end{proof}
+
+% \begin{cor} If $X$ is infinite then $X\backslash\{ x_1,\dots ,x_n\}$
+%   is infinite. \end{cor}
+
+% \begin{exercise} Use mathematical induction to prove the
+%   corollary. \end{exercise}
+
+
+\begin{defn} We say that $Y$ is at least as large as $X$, written
+  $|X|\leq |Y|$, just in case there is a monomorphism $m:X\to
+  Y$.  \end{defn}
+
+\begin{prop} $|X|\leq |X\cpr Y|$. \end{prop}
+
+\begin{proof} Proposition \ref{coprod-monic} shows that $i_0:X\to
+  X\cpr Y$ is monic.  \end{proof}
+
+\begin{prop} If $Y$ is non-empty, then $|X|\leq |X\times
+  Y|$. \end{prop}
+
+\begin{proof} Consider the function $\langle 1_X,f\rangle :X\to
+  X\times Y$, where $f:X\to 1\to Y$. \end{proof}
+
+
+
+
+
+
+\begin{axi}[Natural Number Object]{ax:nno} There is an object $N$, and
+  functions $z:1\to N$ and $s:N\to N$ such that for any other set $X$
+  with functions $q:1\to X$ and $f:X\to X$, there is a unique function
+  $u:N\to X$ such that the following diagram commutes:
+\[ \begin{tikzcd} 
+1 \arrow[r,"z"] \arrow[rd,"q"'] & N \arrow[r,"s"] \arrow[d,"u"] & N \arrow[d,"u"] \\
+ & X \arrow[r,"f"] & X 
+\end{tikzcd} \] The set $N$ is called a \emph{natural number
+  object}. \label{ax:nno} \end{axi}
+
+\begin{exercise} Let $N'$ be a set, and let $z':1\to N'$ and $s':N'\to
+  N'$ be functions that satisfy the conditions in the axiom above.
+  Show that $N'$ is isomorphic to $N$. \end{exercise}
+
+% Let's consider some of the properties of these functions $1\to N\to
+% N$.  First of all, note that $s$ cannot be the identity $1_N$ of $N$.
+% Let $t:1\to\Omega$ be the true element, and let $\neg
+% :\Omega\to\Omega$ be negation, so that $\neg t=f$.  Then we are
+% promised a unique function $u:N\to \Omega$ such that the following
+% diagram commutes:
+% \[ \begin{tikzcd} 
+% 1 \arrow[r,"z"] \arrow[d] & N \arrow[r,"s"] \arrow[d,"u"] & N \arrow[d,"u"] \\
+% 1 \arrow[r,"t"] & \Omega \arrow[r,"\neg"] & \Omega 
+% \end{tikzcd} \] If $s=1_N$, then $\neg u=u$, which means that the
+% subobject corresponding to $u$ is its own complement.  In this case,
+% we would have $N=0$, contradicting the fact that $z:1\to N$.
+
+
+% Let $X_4=1\cpr 1\cpr 1\cpr 1$, with its four distinct coprojections $i_j:1\to
+% X_4$.  Since $X_4$ has four elements, we will write $X_4=\{
+% 0,1,2,3\}$.  By using the properties of the coproduct, it's clear that
+% there is a function $f:X_4\to X_4$ with the feature that $f(x)=x\cpr 1$
+% for $x<3$, and $f(3)=3$.  Now consider the diagram:
+% \[ \begin{tikzcd}
+%   & N \arrow[r,"s"] \arrow[dd,"u"] & N \arrow[dd,"u"] \\
+%   1 \arrow[ur,"z"] \arrow[dr,"i_0"'] \\
+%   & X_4 \arrow[r,"f"] & X_4 \end{tikzcd} \] Thus, $u(z)=0$,
+% $u(s(z))=f(u(z))=1$, etc..  Clearly, $u$ is surjective. 
+
+
+
+
+\begin{prop} $z\cpr s:1\cpr N\to N$ is an
+  isomorphism. \label{nno-coproduct}
+\end{prop}
+
+\begin{proof} Let $i_0:1\to 1\cpr N$ and $i_1:N\to 1\cpr N$ be the
+  coproduct inclusions.  Using the NNO axiom, there is a unique
+  function $g:N\to 1\cpr N$ such that the following diagram commutes:
+  \[ \begin{tikzcd}[column sep=large] 1 \arrow[r,"z"]
+    \arrow[dr,"i_0"'] & N \arrow[r,"s"] \arrow[d,"g"] & N
+    \arrow[d,"g"] \\
+    & 1\cpr N \arrow[r,"i_1z\cpr i_1s"'] & 1\cpr N \end{tikzcd} \] We will
+  show that $g$ is a two-sided inverse of $z\cpr s$.  To this end,
+  we first establish that $g\circ s=i_1$.  Consider the following
+  diagram:
+  \[ \begin{tikzcd}
+    & N \arrow[r,"s"] \arrow[d,"s"] & N \arrow[d,"s"] \\
+    1 \arrow[ur,"z"] \arrow[r,"sz"] \arrow[dr,"i_1z"'] & N
+    \arrow[d,"g"]
+    \arrow[r,"s"] & N \arrow[d,"g"] \\
+    & 1\cpr N \arrow[r,"i_1z\cpr i_1s"] & 1\cpr N \end{tikzcd} \] The lower
+  triangle commutes because of the commutativity of the previous
+  diagram.  Thus, the entire diagram commutes.  The outer triangle and
+  square would also commute with $i_1$ in place of $g\circ s$.  By the
+  NNO axiom, $g\circ s=i_1$.  Now, to see that $(z\cpr s)\circ
+  g=1_N$, note first that
+\[ (z\cpr s)\circ g\circ z = (z\cpr s)\circ i_0 = z .\]
+Furthermore,
+\[ (z\cpr s)\circ g\circ s = (z\cpr s)\circ i_1 = s .\] Thus the
+NNO axiom entails that $(z\cpr s)\circ g=\mathrm{id}_N$.  Finally,
+to see that $g\circ (z\cpr s)=\mathrm{id}_{1\cpr N}$, we calculate:
+\[ g\circ (z\cpr s)\circ i_0 = g\circ z = i_0 .\]
+Furthermore, 
+\[ g\circ (z\cpr s)\circ i_1 = g\circ s = i_1 .\] Therefore, $g\circ
+(z\cpr s)=\mathrm{id}_{1\cpr N}$.  This establishes that $g$ is a
+two-sided inverse of $z\cpr s$, and $1\cpr N$ is isomorphic to $N$.
+\end{proof}
+
+
+\begin{prop} The function $s:N\to N$ is injective, but not surjective.
+  Thus, $N$ is infinite. \label{succ-monic} \end{prop}
+
+\begin{proof} By Proposition \ref{coprod-monic}, the function
+  $i_1:N\to 1\cpr N$ is monic.  Since the images of $i_0$ and $i_1$
+  are disjoint, $i_0$ is not surjective.  Since $z\cpr s$ is an
+  isomorphism, $(z\cpr s)\circ i_1=s$ is monic, but not surjective.
+  Therefore, $N$ is infinite.
+\end{proof}
+
+
+
+
+% [[The Peano axioms]]
+
+% The definition of $N$ includes the zero element $0\in N$.  
+
+% We are now going to define addition of natural numbers as a function
+% $+:N\times N\to N$.  Consider the following diagram:
+% \[ \begin{tikzcd} 1 \arrow[r,"0"] \arrow[dr,"1_N^\sharp"'] & N
+%   \arrow[r,"s"]
+%   \arrow[d,"g"] & N \arrow[d,"g"] \\
+%   & N^N \arrow[r,"N^s"] & N^N \end{tikzcd} \] Intuitively, $g$ takes a
+% natural number $n$, and produces a function $g_n:N\to N$ such that
+% $g_n(x)=(s\circ \cdots \circ s)(x)=x+n$.  [Since $s$ is monic, so is
+% $g_n$.]  Thus,
+% \[ g^\flat (x,y) = g_x(y) = x+y .\] 
+% More rigorously, if we let $p=g^\flat$, then we have:
+
+% % \begin{prop} $p\circ (s\times 1_N)=s\circ p$ and $p\circ (1_N\times
+% %   s)=s\circ p$.  \end{prop}
+
+% % \begin{proof} By Propositions \ref{zuerst} and \ref{zweit}, we have
+% % \[ g^\flat \circ (1_N\times s) = (g\circ s)^\flat =(N^s\circ g)^\flat
+% % = (s^N\circ g)^\flat =   .\]
+% % \end{proof}
+
+% % \begin{exercise} Show that $+$ is commutative.  Show that $+$ is the
+% %   unique function from $N\times N$ to $N$ such that $0+0=0$, and both
+% %   $s(x)+y=s(x+y)$ and $x+s(y)=s(x+y)$.  [Warning: this is more of a
+% %   project than an exercise.] \end{exercise}
+
+% A similar maneuver can be used to define multiplication as a function
+% $m:N\times N\to N$.  However, for now, we merely note that
+% multiplication by $2$ can be defined as the composition of $+:N\times
+% N\to N$ with the diagonal $\delta _N:N\to N\times N$.
+
+% \begin{prop} Let $f:X\to N$ be a function such that $0=f(x)$, for some
+%   $x\in X$, and for each $n\in N$, $s(n)=f(y)$ for some $y\in Y$.
+%   Then $f$ is an epimorphism. \end{prop}
+
+% \begin{proof} Let $B=f(X)$ be the image of $X$ in $N$. The hypotheses
+%   say that $0\in B$, and that if $x\in B$, then $s(x)\in B$.
+%   Therefore, $B\cong N$.
+% \end{proof}
+
+% \begin{prop} $N\cpr N\cong N$.  In particular, $N\cpr N$ is
+%   countable.  \end{prop}
+
+% \begin{proof}[Sketch of proof] Consider the map $f:N\to N$ that takes
+%   each natural number $x$ to $2x$, and consider the map $g:N\to N$
+%   that takes each natural number $x$ to $2x+1$.  Then $f\cpr
+%   g:N\cpr N\to N$ is an isomorphism.
+% \end{proof}
+
+% TO DO: integers, rational numbers, real numbers --- uncountably
+% infinite
+
+
+
+\begin{prop} If $m:B\to X$ is a nonempty subobject, then there is an
+  epimorphism $f:X\to B$.  \label{retraction} \end{prop}
+
+\begin{proof} Since $B$ is nonempty, there is a function
+  $g:X\backslash B\to B$.  By Proposition \ref{xmid}, $B\cong B\cpr
+  X\backslash B$.  Finally, $1_B\cpr g:B\cpr X\backslash B\to B$ is an
+  epimorphism, since $1_B$ is an epimorphism. \end{proof}
+
+% TO DO: Pullback of a monic is monic.  In any category, if $f$ and $g$
+% are monic, then $f\times g$ is monic.  3. Are the projections $\pi _0$
+% and $\pi _1$ epi?
+
+% \begin{prop} If $X$ is infinite, then $X\times X$ is
+%   infinite. \end{prop}
+
+% \begin{proof} Suppose that $m:X\to X$ is monic but not surjective.
+%   Then $m\times m$ is monic.  We claim that $m\times m$ is not
+%   epi.  
+
+
+% \end{proof}
+
+\begin{defn} We say that a set $X$ is \emph{countable} just in case
+  there is an epimorphism $f:N\to X$, where $N$ is the natural
+  numbers. \end{defn}
+
+\begin{prop} $N\times N$ is countably infinite. \end{prop}
+
+\begin{proof}[Sketch of proof] We will give two arguments: one quick,
+  and one slow (but hopefully more illuminating).  For the quick
+  argument, define a function $g:N\times N\to N$ by $g(x,y)=2^x3^y$.
+  If $\langle x,y\rangle \neq \langle x',y'\rangle$, then either
+  $x\neq x'$ or $y\neq y'$.  In either case, unique factorizability of
+  integers gives $2^x3^y\neq 2^{x'}3^{y'}$.  Therefore, $g:N\times
+  N\to N$ is monic.  Since $N\times N$ is nonempty, Proposition
+  \ref{retraction} entails that there is an epimorphism $f:N\epi
+  N\times N$.  Therefore, $N\times N$ is countable.
+
+  %% TO DO: Do we need Cantor Bernstein here?  Can we prove
+  %% Cantor-Bernstein in ETCS?
+  %% Or perhaps just show: if $N ->> X$, then either $X$ is finite, or
+  %% $X$ is countable.
+
+%% perhaps use recursion to define the following:
+
+  Now for the slow argument.  Imagine writing down all elements in
+  $N\times N$ in an infinite table, whose first few elements look like
+  this:
+\[ \left( \begin{array}{ccccc} \langle 0,0\rangle & \langle 1,0\rangle
+    & \langle 2,0\rangle & \cdots
+    \\
+    \langle 0,1\rangle & \langle 1,1\rangle & \langle 2,1\rangle &
+    \cdots
+    \\
+    \langle 0,2\rangle & \langle 1,2\rangle & \langle 2,2\rangle &
+    \cdots
+    \\
+    \vdots & \vdots & \vdots & \vdots \end{array} \right. \] Now
+imagine running a thread diagonally through the numbers: begin with
+$\langle 0,0\rangle$, then move down to $\langle 1,0\rangle$ and up to
+$\langle 0,1\rangle$, then over to $\langle 2,0\rangle$ and down its
+diagonal, etc.. This process defines a function $f:N\to N\times N$
+whose first few values are
+\[ \begin{array}{lll}
+  f(0) = \langle 0,0\rangle \\
+  f(1) = \langle 0,1\rangle \\
+  f(2) = \langle 1,0\rangle \\
+  \vdots \end{array} \] It is not difficult to show that $f$ is
+surjective, and so $N\times N$ is countable. \end{proof}
+
+\begin{exercise} Show that if $A$ and $B$ are countable then $A\cup B$
+  is countable. \end{exercise}
+
+
+We're now going to show that exponentiation allows us to construct
+sets of larger and larger size.  In the case of finite sets $A$ and
+$X$, it's easy to see that the following equation holds:
+\[ |A^X| \: = \: |A|^{|X|} ,\] where $|X|$ denotes the number of
+elements in $X$.  In particular, $\Omega ^X$ can be thought of as the
+set of binary sequences indexed by $X$.  We're now going to show that
+for any set $X$, the set $\Omega ^X$ is larger than $X$.
+
+\begin{defn} Let $g:A\to A$ be a function.  We say that $a\in A$ is a
+  \emph{fixed point} of $g$ just in case $g(a)=a$.  We say that $A$
+  has the \emph{fixed point property} just in case any function
+  $g:A\to A$ has a fixed point. \end{defn}
+
+\begin{prop} Let $A$ and $X$ be sets.  If there is a surjective
+  function $p:X\to A^X$, then $A$ has the fixed point
+  property. \label{cantor} \end{prop}
+
+\begin{proof} Suppose that $p:X\to A^X$ is surjective.  That is, for
+  any function $f:X\to A$, there is an $x_f\in X$ such that
+  $f=p(x_f)$.  Let $\vp =p^\flat$, so that $f=\vp (x_f,-)$.  Now let
+  $g:A\to A$ be any function.  We need to show that $g$ has a fixed
+  point.  Consider the function $f:X\to A$ defined by $f=g\circ \vp
+  \circ \delta _X$, where $\delta _X:X\to X\times X$ is the diagonal
+  map.  Then we have
+  \[ g\vp (x,x) \: = \: f(x) \: = \: \vp (x_f,x) ,\] for all $x\in X$.
+  In particular, $g\vp (x_f,x_f)=\vp (x_f,x_f)$, which means that
+  $a=\vp (x_f,x_f)$ is a fixed point of $g$.  Since $g:A\to A$ was
+  arbitrary, it follows that $A$ has the fixed point property.
+\end{proof}
+
+\begin{prop} There is no surjective function $X\to \Omega
+  ^X$. \end{prop}
+
+%% TO DO: what does this tell us about cardinality?
+
+\begin{proof} The function $\Omega\to \Omega$ that permutes $\tr$ and
+  $\f$ has no fixed points.  The result then follows from Proposition
+  \ref{cantor}. \end{proof}
+
+\begin{exercise} Show that there is an injective function $X\to \Omega
+  ^X$.  [The proof is easy if you simply think of $\Omega ^X$ as
+  functions from $X$ to $\{ \tr ,\f\}$.  For a bigger challenge, try
+  to prove that it's true using the definition of the exponential set
+  $\Omega ^X$.]  \end{exercise}
+
+
+
+
+\begin{cor} For any set $X$, the set $\2P X$ of its subsets is
+  strictly larger than $X$. \end{cor}
+
+
+There are several other facts about cardinality that are important for
+certain parts of mathematics --- in our case, they will be important
+for the study of topology.  For example, if $X$ is an infinite set,
+then the set $\2F X$ of all finite subsets of a set $X$ has the same
+cardinality as $X$.  Similarly, a countable coproduct of countable
+sets is countable.  However, these facts --- well known from ZF set
+theory --- are not obviously provable in ETCS.
+
+\begin{disc} Intuitively speaking, $X^N$ is the set of all sequences
+  with values in $X$.  Thus, we should have something like
+  \[ X^N \: \cong \: X\times X\times \cdots \] However, we don't have
+  any axiom telling us that $\cat{Sets}$ has infinite products such as
+  the one on the right hand side above.  Can it be proven that $X^N$
+  satisfies the definition of an infinite product?  In other words,
+  are there projections $\pi _i:X^N\to X$ which satisfy an appropriate
+  universal property? \end{disc}
+
+
+
+
+
+
+%% conjecture: N is the colimit of the X_i
+
+%% conjecture: if $X$ is infinite, then there is a monic $f:N\to X$.
+
+
+%% TO DO: define set of all finite subsets of a set ... initial
+%% segments of $N$
+%% conjecture: every finite set is isomorphic to 1+...+1.
+
+
+
+% Some sets are so big that they are not countable.  For example, a
+% famous proof by Georg Cantor shows that the set $\mathbb{R}$ of real
+% numbers is uncountable.  The proof goes something like this: consider
+% the set $S$ of all numbers of the form $0.a_1a_2a_3\cdots $ where each
+% $a_i$ is equal to $0$ or $1$.  These numbers all lie in the interval
+% $[0,1]$ in $R$.  If we can show that there is no surjection $N\to S$,
+% then there is no surjection $N\to R$.  Suppose for reductio ad
+% absurdum that there is a surjection $s:\mathbb{N}\to S$.  So, for each
+% $i\in \mathbb{N}$, $s_i$ is an element of $S$.  We let $s_{ij}$ denote
+% the $j$-th term in the decimal expansion of $s_i$.  We claim that
+% there is some $z\in S$ that is not in the image of $s$.  Indeed,
+% define
+% $$ z = 0.\overline{s}_{11}\overline{s}_{22}\overline{s}_{33}\cdots ,$$
+% where $\overline{s}_{ii}$ is the opposite of $s_{ii}$.  Then $z\neq
+% s_i$ for all $i$, since the $i$-th term of $z$ doesn't equal the
+% $i$-th term of $z_i$.  
+
+
+
+% \begin{prop} Let $m:B\to N$ be a subobject such that $a\in B$, and
+%   $s(B)\subseteq B$.  Then $m$ is an isomorphism. \end{prop}
+
+% \begin{proof} Suppose that $a\in B$, and $s(B)\subseteq B$.  Since
+%   $a\in B$, $a:1\to N$ factors uniquely through $m:B\to N$.  Since
+%   also $s(B)\subseteq B$, there is a function $g:B\to B$ such that the
+%   bottom square and triangle commute.  [Here $g$ is simply the
+%   restriction of $s$ to $B$.]
+%   \[ \begin{tikzcd}
+%     & N \arrow[r,"s"] \arrow[d,"u"] & N \arrow[d,"u"] \\
+%     1 \arrow[ur,"a"] \arrow[dr,"a"'] \arrow[r] & B \arrow[r,"g"]
+%     \arrow[d,"m"] &
+%     B \arrow[d,"m"] \\
+%     & N \arrow[r,"s"] & N \end{tikzcd} \] By the NNO axiom, there is a
+%   $u:N\to B$ that makes the top triangle and square commute.  Invoking
+%   the NNO axiom again, there is a unique $f:N\to N$ such that $fa=a$
+%   and $fs=sf$.  Since both $mu$ and $1_N$ have this feature, $mu=1_N$.
+%   Thus, $m$ is a split epimorphism.  Since $m$ is also monic, $m$ is
+%   an isomorphism. \end{proof}
+
+% \begin{prop} Suppose that $f,g:N\rightrightarrows X$ such that
+%   $fa=ga$, and for all $x\in N$, $(fx=gx\Rightarrow f(sx)=g(sx))$.
+%   Then $f=g$. \label{supervene} \end{prop}
+
+% \begin{proof} Suppose that $fa=ga$, and for all $x\in N$,
+%   $(fx=gx\Rightarrow f(sx)=g(sx))$.  Let $m:B\to N$ be the equalizer
+%   of $f$ and $g$.  Since $fa=ga$, we have $a\in B$.  If $y\in S(B)$,
+%   then $y=sx$, with $x\in B$.  Thus, $fx=gx$.  By assumption,
+%   $f(sx)=g(sx)$, hence $y=sx\in B$.  Thus, $S(B)\subseteq B$, and the
+%   previous proposition entails that $m$ is an isomorphism.  Therefore,
+%   $f=g$.  \end{proof}
+
+
+
+
+
+
+%% TO DO: construct rational numbers, real numbers
+
+
+
+
+
+
+
+
+
+\section{The axiom of choice}
+
+The axioms we've given so far correspond roughly to what's typically
+called Zermelo-Fraenkel (ZF) set theory.  In recent years it has
+become routine to supplement ZF with a further axiom, the so-called
+{\it axiom of choice}.  (The axiom of choice is regularly used in
+fields such as functional analysis, e.g.\ to prove the existence of an
+orthonormal basis for Hilbert spaces of arbitrarily large dimension.)
+While the name of this axiom suggests that it has something to do with
+our choices, in fact it really just asserts the existence of further
+sets.  Following our typical procedure in this chapter, we will
+provide a structural version of the axiom.
+
+\begin{defn} Let $f:X\to Y$ be a function.  We say that $f$ is a
+  \emph{split epimorphism} just in case there is a function $s:Y\to X$
+  such that $fs=1_Y$. In this case, we say that $s$ is a
+  \emph{section} of $f$. \end{defn}
+
+\begin{exercise} Prove that if $f$ is a split epimorphism, then $f$ is
+  a regular epimorphism.  Prove that if $s$ is a section, then $s$ is
+  a regular monomorphism. \end{exercise}
+
+\begin{axi}[Axiom of choice]{ax:choice}
+  Every epimorphism in $\cat{Sets}$ has a section. \end{axi}
+
+A more typical formulation of the axiom of choice might say that for
+any set-indexed collection of sets, say $\{ X_i\mid i\in I\}$, the
+product set $\prod _{i\in I}X_i$ is non-empty.  To translate that
+version of the axiom of choice into our version, suppose that the sets
+$X_i$ are stacked side by side, and that $f$ is the map that projects
+each $x\in X_i$ to the value $i$.  Then a section $s$ of $f$ is a
+function with domain $I$ that returns an element $s(i)\in X_i$ for
+each $i\in I$.  If such a function exists, then $\prod _{i\in I}X_i$
+is non-empty.
+
+In this book, we will never have to invoke the full axiom of choice.
+However, we will use a couple of weaker versions of it, specifically
+in the proofs of the completeness theorems for propositional and
+predicate logic.  For propositional logic, we will assume the Boolean
+prime ideal theorem; and for predicate logic, we will use a version of
+the axiom of dependent choices to prove the Baire category theorem.
+
+
+
+\section{Notes}
+
+\begin{itemize}
+\item There are many good books on category theory.  The classic
+  reference is \citep{cwm}, but it can be difficult going for
+  philosophers without extensive mathematical training.  We also find
+  the following useful: \citep{borceux,awodey-book,vanoosten}.  The
+  latter two are good entry points for philosophers with some previous
+  training in formal logic.
+\item The elementary theory of the category of sets (ETCS) was first
+  presented by \cite{lawvere-etcs}.  For pedagogical presentations,
+  see \cite{lawvere-sets,leinster}.
+\end{itemize}
+
+
+%% to do: proof by induction
+
+
+
+
+% \begin{prop} $X$ is non-empty if and only if $X\to 1$ is
+%   epi. \label{el-epi} \end{prop}
+
+% \begin{proof} ($\Rightarrow$) Let $x:1\to X$, and let $f:X\to 1$ be
+%   the unique function.  Then $fx:1\to 1$ is an isomorphism, hence epi.
+%   Therefore, $f$ is epi.
+
+%   ($\Leftarrow$) Suppose that $\eta _X:X\to 1$ is epi.  By the Axiom
+%   of choice, $\eta _X$ has a section $x:1\to X$.  Therefore, $X$ is
+%   non-empty. \end{proof}
+
+
+
+%% is Sets a regular category?  must show that regular epis are stable
+%% under pullback.  Would suffice to show that all epis are regular!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%% TO DO: image factorization -- regular epimorphisms
+
+
+%% TO DO: 0 is unique without elements
+
+%% TO DO: Every monic (from nonempty) has a retraction
+
+%% TO DO: balanced -- monic + epi => iso
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% \begin{facts} Given a function $f:X\to Y$, and a subset $A\subseteq
+%   X$, we define
+%   \[ f(A) \:= \: \{ y\in Y \mid \exists x\in A.f(x)=y \} .\] Given a
+%   subset $B\subseteq Y$, we define
+% \[ f^{-1}(B) \: = \: \{ x\in X \mid \exists y\in B.f(x)=y \} .\]
+% Then the following hold of $f^{-1}$ and $f$. \end{facts}
+
+% \begin{enumerate}
+
+% \item $f^{-1}$ is order preserving: if $A\subseteq B$ then
+%   $f^{-1}(A)\subseteq f^{-1}(B)$.
+
+%   Proof: Let $x\in f^{-1}(A)$.  Then $f(x)\in A\subseteq B$.
+%   Therefore $x\in f^{-1}(B)$.
+
+% \item $A\subseteq f^{-1}(f(A))$.
+
+% Let $x\in A$.  Then $x\in f^{-1}\{ f(x) \}\subseteq f^{-1}(f(A))$.
+% Thus, $x\in f^{-1}(f(A))$.  
+
+% The inclusion is not reversible.  For example, let $f:2\to 1$, and let
+% $A$ be a singleton subset of $2$.  Then $f(A)=1$, and hence
+% $f^{-1}(f(A))=2$.
+
+% \item If $f$ is injective, then $f^{-1}(f(A))=A$.
+
+%   Let $x\in f^{-1}(f(A))$.  Then there is some $y\in A$ such that
+%   $f(x)=f(y)$.  Since $f$ is injective, $x=y$, and $x\in A$.
+
+% \item $f(f^{-1}(B))\subseteq B$.
+
+%   Let $y\in f(f^{-1}(B))$.  Thus, there is an $x\in f^{-1}(B)$ such
+%   that $y=f(x)$.  Since $x\in f^{-1}(B)$, $y=f(x)\in B$.
+
+%   The inclusion is not reversible.  For example, let $f:1\to 2$, and
+%   let $B=2\backslash f(1)$.  Then $f^{-1}(B)=\emptyset$, and
+%   $f(f^{-1}(B))=\emptyset$.
+
+% \item If $f$ is surjective, then $f(f^{-1}(B))=B$.
+
+%   Let $y\in B$.  Since $f$ is surjective, there is an $x\in X$ such
+%   that $f(x)=y$.  Thus, $x\in f^{-1}(B)$ and $y=f(x)\in
+%   f(f^{-1}(B))$.  
+
+
+% \end{enumerate}
+
+
+
+
+
+
+
+% \begin{exercises} \mbox{ }\newline \begin{enumerate}
+%   \item Suppose that $A\subseteq X$.  Show that $(X\backslash A)\times
+%     Y\cong (X\times Y)\backslash (A\times Y)$.  [To keep things
+%     simple, argue in terms of elements and the relation $\in$.]
+% \item Suppose that $A_1,A_2$ are nonempty subsets of $X$, and
+%   $B_1,B_2$ are nonempty subsets of $Y$.  Show that if $A_1\times
+%   B_1\subseteq A_2\times B_2$, then $A_1\subseteq A_2$ and
+%   $B_1\subseteq B_2$. 
+% \item Suppose that $R$ and $R'$ are equivalence relations.  Show that
+%   $R\cap R'$ is an equivalence relation.  Describe the equivalence
+%   classes of $R\cap R'$.  \end{enumerate} \end{exercises}
+
+
+
+% \end{document}
+
+
+
+% \begin{defn} We say that an object $X$ is \emph{injective} just in
+%   case if $m:X\to Y$ is monic, and $f:X\to Z$ is a function, then
+%   there is a function $\overline{f}:Y\to Z$ such that
+%   $\overline{f}m=f$. 
+% \[ \begin{tikzcd} 
+% Y \arrow[dashed]{dr}{\overline{f}}  \\
+% & Z  \\
+% X \arrow[>->]{uu}{m} \arrow{ur}{f}
+% \end{tikzcd} \]
+% \end{defn}
+
+% \begin{prop} Every non-empty set is injective. \end{prop}
+
+% TO DO
+
+
+% \begin{prop} Suppose that $X$ is finite, and that $m:B\to X$ is a
+%   subobject of $X$.  Then $B$ is finite. \end{prop}
+
+% TO DO
+
+% Suppose that $f:B\to B$ is monic.  Let $g$ be the identity on
+% $X\backslash B$.  Then $f+g$ is monic.  Since $X$ is finite, $f+g$ is
+% iso.  Therefore, $f$ is iso.
+
+
+
+% \begin{prop} If $X$ is infinite, then $X$ is non-empty. \end{prop}
+
+% \begin{proof} Suppose that $X$ is empty.  Then every function $f:X\to
+%   X$ is trivially surjective.  Therefore, $X$ is not
+%   infinite. \end{proof}
+
+
+% \begin{prop} $X\cup Y$ is infinite if and only if either $X$ or $Y$ is
+%   infinite. \end{prop}
+
+
+
+
+
+
+% \section{Power sets}
+
+% TO DO: Cantor's diagonalization argument
+
+
+
+
+% TO DO: Show that coproduct maps are jointly surjective.  (Note that
+% first Lawvere paper takes this as an axiom.)
+
+% \begin{prop} Let $q_0:X\to Z$ and $q_1:Y\to Z$.  If $\{ Z,q_0,q_1\}$
+%   is a coproduct of $X$ and $Y$, then for each $z\in Z$, there is
+%   either an $x\in X$ such that $q_0(x)=z$, or there is a $y\in Y$ such
+%   that $q_1(y)=z$. \end{prop}
+
+% \begin{proof} Suppose that $z\in Z$, but there is no $x\in X$ with
+%   $q_0(x)=z$, and no $y\in Y$ with $q_1(y)=z$.  If $X$ and $Y$ were
+%   both empty, then they both would be isomorphic to the initial object
+%   Since $Z$ is non-empty, it's not possible that both $X$ and $Y$ are
+%   non-empty.  Define $f:Z\to Z$ by
+% \end{proof}
+
+
+% TO DO: complement of a subobject, Lawvere p 114
+
+% \begin{note} By Axiom \ref{ax:two}, there are exactly two functions
+%   from $1$ to $\Omega$.  Thus, by Axiom \ref{ax:classifier}, there are
+%   exactly two subobjects of $1$.  \end{note}
+
+% %% TO DO: Show that $\Omega \cong \2P (1)$
+
+
+
+% \begin{prop} The initial object $0$ is empty, i.e.\ has no
+%   elements. \label{initial-empty} \end{prop}
+
+% \begin{proof} Suppose for reductio ad absurdum that there is a
+%   function $f:1\to 0$.  Let $g:0\to 1$ be the unique function from $0$
+%   to $1$.  Then $gf=\mathrm{id}_1$, since $\mathrm{id}_1:1\to 1$ is
+%   unique.  And $fg=\mathrm{id}_0$, since $\mathrm{id}_0:0\to 0$ is
+%   unique.  Therefore, $0\cong 1$, in contradiction with Axiom
+%   \ref{nontrivial}. \end{proof}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

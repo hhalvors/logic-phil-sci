@@ -1,0 +1,581 @@
+\documentclass[11pt]{article}
+\usepackage{array,multirow,amsthm,amsmath,amssymb,url}
+% \usepackage{fullpage}
+\newcommand{\RA}{\vdash}
+\usepackage{mVersion}
+\usepackage{natbib}
+\usepackage{bussproofs}
+\usepackage{mdframed}
+\usepackage{tikz}
+\usepackage{tikz-cd}
+\title{Metatheory of Propositional Logic I}
+\author{Hans Halvorson}
+\date{\today}
+% \setlength{\parindent}{0em}
+% \setlength{\parskip}{1em}
+\swapnumbers
+\newtheorem{prop}{Proposition}
+\newtheorem{thm}[prop]{Theorem}
+\newtheorem{cor}[prop]{Corollary}
+\newtheorem{lemma}[prop]{Lemma}
+\newtheorem{claim}[prop]{Claim}
+\newtheorem{fact}[prop]{Fact}
+\newtheorem*{subthm}{Substitution Theorem}
+\newtheorem{conj}[prop]{Conjecture}
+\theoremstyle{definition}
+\newtheorem*{defn}{Definition}
+\newtheorem*{example}{Example}
+\theoremstyle{remark}
+\newtheorem{note}[prop]{Note}
+\newtheorem*{disc}{Discussion}
+\swapnumbers
+\newtheorem{exercise}{Exercise}
+% \usepackage{fbb}
+\newcommand{\df}[1]{\textbf{#1}}
+\begin{document}
+
+\section{Extensions of Theories}
+
+We'll now discuss several ways in which a theory $T$ can be extended
+to a new theory $T'$.  Recall that in our terminology, $T'$ is an
+\textbf{extension} of $T$ just in case $T\vDash \phi$ implies
+$T'\vDash \phi$ for all $\phi$ in the original language of $T$, or
+equivalently, $Cn(T)\subseteq Cn(T')$.  Here's a rough classification
+of types of extensions:
+\begin{enumerate}
+\item Adding new axioms.
+\item Adding new vocabulary. 
+\item Some combination of the above two, e.g.\ adding new vocabulary
+  and linking it to old vocabulary by means of axioms.
+\end{enumerate}
+We'll go through these case by case.
+
+\subsection{Adding new axioms}
+
+Let $\Sigma$ be a fixed signature, and let $T$ and $T'$ be theories in
+$\Sigma$ such that $T\subseteq T'$.  By definition, $T'$ is an
+extension of $T$.  Thus, the identity reconstrual $I:\Sigma\to\Sigma$
+gives rise to a translation $I:T\to T'$, which is essentially
+surjective. However, $I$ will not be conservative unless $T'$ and $T$
+have the same consequences, i.e.\ unless $T'$ is not a proper
+extension of $T$.
+
+Let's consider a couple of examples.  First, let $\Sigma = \{ p,q\}$,
+let $T$ be the empty theory, and let $T'$ be the theory with the
+single axiom $\vdash p\leftrightarrow q$.  Then $I:T\to T'$ is a
+translation, but it's clearly not conservative.  Consider also the
+dual map $I^*:\mathrm{Mod}(T')\to \mathrm{Mod}(T)$.  Clearly,
+$\mathrm{Mod}(T)$ has exactly four points, corresponding to all
+possible truth-assignments to $p$ and $q$; and $\mathrm{Mod}(T')$ has
+exactly two valuations, the one that assigns $1$ to both $p$ and $q$,
+and the one that assigns $0$ to both $p$ and $q$.  In other words,
+$\mathrm{Mod}(T')$ is the set of sub-models of $\mathrm{Mod}(T)$ that
+satisfy the additional axiom of $T'$, and $I^*:\mathrm{Mod}(T')\to
+\mathrm{Mod}(T)$ is the canonical inclusion.
+
+Second, let $\Sigma = \{ p_0,p_1,\dots \}$, let $T$ be the empty
+theory in $\Sigma$, and let $T'$ be the theory with axioms $\{
+p_0\vdash p_i :i=0,1,\dots \}$.  Then $T\subseteq T'$, and $I:T\to T'$
+is a translation.
+
+In summary, extending $T$ by adding axioms is tantamount to
+restricting $\mathrm{Mod}(T)$ to one of its proper subsets, i.e.\ to
+eliminating certain models from $\mathrm{Mod}(T)$.
+
+[[TO DO: Add picture]]
+
+These considerations raise two further questions.  First, given a
+subset $A$ of $\mathrm{Mod}(T)$, is there an extension $T'$ of $T$
+such that $A=\mathrm{Mod}(T')$?  This question is relevant to debates
+about the semantic versus syntactic view of theories.  One virtue of
+the semantic approach is supposed to be the greater flexibility
+provided by identifying theories with classes of models.  In that
+case, an arbitrary subset $A$ of $\mathrm{Mod}(T)$ can be thought of
+as corresponding to an extension of the theory $T$, even though $A\neq
+\mathrm{Mod}(T')$ for any theory $T'$.  Second, given an essentially
+surjective translation $F:T\to T'$, where $T'$ might be formulated in
+a different signature from $T$, could we still think of $T'$ as
+resulting from adding new axioms to $T$?  Let's consider these two
+questions in turn.
+
+1. For $A\subseteq \mathrm{Mod}(T)$, under what conditions is
+$A=\mathrm{Mod}(T')$, where $T'$ is an extension of $T$?  
+
+\begin{prop} Let $A\subseteq X_T$.  Then $A=X_{T'}$ for some extension
+  $T'$ of $T$ iff $A$ is a closed subset of $X_T$. \end{prop}
+
+\begin{proof} Suppose that $A$ is closed in $X_T$.  Thus, $X_T-A$ is
+  open, which means that $X_T-A=\bigcup _{i\in I}[\phi _i]$, and
+  $A=\bigcap _{i\in I}[\neg \phi _i]$.  Let $T'=\{ \neg \phi _i:i\in
+  I\}$.  Then $v\in X_{T'}$ iff $v(\neg \phi _i)=1$ for all $i\in I$,
+  iff $v\in [\neg \phi _i]$ for all $i\in A$, iff $v\in A$.
+  Therefore, $X_{T'}=A$.
+\end{proof}
+
+TO DO: Relation to Keisler characterization result.
+
+
+
+%% TO DO: what I want to say now is that A closed means precisely that
+%% A contains limits of sequences.  
+
+Recall that when $T$ is formulated in a countable signature, the Stone
+space $X$ of $T$ is first-countable --- and so closed sets are
+characterized by their containing the limits of convergent sequences.
+That is, a subset $A\subseteq X$ is closed iff for any sequence
+$(x_n)\subseteq A$, if $x_n$ converges to some $x$ in $X$, then $x\in
+A$.  Thus, we can rephrase the above proposition as follows.
+
+\begin{prop} Let $A\subseteq X_T$.  Then $A=X_{T'}$ for some extension
+  $T'$ of $T$ iff $A$ contains the limit points of all convergent
+  sequences in $A$.  \end{prop}
+
+
+\begin{disc} From the point of view of propositional logic, there is
+  little to be gained by allowing theories to correspond to
+  \emph{arbitrary} sets of models.  First, if $A$ is an arbitrary set
+  of models, then the closure $A^{-}$ of $A$ is characterized by
+  axioms, i.e.\ $A^{-}=\mathrm{Mod}(T)$ for some theory $T$.  Suppose,
+  however, that someone insists that some valuation $v\in
+  A^{-}\backslash A$ should not be taken to be a model.  What reason
+  could there be for banishing $v$?  For any finite collection $\phi
+  _1,\dots ,\phi _n$ of sentences, there is a valuation $w$ in $A$
+  such that $v$ and $w$ agree on $\phi _1,\dots ,\phi _n$.  Put even
+  more strongly, any property possessed by $v$ is possessed by
+  infinitely many of the elements in $A$.
+\end{disc}
+
+\begin{disc} Philosophers often say that, ``a proposition is a subset
+  of possible worlds.''  But if the suggestion is that every subset of
+  possible worlds corresponds to a proposition, then ... 
+
+  The Stone space $X$ of a theory is precisely the set of possible
+  worlds according to that theory.  But not every subset of $X$
+  corresponds to a proposition.  Indeed, let $S\subseteq X$ be an
+  arbitrary subset of $X$.  Then the following are equivalent:
+\begin{enumerate}
+\item There is a proposition $\phi$ of $\Sigma$ such that $S$ consists
+  of all and only those worlds in which $\phi$ is true.
+\item $S=[\phi ]$, where $[\phi ]=\{ v\in X:v(\phi )=1 \}$.
+\item $S$ is a basic open subset of $X$. 
+\end{enumerate}
+
+Of course, there are theories $T$ such that the Stone space $X_T$ is
+discrete --- i.e.\ where every subset $S$ of $X_T$ is open.  For
+example, if $\Sigma$ is finite, then for any theory $T$ in $\Sigma$,
+the Stone space $X_T$ is discrete.  But what about the case where
+$\Sigma$ is infinite?  Let's first note that there are Stone spaces
+that are not discrete.  For example, let $\Sigma = \{ p_0,p_1,\dots
+\}$, and let $T$ be the empty theory in $\Sigma$.  We already saw that
+$T$ has no atoms; and since $T$ has no atoms, no singleton subsets of
+$X_T$ are open.  Therefore, $X_T$ is not discrete.  
+
+This result is not surprising.  Consider a possible world $v$ in
+$X_T$, and let's think about how we could use a proposition $\phi$ to
+uniquely characterize $v$.  Let $P_v$ be the list of literals that are
+true in $v$.  Obviously, $P_v$ contains infinitely many logically
+independent sentences.  But the language $\Sigma$ does not permit
+infinite conjunctions, and so there is no single proposition $\phi$
+that entails all elements of $P_v$. 
+
+These considerations raise a question: is there a Stone space $X$ that
+is both infinite and discrete?  The answer is No, for the following
+reason.  Stone spaces are compact Hausdorff spaces.  And if a compact
+topological space is discrete, then it's finite.  (Recall that a space
+$X$ is compact just in case every open cover has a finite subcover.
+If for every $x\in X$, the set $\{ x\}$ is open, then $X$ is finite.)
+
+But couldn't a philosopher now say that this result --- that not every
+subset of possible worlds corresponds to a proposition --- is an
+artifact of the formalism?  In fact, couldn't we just start with the
+space $X$ of possible worlds, and declare by fiat that every subset of
+$X$ is a proposition?  After all, we can take intersection of subsets
+as corresponding to conjunction, union of subsets as corresponding to
+disjunction, etc..  
+
+Supposing that $X$ is infinite, it's easy to see that the resulting
+logic would not be compact.  In particular, for each $x\in X$, there
+is a descending sequence $P_i$ of infinite subsets of $X$ such that
+$\bigcap _iP_i=\{ x\}$.  If we let $P_\infty = \{ x\}$, then the
+infinite family $P_1,P_2,\dots $ implies $P_\infty$.  But no finite
+subfamily of $P_1,P_2,\dots $ implies $P_\infty$.
+\end{disc}
+
+
+
+\begin{disc}[Limits of theories] It's not uncommon to hear talk about
+  ``limiting relations'' between theories.  For example, Newtonian
+  physics is sometimes said to be the limit of Einstein's theory of
+  relativity when the speed of light $c$ is allowed to go to infinity.
+  Similarly, Newtonian physics is sometimes said to be the limit of
+  quantum mechanics when Planck's constant $\hbar$ is allowed to go to
+  zero.
+
+  One way we can think of these claims is as saying that there is a
+  sequence of theories $T_c$, where $c$ is some numerical parameter,
+  and that in some sense there is a theory $T_\infty$ such that
+  $T_\infty=\lim _{c\to\infty}T_c$.  But how in the world are we
+  supposed to make sense of the $\lim$ symbol on the right hand side?
+  Is there some sort of topology on the space of theories?
+
+  There's another way to think about limiting relations between
+  theories.  Let me explain by means of an example.  For $n=1,2,\dots
+  $, let $\Sigma _n=\{ p_1,p_2,\dots ,p_n \}$, and let $T_n$ be the
+  empty theory in $\Sigma _n$.  Let $\Sigma _\infty =\{ p_1,p_2,\dots
+  \}$, and let $T_\infty$ be the empty theory in $\Sigma _\infty$.
+  When $i<j$, there is a conservative translation $F_{ij}:T_i\to T_j$,
+  and $F_{ik}=F_{jk}\circ F_{ij}$.  Moreover, while none of the
+  $F_{i\infty}$ are essentially surjective, the entire collection $\{
+  F_{i\infty }:i<\infty \}$ is essentially surjective in the sense
+  that for any sentence $\phi$ of $\Sigma _{\infty}$, there is a $k\in
+  \mathbb{N}$ and a sentence $\psi$ of $\Sigma _k$ such that
+  $F_{k\infty}(\psi )=\phi$. 
+
+  When we get to the chapter on category theory, we will see that this
+  example is a special case of a general construction called a
+  \textbf{colimit}.  That is, the infinite theory $T_\infty$ is a
+  colimit of the ascending sequence $T_1,T_2,\dots $ of finite
+  theories.  In more intuitive language, the sequence $T_1,T_2,\dots $
+  successively approximates the infinite theory $T_\infty$.
+
+  It's also illuminating to consider the dual construction on the
+  Stone spaces of the theories $T_1,T_2,\dots T_\infty$.  For each
+  $i$, let $X_i$ be the Stone space of $T_i$.  Let $f_{ji}:X_j\to X_i$
+  be the dual of $F_{ij}:T_i\to T_j$.  Then we have $f_{ki}=\circ
+  f_{ji}\circ f_{kj}$.  Moreoever, while none of the individual maps
+  $f_{\infty i}$ is injective, the collection $\{ f_{\infty
+    i}:i<\infty \}$ is jointly injective in the sense that for any
+  $x,y\in X_\infty$, if $x\neq y$ then there is a $k$ such that
+  $f_{\infty k}(x)\neq f_{\infty k}(y)$.  In this case, the Stone
+  space $X_{\infty}$ is said to be the \textbf{limit}, or
+  \textbf{projective limit}, of the sequence $X_1,X_2,\dots $.
+
+  What we see here is that $X_\infty$ is a rather special topological
+  space: it is a limit of finite spaces.  Such spaces are called
+  \textbf{profinite}.  In fact, for every propositional theory $T$,
+  the Stone space $X_T$ is profinite.  In other words, and not
+  surprisingly, every propositional theory $T$ can be approximated by
+  finite propositional theories.  But we won't prove that fact here.
+\end{disc}
+
+\begin{prop} Let $X$ be a $T_1$ space.  If $X$ is finite, then $X$ is
+  discrete. \label{finite-discrete} \end{prop}
+
+\begin{proof} Since $X$ is finite we may write $X=\{ x_0,\dots
+  ,x_n\}$.  It will suffice to show that that $\{ x_0\}$ is open.
+  Since $X$ is $T_1$, for each $i>0$, there is a neighborhood $U_i$ of
+  $x_0$ such that $x_i\not\in U_i$.  But then $U_1\cap \cdots \cap
+  U_n$ is an neighborhood of $x_0$ that does not contain any of
+  $x_1,\dots ,x_n$.  That is, $U_1\cap \cdots\cap U_n=\{ x_0\}$, and
+  $X$ is discrete.
+\end{proof}
+
+
+\begin{disc}[Finite propositional theories] The results we've
+  established provide a complete classification of propositional
+  theories with a finite number of models.  Indeed, for each natural
+  number $n$, there is only one compact Hausdorff space with $n$
+  eleements, namely the discrete space (see Proposition
+  \ref{finite-discrete}).  Since the topological space of models
+  completely determines the theory $T$ (up to equivalence), it follows
+  that there is only on theory $T$ (up to equivalence) with $n$
+  models.  In certain cases, we can be even more concrete.  For
+  example, when $n=2^m$ for some $m$, then $T$ is equivalent to the
+  empty theory in a signature $\Sigma _m =\{ p_1,\dots ,p_m\}$.  And
+  it's easy to see how to add axioms to these empty theories in order
+  to decrease the number of models.  For example, let $T'=\{ p_1\}$ in
+  the signature $\Sigma _m$.  Then $T'$ has $2^m-1$ models.
+  Similarly, $T''=\{ p_1,p_2 \}$ has $2^m-2$ models.
+
+  It's also easy to see now that there are many embeddings between
+  finite propositional theories.  For example, suppose that $T$ is a
+  theory with $m$ models, and $T'$ is a theory with $n$ models where
+  $m\leq n$.  Obviously there is a surjection from $X_{T'}$ onto
+  $X_{T}$, and this surjection induces a conservative translation
+  $F:T\to T'$.  In particular, for any propositional theory $T$ with a
+  finite number $m$ of models, there is an $n$ such that $m<2^n$, and
+  thus there is a conservative translation $F:T\to T'$, where $T'$ is
+  the empty theory in a signature with $n$ elements.  In other words,
+  every theory with a finite number of models can be embedded in a
+  theory that has no axioms.  In simple cases, we can illustrate this
+  point more concretely.  Let $\Sigma =\{ p_1,p_2 \}$, and let $T = \{
+  p_1\to p_2\}$.  Let $\Sigma '=\{ q_1,q_2 \}$, and let $T'$ be the
+  empty theory in $\Sigma '$.  Consider the translation $F:T\to T'$
+  that takes $p_1$ to $q_1\wedge q_2$, and that takes $p_2$ to $q_2$.
+  [[TO DO: Verify that it's conservative.]]
+
+  This stratagem --- of reducing a theory with non-logical axioms to
+  another one without non-logical axioms --- was employed by Nelson
+  Goodman and W.v.O. Quine in a paper, ``Elimination of extra-logical
+  postulates'' (1940), and then again by Quine in, ``Implicit
+  definition sustained'' (1964).  They claim that the technical fact
+  has some important philosophical implications.  We will discuss this
+  issue at greater length in Chapter ??.
+
+  We'll see later that things become more complicated with predicate
+  logic theories.  It's certainly possible to have distinct (i.e.\
+  inequivalent) predicate logic theories with the same finite number
+  of models.  In fact, there are distinct predicate logic theories
+  that both have a single model.  For example, the theory that says
+  there is exactly one thing has one model, up to isomorphism.  The
+  theory that says that are exactly two things has one model, up to
+  isomorphism.  But those two theories are definitely not equivalent,
+  even by very liberal standards.  In particular, the models of the
+  two theories have different (i.e.\ non-isomorphic) automorphism
+  groups.
+\end{disc}
+
+
+%% NB. countable atomless also representable as the interval algebra
+%% of Q+
+
+%% claim: closed <==> compact <==> sequentially closed
+
+
+
+\subsection{Adding new vocabulary}
+
+It's a common mistake, when thinking about future science, to imagine
+that future theories will reveal new facts, but these facts will be
+couched in the language of our current theories.  But if the past is
+any guide, we should expect something quite different.  We should
+expect that future science will involve concepts which we have not yet
+imagined.
+
+The same goes for our idealized models of scientific theories.  It's
+tempting to hold the signature $\Sigma$ fixed, and to consider
+relations between theories which are all formulated in $\Sigma$.  But
+we need to consider changes of signature as well --- or as Quine would
+put it, changes in ideology.
+
+One of the most obvious theoretical changes is simply adding new
+vocabulary, without making any other changes.  In other words, we add
+new vocabulary, but don't assert anything (other than tautologies) in
+this new vocabulary.  Of course, that kind of move never happens in
+real-world science.  After all, it's just an idealization!
+
+Represented in terms of symbolic logic, this kind of theoretical
+change involves passing from the original signature $\Sigma$ to an
+expanded signature $\Sigma '$ that contains $\Sigma$.  And what is the
+new theory?  The new theory consists of literally the same sentences
+as the original theory.  However, despite the fact that $T=T'$, they
+really aren't the same theory --- because the language of $T$ is
+$\Sigma$, and the language of $T'$ is $\Sigma '$.  (Recall that
+theories should really be considered as pairs consisting of signature
+and sentences in that signature.  Thus, what we really have here are
+the theories $\langle \Sigma ,T\rangle$ and $\langle \Sigma
+',T\rangle$.)
+
+Notice, in particular, that the original theory $\langle \Sigma
+,T\rangle$, and the new theory $\langle \Sigma ',T\rangle$ might have
+quite different properties.  For example, let $\Sigma = \{ p \}$, and
+let $T$ be the theory that says ``$p$''.  Let $\Sigma '=\{ p,q\}$.
+Then the original theory $\langle \Sigma ,T\rangle$ is complete.  But
+the new theory $\langle \Sigma ',T\rangle$ is not complete.
+
+In the sequel, we will often suppress the signature, and write $T'$
+for $\langle \Sigma ',T\rangle$.  But please keep clearly in mind that
+for $T$ and $T'$ there are two notions of equality.  There is the
+weaker notion, namely that they consist of the same sentences.  And
+there is stronger notion, namely that they consists of the same
+sentences in the same signature.
+
+In general, when $T'$ extends $T$ by the addition of vocabulary alone,
+then there is an obvious embedding $I:\Sigma\to\Sigma '$.  Since $T'$
+contains no new truths beyond what $T$ contains, $I:T\to T'$ is a
+translation of $T$ into $T'$.  Obviously, $I:T\to T'$ is
+\textbf{conservative} in the sense that if $T'\vdash I(\phi )$ then
+$T\vdash \phi$.  We also claim that the dual map
+$I^*:\mathrm{Mod}(T')\to \mathrm{Mod}(T)$ is surjective, i.e.\ for
+each model $v$ of $T$, there is a model $w$ of $T'$ such that
+$I^*(w)=v$.  In fact, $I^*$ is simply the restriction mapping: it
+takes a valuation $w$ of $\Sigma '$, and returns the restricted
+valuation $w|_{\Sigma}$.  Thus, to say that $I^*$ is surjective is
+tantamount to saying that every model $v$ of $T$ can be extended to a
+model $v'$ of $T'$.  Now, the truth of that may not be completely
+obvious.  However, for the case we are dealing with, it amounts to no
+more than the claim that assignments of values to elements of $\Sigma
+'\backslash \Sigma$ are independent of assignments of values to
+elements of $\Sigma$.  And that is obviously true.
+
+These considerations raise a question.  Suppose that $F:T\to T'$ is an
+arbitrary conservative translation (where we are no longer assuming
+that $\Sigma \subseteq\Sigma '$).  Does it then follow that $T'$ is
+equivalent to some extension of $T$ by means of adding new vocabulary?
+The answer is: Not Necessarily.  Consider the following simple
+example.
+
+\begin{example} Let $\Sigma _0= \{ p \}$, and let $T _0$ be the empty
+  theory in $\Sigma$.  Let $\Sigma =\{ p,q\}$, and let $T$ be the
+  theory with axiom $p\vee q$.  We claim that the inclusion $\Sigma
+  _0\subseteq\Sigma$ gives rise to a conservative translation
+  $F:T_0\to T$.  Indeed, suppose that $T\vDash \phi$, where $\phi$
+  contains only $p$.  That is, $p\vee q\vDash \phi$.  But then $\phi$
+  is a tautology, which means that $T_0\vDash \phi$.  Therefore
+  $F:T_0\to T$ is conservative, and $T_0$ is a sub-theory of $T$.
+
+  However, $T$ has $3$ models, and any extension of $T_0$ by new
+  vocabulary has $2^n$ models, for some $n$.  Therefore, $T$ is not
+  equivalent to an extension of $T_0$ by new vocabulary.
+\end{example}
+
+
+TO DO: Theoretical terms.  Question: should the theoretical stuff be
+conservative over the observational stuff?
+
+\begin{disc}[Sub-theories] Let $\Sigma$ be a signature, and let $T$
+  and $T_0$ be theories in $\Sigma$.  We say that $T_0$ is a
+  \textbf{sub-theory} of $T$ just in case there is a conservative
+  translation $F:T_0\to T$.  Question: $T_0$ is a sub-theory of $T$,
+  then does it follow that there is a subset $\Sigma _0$ of $\Sigma$
+  such that $F$ is an equivalence between $T_0$ and $T|_{\Sigma _0}$?
+  (In other words, not every sub-theory can be obtained by a
+  restriction of vocabulary.  I need better examples of this!!)
+
+  I don't think so.  Let $\Sigma = \{ p_1,p_2\}$, and let $T$ be the
+  empty theory in $\Sigma$.  Let $T_0$ be the empty theory in $\Sigma
+  _0=\{ q\}$.  Now define $F(q)=p_1\vee p_2$, in which case $F(\neg
+  q)=\neg p_1\wedge \neg p_2$.
+
+  Proof: Let $\Sigma _0$ be the elements of the signature
+
+
+
+  Claim: if $T$ is conservative over $T_0$, then $T_0$ is logically
+  equivalent to $T|_{\Sigma _0}$.  Suppose first that $T_0\vDash
+  \phi$.  Since $T$ extends $\phi$, it follows that $T\vDash \phi$.
+  Suppose now that $T\vDash \phi$.  Since $T$ is conservative over
+  $T_0$, it follows that $T_0\vDash\phi$.
+
+
+
+
+
+
+\end{disc}
+
+
+
+\section{Putnam's paradox}
+
+
+%% claim: If $\Sigma$ is infinite, then $Th(w)$ is not finitely
+%% axiomatizable.
+
+%% claim: Stone space of countable non-atomic is homogeneous.
+
+Putnam's paradox is usually presented as some sort of consequence of
+model theory for predicate logic, and in particular the
+Lowenheim-Skolem theorem.  However, Putnam's claims really only depend
+on the fact that the languages of first-order logic are uninterpreted.
+In fact, the moves that Putnam makes can also be made in propositional
+logic.
+
+Suppose that Ted's theory consists of a consistent set $T$ of
+sentences.  Suppose moreoever, that the set $T$ can be represented as
+sentences of a propositional logic signature $\Sigma$.  Since $T$ is
+consistent, there is a model $M$ of $T$.  In a somewhat atypical
+fashion --- but nonetheless techically correct --- let's think of $M$
+as map that assigns extensions to relation symbols.  The propositional
+constants in $\Sigma$ are $0$-ary, an so for each $p\in \Sigma$,
+$M(p)$ is the bottom subobject of $1$, namely the empty set $0$, or
+$M(p)$ is the top subobject of $1$, namely $1$ itself.
+
+Now, the WORLD is a set $W$ of objects.  Define a function $f:1\to W$
+by letting $f(*)$ be any element of $W$.  
+
+\begin{example}[complete theories] Let $\Sigma _1=\{ p\}$, and let
+  $T=\{ p\}$.  Let $\Sigma _2=\{ p,q\}$, and let $T_2=\{ p,q\}$.
+  Question: are $T_1$ and $T_2$ equivalent theories?  Define $F:\Sigma
+  _1\to \Sigma _2$ by $F(p)=p$.  I claim that $F$ is essentially
+  surjective.
+
+
+  ... if $T$ is complete, then $S(T)$ is the single point space.
+  Therefore any two complete theories are definitionally equivalent.
+
+  If $T$ is consistent, and $T'$ is complete, then there is a monic
+  $m:T\to T'$ and an epic $e:T\to T'$.  
+
+  Epic: $S(T')$ has one point.  $S(T)$ has at least one point.  So
+  there is an injection $f:S(T')\to S(T)$.  Thus, $f^*:T\to T'$ is
+  epic.
+
+  Monic: Let $g:S(T)\to S(T')$ be the map that takes everything to a
+  single point.  Then $g^*:T'\to T$ is monic.
+
+  Things look even more simple from the point of view of
+  $\mathbf{Bool}$.  Obviously $2$ can be embedded in any non-trivial
+  $B$.  And by the BPI, there is a surjection $p:B\to 2$.
+\end{example}
+
+
+\begin{defn} A category $\mathbf{C}$ is said to be \emph{balanced}
+  just in case any monic epic morphism is an isomorphism. \end{defn}
+
+\begin{example} The category $\mathbf{Top}$ is not
+  balanced. \end{example}
+
+
+\begin{prop} The category $\mathbf{Bool}$ is balanced. \end{prop}
+
+
+
+\begin{prop} $Th(v)\cong Th(w)$ if and only if $v$ and $w$ are
+  topologically indistinguishable. \end{prop}
+
+\begin{disc}
+  Any consistent theory $T$ can be completed to a theory $T'$.
+  (Proof: $T$ consistent means that $v\in [T]$.  Hence $T\subseteq
+  Th(v)$, and $Th(v)$ is a conservative extension of $T$.  Now let $w$
+  be an arbitrary valuation.  We claim that $Th(w)\cong Th(v)$.  
+
+\end{disc}
+
+
+\section{Metatheory for propositional logic}
+
+Exercises:
+\begin{enumerate}
+\item Show that if $A\subseteq B$ then $Cn(A)\subseteq Cn(B)$.
+\item Show that $Cn(Cn(A))=Cn(A)$.
+\item Show that $Cn(A\cap B)\subseteq Cn(A)\cap Cn(B)$. [hint: use 1]  
+\item Show that $Cn(A)\cup Cn(B)\subseteq Cn(A\cup B)$. [hint: use 1]
+\end{enumerate}
+
+
+\section{Category Theory}
+
+Show that $d_{X\otimes Y}= (1_{X\otimes X}\otimes d_Y) \circ (d_X\otimes 1_Y)$
+
+\[ d_{X\times Y}=d_X\times d_Y \]
+
+
+Suppose that $\mathbf{C}$ is a category in which all finite limits
+exist.  Let $f,g:X\to Y$.  Then the equalizer of $f$ and $g$ is
+the pullback of $d_Y$ along $\langle f,g\rangle$.
+
+
+
+\section{Set theory}
+
+Exercise: Let $f:X\to Y$.  Then $f$ is monic if and only if $f(\neg
+E)\subseteq \neg f(E)$ for all subsets $E$ of $X$.
+
+Let $g:X\to Y$.  Then $g$ is epi if and only if $\neg g(B)\subseteq
+g(\neg B)$ for all subsets $B$ of $Y$.
+
+
+
+Exercise: Show that $f(f^{-1}(U))\subseteq U$.  Give an example where
+$f(f^{-1}(U))\neq U$.  
+
+Proof: if $y\in f(f^{-1}(U))$ then $y=f(x)$ with $x\in f^{-1}(U)$.
+Thus, $y=f(x)\in U$.  Now let $f:1\to 2$, and let $U=2$.  Then
+$f^{-1}(U)=1$, and $f(f^{-1}(2))=f(1)=1$. 
+
+
+
+
+
+\end{document}

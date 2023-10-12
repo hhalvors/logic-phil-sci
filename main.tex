@@ -1,0 +1,452 @@
+%% INDEX: logical construction; model isomorphism criterion [taking
+%% stock section] and how it relates to cardinality constraint;
+%% regimentation; conjunction objection; Goodmania; empirical
+%% equivalence; conjunction objection; constructive empiricism;
+%% implicit definition; Ramsey eliminable; Craig's theorem;
+%% instrumentalism; constructive empiricism; Ramsey sentence; Beth's
+%% theorem; functionalism; Nagelian reduction; new wave reduction;
+%% gauge theory; ontological commitment; external question; logical
+%% construction [[TO DO]]
+
+%% TO DO
+
+%% -- quantifier variance and Maximalism
+
+%% MISTAKE.  Grandy 1992: "associated with each set of first-order
+%% sentences is a class of models. And those models are abstract and
+%% language-independent."  Compare also with statement from Psillos
+
+%% -1. Semantics as the middle man.  Doesn't this also effect Hartry
+%% Field's program -- the idea here being that ... what is this
+%% nominalization strategy, as if set theory were somehow in direct
+%% touch with reality ...
+
+%% -1.5. Relative consistency.  The Frege Hilbert debate?
+
+%% ** Neil Dewar's paper
+
+%% ** Intended model (Suppe, Hellman)
+
+%% ** Galilean spacetime -- symmetries.  Who is it (explicitly) that
+%% advocates the quotienting strategy?  Superfluous structure??  Simon
+%% Saunders??  
+
+%% 0. Re-read what Scientific Theories could not be
+
+%% 1. Talk about the *error* of the quotient strategy, for example, in
+%% saying that there is only "one" model of Galilean spacetime.  This
+%% can also be illustrated with simple examples from FOL, for example
+%% the theory that says there are exactly two things
+
+%% 2. Loose talk about reduction -- David Wallace on finding the world
+%% in a wavefunction
+
+%% 3. Loose talk about realism -- the world as isomorphic to a
+%% mathematical model.
+
+%% BE ABSOLUTELY CLEAR ABOUT why the model isomorphism criterion has
+%% to go!!
+
+%% 4. conjunction objection (Putnam, Boyd, Hawthorne1996)
+
+%% Morita <=> Inter-trans
+
+%% Fewster -- GTR as a category
+
+%% Reduction, Bickle
+
+%% 5. observation sentences; Turney; Musgrave and Dicken -- return to
+%% this at least three times over, first in syntactic-1, then in
+%% semantic-1, then in syntactic-2; cross reference with table in
+%% introduction
+
+%% natural properties
+
+%% Finish intro
+
+%% Finish Realism
+
+%% Revise Scientific Theories
+
+
+\documentclass[12pt,fleqn,toc]{book}
+\usepackage{array,multirow,amsthm,amsmath,amssymb,url}
+% \usepackage[osf,sc]{mathpazo}
+% Helvetica for sans serif
+% (scaled to match size of Palatino)
+% \usepackage[scaled=0.90]{helvet}
+% Bera Mono for monospaced
+% (scaled to match size of Palatino)
+% \usepackage[scaled=0.85]{beramono}
+% \usepackage{fullpage}
+\numberwithin{section}{chapter}
+\numberwithin{subsection}{section}
+\newcommand{\RA}{\vdash}
+\usepackage{verbatim}
+\usepackage{mVersion}
+\usepackage{natbib}
+\usepackage{bussproofs}
+\usepackage{tikz}
+\tikzset{node distance=1.6cm, auto}
+\usepackage{tikz-cd}
+\usetikzlibrary{trees}
+\usetikzlibrary{decorations.markings}
+\tikzset{strike through/.append style={
+    decoration={markings, mark=at position 0.5 with {
+    \draw[-] ++ (-3pt,-3pt) -- (3pt,3pt);}
+  },postaction={decorate}}
+}
+\usepackage{pdflscape}
+\usepackage{float}
+\title{The Logic in Philosophy of Science}
+\author{Hans Halvorson}
+\date{Version of July 25, 2018}
+% \setlength{\parindent}{0em}
+% \setlength{\parskip}{1em}
+\swapnumbers
+\newtheorem{prop}{Proposition}
+\numberwithin{prop}{section}
+\newtheorem{thm}[prop]{Theorem}
+\newtheorem{cor}[prop]{Corollary}
+\newtheorem{lemma}[prop]{Lemma}
+\newtheorem{claim}[prop]{Claim}
+\newtheorem{fact}[prop]{Fact}
+\newtheorem*{subthm}{Substitution Theorem}
+\newtheorem*{rthm}{Replacement Theorem}
+\newtheorem{conj}[prop]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{defn}[prop]{Definition}
+\newtheorem{ass}[prop]{Assumption}
+\newtheorem{exercise}[prop]{Exercise}
+\newtheorem{exm}[prop]{Example}
+\newtheorem{question}[prop]{Question}
+\newtheorem{disc}[prop]{Discussion}
+\newtheorem{aside}[prop]{Technical Aside}
+\newtheorem{tomt}[prop]{}
+% \theoremstyle{remark}
+%% what I want here is for the label to be bold (like Proposition),
+%% but for the text to be regular
+\newtheorem{note}[prop]{Note}
+
+\newenvironment{example}{\begin{exm}}{\hfill $\lrcorner$\end{exm}}
+
+
+\swapnumbers
+
+% \usepackage{fbb}
+\newcommand{\df}[1]{\textbf{#1}}
+\usepackage{mathrsfs}
+\newcommand{\2}{\mathscr}
+\renewcommand{\emph}{\textbf}
+\newcommand{\vp}{\phi}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\ve}{\epsilon}
+\newcommand{\tp}[2]{\mathrm{tp}^{#1}(#2)}
+\usepackage{marvosym}
+
+\usepackage[framemethod=TikZ]{mdframed}
+% \newcounter{axi}\setcounter{axi}{0}
+% \renewcommand{\theaxi}{\arabic{axi}}
+% \newenvironment{axi}[2][]{%
+%     \refstepcounter{axi}
+%  \ifstrempty{#1}%
+% % if condition (without title)
+% {\mdfsetup{%
+%     frametitle={%
+%         \tikz[baseline=(current bounding box.east),outer sep=0pt]
+%         \node[anchor=east,rectangle,fill=blue!20]
+%         {\strut Definition};}
+%     }%
+% % else condition (with title)
+% }{\mdfsetup{%
+%     frametitle={%
+%         \tikz[baseline=(current bounding box.east),outer sep=0pt]
+%         \node[anchor=east,rectangle,fill=blue!20]
+%         {\strut Definition};}%
+%     }%
+% }%
+% % Both conditions
+% \mdfsetup{%
+%     skipabove=2em,
+%     skipbelow=2em,
+%     innertopmargin=10pt,linecolor=blue!20,%
+%     linewidth=2pt,topline=true,%
+%     frametitleaboveskip=\dimexpr-\ht\strutbox\relax%
+% }
+% \begin{mdframed}[]\relax}{%
+% \end{mdframed}}
+
+\newcounter{axi}\setcounter{axi}{0}
+\renewcommand{\theaxi}{\arabic{axi}}
+\newenvironment{axi}[2][]{%
+    \refstepcounter{axi}
+ \ifstrempty{#1}%
+% if condition (without title)
+{\mdfsetup{%
+    frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=east,rectangle,fill=blue!20]
+        {\strut Axiom~\theaxi};}
+    }%
+% else condition (with title)
+}{\mdfsetup{%
+    frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=east,rectangle,fill=blue!20]
+        {\strut Axiom~\theaxi:~#1};}%
+    }%
+}%
+% Both conditions
+\mdfsetup{%
+    skipabove=2em,
+    skipbelow=2em,
+    innertopmargin=10pt,linecolor=blue!20,%
+    linewidth=2pt,topline=true,%
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax%
+}
+\begin{mdframed}[]\relax}{%
+\end{mdframed}}
+
+
+\usepackage{makecell}
+
+
+
+\newcommand{\cat}[1]{\mathbf{#1}}
+\newcommand{\bax}{\begin{mdframed}\begin{axiom}}
+\newcommand{\eax}{\end{axiom}\end{mdframed}}
+\newcommand{\ch}[1]{\raisebox{2pt}{$\chi$}_{#1}}
+\newcommand{\monic}{\rightarrowtail}
+\newcommand{\epi}{\twoheadrightarrow}
+\newcommand{\lra}{\leftrightarrow}
+\newcommand{\cn}[1]{\mathrm{Cn}(#1)}
+
+\newenvironment{box-thm}[1][]{%
+\mdfsetup{%
+    frametitle={%
+        \tikz[baseline=(current bounding box.east),outer sep=0pt]
+        \node[anchor=east,rectangle,fill=blue!20]
+        {\strut #1};},%
+    skipabove=2em,
+    skipbelow=2em,
+    innertopmargin=10pt,linecolor=blue!20,%
+    linewidth=2pt,topline=true,%
+    frametitleaboveskip=\dimexpr-\ht\strutbox\relax }
+\begin{mdframed}[]\relax}{%
+\end{mdframed}}
+
+\newcommand{\7}{\mathbb}
+
+\newtheorem{exercises}{Exercises}
+
+
+
+% \includeonly{intro2}
+
+% \includeonly{meta}
+
+% \includeonly{cat-set}
+
+% \includeonly{pred-syntactic}
+
+% \includeonly{second-syntactic}
+
+% \includeonly{pred-semantic}
+
+% \includeonly{mo-semantic}
+
+% \includeonly{science}
+
+% \includeonly{belief}
+
+% \includeonly{realism}
+
+% \includeonly{putnam}
+
+
+\begin{document}
+
+\frontmatter
+
+\maketitle
+
+
+
+\clearpage
+\vspace*{\fill}
+\thispagestyle{empty} % optional -- suppress showing of page number
+
+\begin{quotation}
+  \noindent \large {\em The worse your logic, the more interesting the
+    \mbox{consequences}.}
+
+\medskip
+\raggedleft
+Bertrand Russell
+\end{quotation}
+\bigskip
+
+\begin{quotation}
+  \large {\em Philosophy of science is philosophy enough.}
+
+\medskip
+\raggedleft
+W.v.O. Quine
+\end{quotation}
+
+% \bigskip
+
+% \begin{quotation}
+%   \large {\em Of making many books there is no end, and much study
+%     wearies the body.}
+
+%   \medskip
+%   \raggedleft
+%   Ecclesiastes 12:12 \end{quotation}
+
+\tableofcontents
+
+\chapter{Preface}
+
+The 20th century's most interesting philosophers were enthralled by
+the revolution in mathematical logic, and they accordingly clothed
+many of their arguments in a formal garb.  For example, Hilary Putnam
+claimed that the L\"owenheim-Sk{\o}lem theorem reduces metaphysical
+realism to absurdity.  And Bas van Fraassen claimed that scientific
+antirealism can withstand criticism only by embracing the semantic
+view of theories.  And W.v.O. Quine claimed that Carnap's notion of an
+``external question'' is incoherent since every many-sorted theory is
+equivalent to a single-sorted theory.
+
+Lack of knowledge of mathematical logic can be a huge obstacle to
+understanding these philosophers' arguments, and this book is my
+attempt to help overcome that obstacle.  However, my ideal reader is
+not the casual student of 20th century philosophy, who is content to
+skim along the surface of the debates.  My ideal reader is the
+aspiring philosopher who wants the tools to strip these arguments down
+to their logical nuts and bolts.
+
+My original intention in writing this book was not to get across some
+philosophical point.  However, a few such points emerged along the
+way.  First, the distinction between realism and antirealism really
+boils down to one's attitude toward theoretical equivalence.  Realists
+are people with a conservative notion of equivalence, and antirealists
+are people with a liberal notion of equivalence.  Second, and
+relatedly, to give a philosophical account of a relation between
+theories (e.g.\ equivalence, reducibility) is tantamount to
+recommending certain norms of inquiry.  For example, if you say that
+two theories $T$ and $T'$ are equivalent, then you mean (among other
+things) that any reason for accepting $T$ is also a reason for
+accepting $T'$.  Hence, you won't bother trying to design an
+experiment that would test $T$ against $T'$.  Similarly, if you find
+two people arguing --- one of them accepts $T$ and the other accepts
+$T'$ --- then you will view them as committing a kind of mistake.  In
+short, to adopt a view on relations between theories is to adopt
+certain rules about how to use those theories.
+
+I should explain one glaring omission from this book: modal logic.  I
+didn't leave out modal logic because I'm a Quinean extensionalist.  To
+the contrary, I've come to think that the metatheory of extensional
+logic is a kind of intensional logic.  For example, the models of a
+scientific theory are the nomologically possible worlds according to
+the theory.  Furthermore, a scientific theory comes equipped with a
+notion of ``natural properties'' (in the sense of David Lewis), and
+these natural properties determine a notion of similarity between
+possible worlds, which in turn licenses certain counterfactual
+inferences.  So, while my goal is to theorize about the extensional
+logic that is used in the sciences, I believe that doing so calls for
+involvement with intensional concepts.
+
+% I hope then that this book contributes to the recognition that, {\it
+%   pace} Quine, the metatheory of scientific theories is not just more
+% science.  To the contrary, metatheory can and should serve to clarify
+% normative questions such as, ``when should we say that two theories
+% are equivalent?''  I realize that I'm defying descriptivist orthodoxy,
+% according to which there should be a fact of the matter about which
+% theories are equivalent.  Instead, I follow Carnap in thinking that
+% metatheory is the place to put forward proposals --- only I think,
+% {\it pace} Carnap, that a ``good'' proposal is something more than a
+% proposal whose implementation would lead to my desires being
+% fulfilled.
+
+\bigskip
+
+{\it Acknowledgements:} Thanks to Bas van Fraassen for the inspiration
+to pursue philosophy of science both as a science and as an art.
+
+The idea behind this book arose during a year I spent in Utrecht
+studying category theory.  I thank the Mellon New Directions
+Fellowship for financing that year.  Thanks to my Dutch hosts (Klaas
+Landsman, Ieke Moerdijk, and Jaap van Oosten) for their warm
+hospitality.
+
+When I returned home, I rediscovered that it's difficult to do two (or
+fifty) things at once.  The project's continued life is largely due to
+the efforts of four amazing students: Thomas Barrett, Neil Dewar,
+Dimitris Tsementzis and Evan Washington.  They proved many of the new
+results in this book.  I also found my philosophical views shaped and
+sharpened by conversations with several students and colleagues,
+especially John Burgess, Ellie Cohen, Robbie Hirsch, Laurenz Hudetz,
+Michaela McSweeney, Alex Meehan, Gideon Rosen, Elliot Salinger, David
+Schroeren, and Jim Weatherall.  I probably left somebody out, and I'm
+sorry about that.  For comments and corrections on earlier versions of
+the manuscript, I thank Thomas Barrett, Gordon Belot, Neil Dewar,
+Harvey Lederman, Dimitris Tsementzis and Isaac Wilhelm.
+
+Thank you to my editors at Cambridge --- Hilary Gaskin and Sophie
+Taylor --- for their patience and persistence.
+
+
+
+
+
+
+\mainmatter
+
+%% little pieces to include
+
+%% concept-index
+
+%% observability
+
+%% reduction
+
+
+\include{intro2}
+\include{meta}
+\include{cat-set}
+\include{cat-prop}
+\include{pred-syntactic}
+\include{second-syntactic}
+\include{pred-semantic}
+\include{mo-semantic}
+% \include{science}
+% \include{putnam}
+\include{realism}
+% \include{belief}
+
+
+
+
+
+
+
+%% Proof: CDE iff Intertranslatable
+
+%% Proof: Morita iff Intertranslatable
+
+\backmatter
+
+\bibliographystyle{apalike}
+\bibliography{/Users/hhalvors/book/masterbib}
+
+
+
+
+
+
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
