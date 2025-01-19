@@ -1,0 +1,1 @@
+These are the source files for *The Logic in Philosophy of Science*, published by Cambridge University Press, 2019. The file "main.tex" contains the preamble and calls for the inclusion of all of the chapter source files. I tried to name the chapter source files suggestively, but you might have to refer to main.tex to find the chapter you're looking for.
